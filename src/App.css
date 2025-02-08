@@ -1,38 +1,52 @@
-.App {
-  text-align: center;
+.login-button {
+  background-color: #aa202c;
+  color: #fff;
+  font-size: 16px;
+  padding: 8px 20px;
+  border-radius: 50px;
+  text-decoration: none;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.login-button:hover {
+  background-color: blue;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.navbar-toggler {
+  border: none;
+  font-size: 1.25rem;
+}
+
+.navbar-toggle:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+.nav-link {
+  color: rgb(202, 216, 228);
+  font-weight: 500;
+  position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: blanchedalmond;
+}
+
+@media (min-width: 991px) {
+  .nav-link::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: #e0d5d5;
+    visibility: hidden;
+    transition: 0.3s ease-in-out;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+  .nav-link:hover::before, .nav-link.active::before {
+    width: 100%;
+    visibility: visible;
   }
 }
