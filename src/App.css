@@ -1,3 +1,4 @@
+
 .login-button {
   background-color: #f07d88;
   color: #fff;
@@ -49,4 +50,13 @@
     width: 100%;
     visibility: visible;
   }
+}
+
+
+.bg{
+  background-image: url('./Background_image/Blood2..jpg');
+  width: 1295px;
+  height: 870px;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
