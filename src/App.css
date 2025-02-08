@@ -1,5 +1,5 @@
 .login-button {
-  background-color: #aa202c;
+  background-color: #f07d88;
   color: #fff;
   font-size: 16px;
   padding: 8px 20px;
@@ -8,7 +8,7 @@
 }
 
 .login-button:hover {
-  background-color: blue;
+  background-color: rgb(124, 124, 128);
 }
 
 .navbar-toggler {
