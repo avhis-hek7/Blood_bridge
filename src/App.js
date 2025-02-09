@@ -4,9 +4,15 @@ import Home from './Component/Home';
 
 function App() {
   return (
-    <div className="bg">
-      <Home/>
+    <div>
+        <div>
+      <NavBar/>
     </div>
+    <div className="bg"></div>
+    </div>
+     
+   
+    
   );
 }
 
