@@ -1,18 +1,17 @@
-
-import './App.css';
-import NavBar from './Component/NavBar';
+import "./App.css";
+import Home from "./Component/Home";
 
 function App() {
   return (
     <div>
-        <div>
-      <NavBar/>
+      
+      <div className="bg">
+      <div>
+        <Home/>
+      </div>
+      </div>
+      
     </div>
-    <div className="bg"></div>
-    </div>
-     
-   
-    
   );
 }
 
