@@ -6,9 +6,8 @@ function App() {
   return (
     <div>
         <div>
-      <NavBar/>
+      <Home/>
     </div>
-    <div className="bg"></div>
     </div>
      
    

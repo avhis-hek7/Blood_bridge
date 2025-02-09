@@ -52,14 +52,6 @@
   }
 }
 
-
-.bg{
-  background-image: url('./Background_image/Blood2..jpg');
-  width: 1295px;
-  height: 870px;
-  background-size: contain;
-  background-repeat: no-repeat;
-}
 /* Default (All screen sizes) */
 .carousel-caption {
   position: absolute;
