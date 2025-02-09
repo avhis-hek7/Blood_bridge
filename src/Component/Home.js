@@ -236,7 +236,7 @@ export default function Home() {
               How Does this website work!
             </h2>
             <p className="mt-3 fs-3 text-danger">
-            Here’s a step-by-step guide for signing in to a blood donation portal:
+            Here’s a step-by-step guide for signing in to a blood donation portal: 
             </p>
             <p className="mt-3 ">
             <ul className="list-disc mt-4 fs-4 text-left px-10">
