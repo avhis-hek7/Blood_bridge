@@ -129,7 +129,6 @@ export default function Home() {
               aria-label="Slide 3"
             />
           </div>
-
           <div className="carousel-inner">
             {/* Slide 1 */}
             <div className="carousel-item active">
