@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 export default function Home() {
   return (
     <>
@@ -27,27 +27,30 @@ export default function Home() {
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <a className="nav-link mx-2 fs-5 fw-semibold" href="#">
+                  <a className="nav-link mx-2 fs-5 fw-semibold" href="/">
                     Home
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link mx-2 fs-5 fw-semibold" href="#">
+                  <a className="nav-link mx-2 fs-5 fw-semibold" href="/about">
                     About
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link mx-2 fs-5 fw-semibold" href="#">
+                  <a
+                    className="nav-link mx-2 fs-5 fw-semibold"
+                    href="/contact"
+                  >
                     Contact
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link mx-2 fs-5 fw-semibold" href="#">
+                  <a className="nav-link mx-2 fs-5 fw-semibold" href="/event">
                     Event
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link mx-2 fs-5 fw-semibold" href="#">
+                  <a className="nav-link mx-2 fs-5 fw-semibold" href="/blog">
                     Blog
                   </a>
                 </li>
@@ -70,7 +73,7 @@ export default function Home() {
           </div>
         </nav>
       </div>
-      
+
       {/*Caraousel*/}
       <div>
         <div
