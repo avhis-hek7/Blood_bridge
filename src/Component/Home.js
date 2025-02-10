@@ -1,16 +1,14 @@
 import React from "react";
-// eslint-disable-next-line
 import { Link } from "react-router-dom";
-
 export default function Home() {
   return (
     <>
-      {/*Navbar */}
+      {/*Navbar*/}
       <div>
-        <nav className="navbar navbar-expand-lg navbar-danger bg-danger ">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-danger">
           <div className="container-fluid">
-            <a className="navbar-brand" href="/">
-              Blood-Bridge
+            <a className="navbar-brand fs-3 fw-bold" href="#">
+              RED LIFE
             </a>
             <button
               className="navbar-toggler"
@@ -21,7 +19,7 @@ export default function Home() {
               aria-expanded="false"
               aria-label="Toggle navigation"
             >
-              <span className="navbar-toggler-icon" />
+              <span className="navbar-toggler-icon"></span>
             </button>
             <div
               className="collapse navbar-collapse"
@@ -29,59 +27,32 @@ export default function Home() {
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <a
-                    className="nav-link  text-white"
-                    aria-current="page"
-                    href="/"
-                  >
+                  <a className="nav-link mx-2 fs-5 fw-semibold" href="/">
                     Home
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link text-white" href="/">
+                  <a className="nav-link mx-2 fs-5 fw-semibold" href="/about">
                     About
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link text-white" href="/">
-                    Events
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link text-white" href="/">
+                  <a
+                    className="nav-link mx-2 fs-5 fw-semibold"
+                    href="/contact"
+                  >
                     Contact
                   </a>
                 </li>
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle text-white"
-                    href="/"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Dropdown
+                <li className="nav-item">
+                  <a className="nav-link mx-2 fs-5 fw-semibold" href="/event">
+                    Event
                   </a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <a className="dropdown-item" href="/">
-                        Action
-                      </a>
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="/">
-                        Another action
-                      </a>
-                    </li>
-                    <li>
-                      <hr className="dropdown-divider" />
-                    </li>
-                    <li>
-                      <a className="dropdown-item" href="/">
-                        Something else here
-                      </a>
-                    </li>
-                  </ul>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link mx-2 fs-5 fw-semibold" href="/blog">
+                    Blog
+                  </a>
                 </li>
               </ul>
               <form className="d-flex" role="search">
@@ -93,6 +64,9 @@ export default function Home() {
                 />
                 <button className="btn btn-outline-light" type="submit">
                   Search
+                </button>
+                <button className="login-button mx-2" type="submit">
+                  Login
                 </button>
               </form>
             </div>
@@ -129,7 +103,6 @@ export default function Home() {
               aria-label="Slide 3"
             />
           </div>
-
           <div className="carousel-inner">
             {/* Slide 1 */}
             <div className="carousel-item active">
@@ -144,17 +117,11 @@ export default function Home() {
                 <p className="carousel-text">
                   Connecting blood donors with those in need. Every drop counts!
                 </p>
-                <div className="d-flex gap-3">
-                  <a href="/profile" className="btn btn-danger carousel-btn">
-                    Log in
-                  </a>
-                  <a href="/sign" className="btn btn-danger carousel-btn">
-                    Sign Up
-                  </a>
-                </div>
+                <a href="/register" className="btn btn-danger carousel-btn">
+                  Create Profile
+                </a>
               </div>
             </div>
-
             {/* Slide 2 */}
             <div className="carousel-item">
               <img
@@ -170,17 +137,11 @@ export default function Home() {
                 <p className="carousel-text">
                   A small act of kindness makes a big difference.
                 </p>
-                <div className="d-flex gap-3">
-                  <a href="/profile" className="btn btn-danger carousel-btn">
-                    Log in
-                  </a>
-                  <a href="/sign" className="btn btn-danger carousel-btn">
-                    Sign Up
-                  </a>
-                </div>
+                <a href="/register" className="btn btn-danger carousel-btn">
+                  Create Profile
+                </a>
               </div>
             </div>
-
             {/* Slide 3 */}
             <div className="carousel-item">
               <img
@@ -192,18 +153,12 @@ export default function Home() {
               <div className="carousel-caption d-flex flex-column justify-content-center align-items-center w-100">
                 <h1 className="carousel-heading">Every Drop Saves a Life</h1>
                 <p className="carousel-text">Be a hero. Donate blood today!</p>
-                <div className="d-flex gap-3">
-                  <a href="/profile" className="btn btn-danger carousel-btn">
-                    Log in
-                  </a>
-                  <a href="/sign" className="btn btn-danger carousel-btn">
-                    Sign Up
-                  </a>
-                </div>
+                <a href="/register" className="btn btn-danger carousel-btn">
+                  Create Profile
+                </a>
               </div>
             </div>
           </div>
-
           {/* Controls */}
           <button
             className="carousel-control-prev"
@@ -223,12 +178,7 @@ export default function Home() {
             <span className="carousel-control-next-icon" aria-hidden="true" />
             <span className="visually-hidden">Next</span>
           </button>
-        </div>
-      </div>
-
-      {/* How It Works */}
-
-      <div className="container py-5">
+          <div className="container py-5">
         <div className="row align-items-center">
           {/* Text Section */}
           <div className="col-lg-6 text-center text-lg-start mt-4 mt-lg-0">
@@ -257,6 +207,8 @@ export default function Home() {
               />
             </div>
           </div>
+        </div>
+      </div>
         </div>
       </div>
     </>
