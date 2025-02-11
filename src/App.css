@@ -106,3 +106,167 @@
     padding: 6px 12px;
   }
 }
+
+.Conatiner{
+  background:linear-gradient(to left, rgb(192, 96, 96),rgb(245, 241, 241));
+}
+
+.card{
+  background:linear-gradient(red,orange);
+  margin:5px;
+  border-radius: 20px;
+}
+
+/* Footer */
+.section_padding{
+  padding: 4rem 4rem;
+}
+
+.footer{
+  background:linear-gradient(rgb(44, 33, 33),rgb(88, 88, 87));
+}
+
+.sb_footer{
+  display:flex;
+  flex-direction: column;
+}
+
+.sb_footer-links{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.sb_footer-links-div {
+  width: 150px;
+  margin: 1rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  color: white;
+}
+.sb_footer-links-div p{
+  color: white;
+  text-decoration: none;
+
+}
+
+.socialmedia{
+  display: flex;
+  flex-direction: row; 
+}
+  
+
+.socialmedia img{
+  width: 80%;
+}
+
+.sb_footer-links-div { 
+  font-size: 15px;
+  line-height: 17px;
+}
+
+.sb_footer-links-div p{
+  font-size: 19px;
+  line-height: 15px;
+  max-width: 0.5rem 0;
+  cursor: pointer;
+}
+
+.sb_footer-below  {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 0.2rem;
+ 
+}
+.sb_footer-below p {
+  color: white;
+
+}
+
+.sb_footer-below-links a{
+  display: flex;
+  flex-direction:row;
+  font-size: 17px;
+  line-height: 15px;
+  margin-left: 2rem;
+  color: white;
+  font-weight: 600;
+}
+
+
+hr{
+  color: white;
+  width: 100%;
+}
+
+.sb_footer-copyright p{
+  font-size: 17px;
+  line-height: 15px;
+  color: rgb(255,255,155);
+  font-weight: 600;
+}
+
+@media (max-width: 850px) {
+  .sb_footer-heading h1{
+    font-size: 44px;
+    line-height: 50px;
+  }
+}
+
+@media (max-width: 550px) {
+  .sb_footer-heading h1{
+    font-size: 34px;
+    line-height: 42px;
+  }
+  .sb_footer-links div{
+    margin: 1rem 0;
+  }
+  .sb_footer-btn p{
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .sb_footer-below{
+    flex-direction: column;
+    justify-content: left;
+  }
+  .sb_footer-below-links{
+    flex-direction: column;
+  }
+  .sb_footer-below-links{
+    margin-left: 0rem;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .sb_footer-heading h1{
+    font-size: 27px;
+    list-style: 38px;
+  }
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

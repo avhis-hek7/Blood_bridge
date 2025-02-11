@@ -4,15 +4,15 @@ import Home from "./Component/Home"
 
 function App() {
   return (
-    <div>
+    
 
-      <div>
+      <div className="Conatiner">
       <div>
         <Home/>
       </div>
       </div>
       
-    </div>
+    
 
   );
 }

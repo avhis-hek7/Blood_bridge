@@ -1,14 +1,24 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import logo from "../Background_image/blood.png"
+import map from "../Background_image/Blood_map.jpeg"
+import donation from "../Background_image/Donation.jpeg"
+import reg from "../Background_image/regs.ppm"
+import store from "../Background_image/Blood_Storage.jpeg"
+// eslint-disable-next-line
 export default function Home() {
   return (
     <>
-      {/*Navbar*/}
+      {/*Navbar */}
       <div>
-        <nav className="navbar navbar-expand-lg navbar-dark bg-danger">
+        <nav className="navbar navbar-expand-lg navbar-danger bg-danger ">
           <div className="container-fluid">
-            <a className="navbar-brand fs-3 fw-bold" href="#">
-              RED LIFE
+            <a className="navbar-brand" href="/">
+              <img
+                src={logo}
+                alt="Red Life Logo"
+                className="navbar-brand"
+                style={{ height: "50px", width: "auto" }}
+              />
             </a>
             <button
               className="navbar-toggler"
@@ -19,7 +29,7 @@ export default function Home() {
               aria-expanded="false"
               aria-label="Toggle navigation"
             >
-              <span className="navbar-toggler-icon"></span>
+              <span className="navbar-toggler-icon" />
             </button>
             <div
               className="collapse navbar-collapse"
@@ -27,32 +37,77 @@ export default function Home() {
             >
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
-                  <a className="nav-link mx-2 fs-5 fw-semibold" href="/">
+                  <a
+                    className="nav-link active text-white -2 fs-5 fw-semibold mx-3"
+                    aria-current="page"
+                    href="/"
+                  >
                     Home
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link mx-2 fs-5 fw-semibold" href="/about">
+                  <a
+                    className="nav-link text-white -2 fs-5 fw-semibold mx-3"
+                    href="/"
+                  >
                     About
                   </a>
                 </li>
                 <li className="nav-item">
                   <a
-                    className="nav-link mx-2 fs-5 fw-semibold"
-                    href="/contact"
+                    className="nav-link text-white -2 fs-5 fw-semibold mx-3"
+                    href="/"
+                  >
+                    Events
+                  </a>
+                </li>
+                <li className="nav-item">
+                  <a
+                    className="nav-link text-white -2 fs-5 fw-semibold mx-3"
+                    href="/"
                   >
                     Contact
                   </a>
                 </li>
-                <li className="nav-item">
-                  <a className="nav-link mx-2 fs-5 fw-semibold" href="/event">
-                    Event
+                <li className="nav-item dropdown">
+                  <a
+                    className="nav-link dropdown-toggle text-white -2 fs-5 fw-semibold"
+                    href="/"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Dropdown
                   </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link mx-2 fs-5 fw-semibold" href="/blog">
-                    Blog
-                  </a>
+                  <ul className="dropdown-menu">
+                    <li>
+                      <a
+                        className="dropdown-item -2 fs-5 fw-semibold"
+                        href="/"
+                      >
+                        Action
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        className="dropdown-item -2 fs-5 fw-semibold"
+                        href="/"
+                      >
+                        Another action
+                      </a>
+                    </li>
+                    <li>
+                      <hr className="dropdown-divider " />
+                    </li>
+                    <li>
+                      <a
+                        className="dropdown-item-2 fs-5 fw-semibold"
+                        href="/"
+                      >
+                        Something else here
+                      </a>
+                    </li>
+                  </ul>
                 </li>
               </ul>
               <form className="d-flex" role="search">
@@ -65,15 +120,11 @@ export default function Home() {
                 <button className="btn btn-outline-light" type="submit">
                   Search
                 </button>
-                <button className="login-button mx-2" type="submit">
-                  Login
-                </button>
               </form>
             </div>
           </div>
         </nav>
       </div>
-
       {/*Caraousel*/}
       <div>
         <div
@@ -117,9 +168,14 @@ export default function Home() {
                 <p className="carousel-text">
                   Connecting blood donors with those in need. Every drop counts!
                 </p>
-                <a href="/register" className="btn btn-danger carousel-btn">
-                  Create Profile
-                </a>
+                <div className="d-flex gap-3">
+                  <a href="/profile" className="btn btn-danger carousel-btn">
+                    Log in
+                  </a>
+                  <a href="/sign" className="btn btn-danger carousel-btn">
+                    Sign Up
+                  </a>
+                </div>
               </div>
             </div>
             {/* Slide 2 */}
@@ -137,9 +193,14 @@ export default function Home() {
                 <p className="carousel-text">
                   A small act of kindness makes a big difference.
                 </p>
-                <a href="/register" className="btn btn-danger carousel-btn">
-                  Create Profile
-                </a>
+                <div className="d-flex gap-3">
+                  <a href="/profile" className="btn btn-danger carousel-btn">
+                    Log in
+                  </a>
+                  <a href="/sign" className="btn btn-danger carousel-btn">
+                    Sign Up
+                  </a>
+                </div>
               </div>
             </div>
             {/* Slide 3 */}
@@ -153,9 +214,14 @@ export default function Home() {
               <div className="carousel-caption d-flex flex-column justify-content-center align-items-center w-100">
                 <h1 className="carousel-heading">Every Drop Saves a Life</h1>
                 <p className="carousel-text">Be a hero. Donate blood today!</p>
-                <a href="/register" className="btn btn-danger carousel-btn">
-                  Create Profile
-                </a>
+                <div className="d-flex gap-3">
+                  <a href="/profile" className="btn btn-danger carousel-btn">
+                    Log in
+                  </a>
+                  <a href="/sign" className="btn btn-danger carousel-btn">
+                    Sign Up
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -178,28 +244,36 @@ export default function Home() {
             <span className="carousel-control-next-icon" aria-hidden="true" />
             <span className="visually-hidden">Next</span>
           </button>
-          <div className="container py-5">
+        </div>
+      </div>
+
+      <div className="container  py-5">
         <div className="row align-items-center">
           {/* Text Section */}
           <div className="col-lg-6 text-center text-lg-start mt-4 mt-lg-0">
             <h2 className="display-5 fw-bold text-dark">
               How Does this website work!
             </h2>
-            <p className="mt-3 fs-3 text-danger">
-            Here’s a step-by-step guide for signing in to a blood donation portal:
+            <p className="mt-3 fs-3 text-dark">
+              Here’s a step-by-step guide for signing in to a blood donation
+              portal:
             </p>
             <p className="mt-3 ">
-            <ul className="list-disc mt-4 fs-4 text-left px-10">
-            <li>Sign up and create a donor profile.</li>
-            <li>Find nearby donation centers or recipients in need.</li>
-            <li>Schedule a donation and save lives.</li>
-          </ul>
+              <ul className="list-disc mt-4 fs-4 text-left px-10">
+                <li>Sign up and create a donor profile.</li>
+                <li>Find nearby donation centers or recipients in need.</li>
+                <li>Schedule a donation and save lives.</li>
+              </ul>
             </p>
           </div>
-          
+
+
           {/* Image Section */}
           <div className="col-lg-6 d-flex flex-column gap-4">
-            <div className="position-relative w-100 " style={{ maxWidth: "32rem" }}>
+            <div
+              className="position-relative w-100 "
+              style={{ maxWidth: "32rem" }}
+            >
               <img
                 src="https://rumsan.nyc3.cdn.digitaloceanspaces.com/hamro-lifebank/website/images/whyhlb_image.png"
                 alt="blood"
@@ -209,6 +283,140 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+
+
+      {/*SERVICES */}
+      <div className="container py-5">
+        <h3 className="text-center fs-1 fw-bolder">SERVICES</h3>
+        <div className="row">
+          <div className="card  col-md-3" style={{width:"18rem"}}>
+            <img src={reg} className="card-img-top" alt="..." />
+            <div className="card-body">
+              <h5 className="card-title fs-3">Donor Registration</h5>
+              <p className="card-text fs-4">
+              The process of enrolling blood donors, tracking donation history, ensuring timely reminder and notifications.
+              </p>
+              <a href="#" className="btn btn-primary">
+              Enqiue Now
+              </a>
+            </div>
+          </div>
+          <div className="card  col-md-3" >
+            <img src={donation} className="card-img-top" alt="..." />
+            <div className="card-body">
+              <h5 className="card-title fs-3 fw-semibold">Blood Donation</h5>
+              <p className="card-text fs-4">
+              Donation of blood is a selfless service that we do for mankind! We allow you to save alife by donating blood to the ones who nedd it.
+              </p>
+              <a href="#" className="btn btn-primary">
+              Enqiue Now
+              </a>
+            </div>
+          </div>
+          <div className="card  col-md-3" >
+            <img src={store} className="card-img-top" alt="..." />
+            <div className="card-body">
+              <h5 className="card-title fs-3 fw-semibold">Blood Storage</h5>
+              <p className="card-text fs-4">
+                We store the safest blood of all kind of blood groups which you can use for any kind of treatments or in an emergency.
+              </p>
+              <a href="#" className="btn btn-primary">
+                Enqiue Now
+              </a>
+            </div>
+          </div>
+          <div className="card  col-md-3" >
+          <img src={map} className="card-img-top" alt="..." />
+            <div className="card-body">
+              <h5 className="card-title fs-3 fw-semibold">Blood Bank Locator</h5>
+              <p className="card-text fs-4">
+              With the  helps of google map users find nearby blood banks and donation centers with real-time availability and contact details.
+              </p>
+              <a href="#" className="btn btn-primary">
+              Enqiue Now
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/*Footer*/}
+
+      <div className="footer">
+        <div className="sb_footer section_padding">
+          <div className="sb_footer-links">
+            <div className="sb_footer-links-div">
+              <h4>For Business</h4>
+              <a href="">
+                <p>Employee</p>
+              </a>
+              <a href="">
+                <p>Health plan</p>
+              </a>
+              <a href="">
+                <p>Indiviual</p>
+              </a>
+            </div>
+            <div className="sb_footer-links-div">
+              <h4>Resources</h4>
+              <a href="">
+                <p>Resouces center </p>
+              </a>
+              <a href="">
+                <p>Testimonals</p>
+              </a>
+              <a href="">
+                <p>STV</p>
+              </a>
+            </div>
+            <div className="sb_footer-links-div">
+              <h4>Patners</h4>
+              <a href="">
+                <p>Swing Techno</p>
+              </a>
+            </div>
+            <div className="sb_footer-links-div">
+              <h4>Company</h4>
+              <a href="">
+                <p>About</p>
+              </a>
+              <a href="">
+                <p>Press</p>
+              </a>
+              <a href="">
+                <p>Q&A</p>
+              </a>
+              <a href="">
+                <p>Contact</p>
+              </a>
+            </div>
+            <div className="sb_footer-links-div">
+              <h4>Comming Soon</h4>
+              <div className="socialmedia">
+                <p><img src="" alt="" /></p>
+                <p><img src="" alt="" /></p>
+                <p><img src="" alt="" /></p>
+                <p><img src="" alt="" /></p>
+                
+              </div>
+            </div>
+          </div>
+          <hr/>
+          <div className="sb_footer-below">
+            <div className="sb_footer-copyright">
+              <p>
+                @{new Date().getFullYear} Blood Portal. All right reserved
+              </p>
+            </div>
+            <div className="sb_footer-below-links">
+              <a href=""><div><p>Terms & COnditions</p></div></a>
+              <a href=""><div><p>Privacy</p></div></a>
+              <a href=""><div><p>Security</p></div></a>
+              <a href=""><div><p>Cookie Declaration</p></div></a>
+            </div>
+
+          </div>
         </div>
       </div>
     </>
