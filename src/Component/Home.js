@@ -1,7 +1,10 @@
 import React from "react";
+import logo from "../Background_image/blood.png"
+import map from "../Background_image/Blood_map.jpeg"
+import donation from "../Background_image/Donation.jpeg"
+import reg from "../Background_image/regs.ppm"
+import store from "../Background_image/Blood_Storage.jpeg"
 // eslint-disable-next-line
-import { Link } from "react-router-dom";
-
 export default function Home() {
   return (
     <>
@@ -34,7 +37,7 @@ export default function Home() {
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item">
                   <a
-                    className="nav-link  text-white"
+                    className="nav-link active text-white -2 fs-5 fw-semibold mx-3"
                     aria-current="page"
                     href="/"
                   >
@@ -42,23 +45,32 @@ export default function Home() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link text-white" href="/">
+                  <a
+                    className="nav-link text-white -2 fs-5 fw-semibold mx-3"
+                    href="/"
+                  >
                     About
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link text-white" href="/">
+                  <a
+                    className="nav-link text-white -2 fs-5 fw-semibold mx-3"
+                    href="/"
+                  >
                     Events
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link text-white" href="/">
+                  <a
+                    className="nav-link text-white -2 fs-5 fw-semibold mx-3"
+                    href="/"
+                  >
                     Contact
                   </a>
                 </li>
                 <li className="nav-item dropdown">
                   <a
-                    className="nav-link dropdown-toggle text-white"
+                    className="nav-link dropdown-toggle text-white -2 fs-5 fw-semibold"
                     href="/"
                     role="button"
                     data-bs-toggle="dropdown"
@@ -68,20 +80,29 @@ export default function Home() {
                   </a>
                   <ul className="dropdown-menu">
                     <li>
-                      <a className="dropdown-item" href="/">
+                      <a
+                        className="dropdown-item -2 fs-5 fw-semibold"
+                        href="/"
+                      >
                         Action
                       </a>
                     </li>
                     <li>
-                      <a className="dropdown-item" href="/">
+                      <a
+                        className="dropdown-item -2 fs-5 fw-semibold"
+                        href="/"
+                      >
                         Another action
                       </a>
                     </li>
                     <li>
-                      <hr className="dropdown-divider" />
+                      <hr className="dropdown-divider " />
                     </li>
                     <li>
-                      <a className="dropdown-item" href="/">
+                      <a
+                        className="dropdown-item-2 fs-5 fw-semibold"
+                        href="/"
+                      >
                         Something else here
                       </a>
                     </li>
@@ -103,7 +124,6 @@ export default function Home() {
           </div>
         </nav>
       </div>
-
       {/*Caraousel*/}
       <div>
         <div
@@ -157,7 +177,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
             {/* Slide 2 */}
             <div className="carousel-item">
               <img
@@ -183,7 +202,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
             {/* Slide 3 */}
             <div className="carousel-item">
               <img
@@ -206,7 +224,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-
           {/* Controls */}
           <button
             className="carousel-control-prev"
@@ -229,9 +246,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* How It Works */}
-
-      <div className="container py-5">
+      <div className="container  py-5">
         <div className="row align-items-center">
           {/* Text Section */}
           <div className="col-lg-6 text-center text-lg-start mt-4 mt-lg-0">
@@ -248,11 +263,20 @@ export default function Home() {
                 <li>Find nearby donation centers or recipients in need.</li>
                 <li>Schedule a donation and save lives.</li>
               </ul>
+              <ul className="list-disc mt-4 fs-4 text-left px-10">
+                <li>Sign up and create a donor profile.</li>
+                <li>Find nearby donation centers or recipients in need.</li>
+                <li>Schedule a donation and save lives.</li>
+              </ul>
             </p>
           </div>
 
           {/* Image Section */}
           <div className="col-lg-6 d-flex flex-column gap-4">
+            <div
+              className="position-relative w-100 "
+              style={{ maxWidth: "32rem" }}
+            >
             <div
               className="position-relative w-100 "
               style={{ maxWidth: "32rem" }}

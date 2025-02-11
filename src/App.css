@@ -62,63 +62,147 @@
   width: 100%;
   padding: 10px;
 }
-
 /* Heading */
 .carousel-heading {
   font-size: 3rem;
   font-weight: bold;
-  color: white;
+  color: rgb(250, 245, 245);
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
-
 /* Text */
 .carousel-text {
-  font-size: 1.5rem;
-  color: white;
+  font-size: 2rem;
+  color: rgb(238, 247, 242);
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
-
 /* Button */
 .carousel-btn {
   font-size: 1.2rem;
   padding: 10px 20px;
 }
-
 /* Tablet (768px and below) */
 @media (max-width: 768px) {
   .carousel-heading {
     font-size: 2rem;
   }
-
   .carousel-text {
     font-size: 1.2rem;
   }
-
   .carousel-btn {
     font-size: 1rem;
     padding: 8px 16px;
   }
 }
-
 /* Mobile (576px and below) */
 @media (max-width: 576px) {
   .carousel-heading {
     font-size: 1.5rem;
   }
-
   .carousel-text {
     font-size: 1rem;
   }
-
   .carousel-btn {
     font-size: 0.9rem;
     padding: 6px 12px;
   }
 }
-.bg{
-  background-image: url('./Background_image/Blood2..jpg');
-  background-size: cover;
-  background-position: center;
+
+.Conatiner{
+  background:linear-gradient(to left, rgb(192, 96, 96),rgb(245, 241, 241));
+}
+
+.card{
+  background:linear-gradient(red,orange);
+  margin:5px;
+  border-radius: 20px;
+}
+
+/* Footer */
+.section_padding{
+  padding: 4rem 4rem;
+}
+
+.footer{
+  background:linear-gradient(rgb(44, 33, 33),rgb(88, 88, 87));
+}
+
+.sb_footer{
+  display:flex;
+  flex-direction: column;
+}
+
+.sb_footer-links{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.sb_footer-links-div {
+  width: 150px;
+  margin: 1rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  color: white;
+}
+.sb_footer-links-div p{
+  color: white;
+  text-decoration: none;
+
+}
+
+.socialmedia{
+  display: flex;
+  flex-direction: row; 
+}
+  
+
+.socialmedia img{
+  width: 80%;
+}
+
+.sb_footer-links-div { 
+  font-size: 15px;
+  line-height: 17px;
+}
+
+.sb_footer-links-div p{
+  font-size: 19px;
+  line-height: 15px;
+  max-width: 0.5rem 0;
+  cursor: pointer;
+}
+
+.sb_footer-below  {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 0.2rem;
+ 
+}
+.sb_footer-below p {
+  color: white;
+
+}
+
+.sb_footer-below-links a{
+  display: flex;
+  flex-direction:row;
+  font-size: 17px;
+  line-height: 15px;
+  margin-left: 2rem;
+  color: white;
+  font-weight: 600;
+}
+
+
+hr{
+  color: white;
   width: 100%;
   height: 100vh; /* Full viewport height */
 
