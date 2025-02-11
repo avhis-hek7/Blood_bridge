@@ -5,7 +5,7 @@ import Home from './Component/Home';
 function App() {
   return (
     <div>
-        <div>
+        <div className='background'>
       <Home/>
     </div>
     </div>

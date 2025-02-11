@@ -123,3 +123,19 @@
   height: 100vh; /* Full viewport height */
 
 }
+.background
+{
+  
+  background-image: linear-gradient(to left, #d32f2fe3 30%,#FAFAFA 100%);
+
+
+}
+.card
+{
+  background-color: #FFEBEE;
+box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
+
+}
+/* .navbar{
+background-color: #9b2528;
+} */
