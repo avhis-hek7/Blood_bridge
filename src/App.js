@@ -1,17 +1,20 @@
-
 import "./App.css";
-import Home from "./Component/Home"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Home from "./Component/Home";
+import About from "./Component/About";
+import Navbar from "./Component/Navbar"; // Optional: Create a navbar for navigation
 
 function App() {
   return (
-    <div>
-        <div className='background'>
-      <Home/>
-    </div>
-    </div>
-     
-   
-    
+    <Router>
+      <div className="background1">
+        <Navbar /> {/* Add a navigation bar */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

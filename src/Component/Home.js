@@ -1,129 +1,7 @@
 import React from "react";
-import logo from "../Background_image/blood.png"
-import map from "../Background_image/Blood_map.jpeg"
-import donation from "../Background_image/Donation.jpeg"
-import reg from "../Background_image/regs.ppm"
-import store from "../Background_image/Blood_Storage.jpeg"
-// eslint-disable-next-line
 export default function Home() {
   return (
     <>
-      {/*Navbar */}
-      <div>
-        <nav className="navbar navbar-expand-lg navbar-danger bg-danger ">
-          <div className="container-fluid">
-            <a className="navbar-brand d-flex align-items-center" href="/">
-              <img
-                src="/logo1.jpg"
-                alt="Blood-Bridge Logo"
-                style={{ height: "40px" }}
-              />
-            </a>
-            <button
-              className="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon" />
-            </button>
-            <div
-              className="collapse navbar-collapse"
-              id="navbarSupportedContent"
-            >
-              <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                <li className="nav-item">
-                  <a
-                    className="nav-link active text-white -2 fs-5 fw-semibold mx-3"
-                    aria-current="page"
-                    href="/"
-                  >
-                    Home
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link text-white -2 fs-5 fw-semibold mx-3"
-                    href="/"
-                  >
-                    About
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link text-white -2 fs-5 fw-semibold mx-3"
-                    href="/"
-                  >
-                    Events
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link text-white -2 fs-5 fw-semibold mx-3"
-                    href="/"
-                  >
-                    Contact
-                  </a>
-                </li>
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropdown-toggle text-white -2 fs-5 fw-semibold"
-                    href="/"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Dropdown
-                  </a>
-                  <ul className="dropdown-menu">
-                    <li>
-                      <a
-                        className="dropdown-item -2 fs-5 fw-semibold"
-                        href="/"
-                      >
-                        Action
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        className="dropdown-item -2 fs-5 fw-semibold"
-                        href="/"
-                      >
-                        Another action
-                      </a>
-                    </li>
-                    <li>
-                      <hr className="dropdown-divider " />
-                    </li>
-                    <li>
-                      <a
-                        className="dropdown-item-2 fs-5 fw-semibold"
-                        href="/"
-                      >
-                        Something else here
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-              <form className="d-flex" role="search">
-                <input
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-                <button className="btn btn-outline-light" type="submit">
-                  Search
-                </button>
-              </form>
-            </div>
-          </div>
-        </nav>
-      </div>
       {/*Caraousel*/}
       <div>
         <div
@@ -168,12 +46,12 @@ export default function Home() {
                   Connecting blood donors with those in need. Every drop counts!
                 </p>
                 <div className="d-flex gap-3">
-                  <a href="/profile" className="btn btn-danger carousel-btn">
+                  <button className="btn btn-outline-light fw-bold text-dark c-btn">
                     Log in
-                  </a>
-                  <a href="/sign" className="btn btn-danger carousel-btn">
-                    Sign Up
-                  </a>
+                  </button>
+                  <button className="btn btn-outline-light fw-bold text-dark c-btn">
+                    Sign in
+                  </button>
                 </div>
               </div>
             </div>
@@ -193,12 +71,12 @@ export default function Home() {
                   A small act of kindness makes a big difference.
                 </p>
                 <div className="d-flex gap-3">
-                  <a href="/profile" className="btn btn-danger carousel-btn">
+                  <button className="btn btn-outline-light fw-bold text-dark c-btn">
                     Log in
-                  </a>
-                  <a href="/sign" className="btn btn-danger carousel-btn">
-                    Sign Up
-                  </a>
+                  </button>
+                  <button className="btn btn-outline-light fw-bold text-dark c-btn">
+                    Sign in
+                  </button>
                 </div>
               </div>
             </div>
@@ -213,13 +91,13 @@ export default function Home() {
               <div className="carousel-caption d-flex flex-column justify-content-center align-items-center w-100">
                 <h1 className="carousel-heading">Every Drop Saves a Life</h1>
                 <p className="carousel-text">Be a hero. Donate blood today!</p>
-                <div className="d-flex gap-3">
-                  <a href="/profile" className="btn btn-danger carousel-btn">
+                <div className="C-button d-flex gap-3">
+                  <button className="btn btn-outline-light fw-bold text-dark c-btn">
                     Log in
-                  </a>
-                  <a href="/sign" className="btn btn-danger carousel-btn">
-                    Sign Up
-                  </a>
+                  </button>
+                  <button className="btn btn-outline-light fw-bold text-dark c-btn">
+                    Sign in
+                  </button>
                 </div>
               </div>
             </div>
@@ -246,6 +124,7 @@ export default function Home() {
         </div>
       </div>
 
+      {/* How it works */}
       <div className="container  py-5">
         <div className="row align-items-center">
           {/* Text Section */}
@@ -263,11 +142,6 @@ export default function Home() {
                 <li>Find nearby donation centers or recipients in need.</li>
                 <li>Schedule a donation and save lives.</li>
               </ul>
-              <ul className="list-disc mt-4 fs-4 text-left px-10">
-                <li>Sign up and create a donor profile.</li>
-                <li>Find nearby donation centers or recipients in need.</li>
-                <li>Schedule a donation and save lives.</li>
-              </ul>
             </p>
           </div>
 
@@ -277,76 +151,140 @@ export default function Home() {
               className="position-relative w-100 "
               style={{ maxWidth: "32rem" }}
             >
-            <div
-              className="position-relative w-100 "
-              style={{ maxWidth: "32rem" }}
-            >
-              <img
-                src="https://rumsan.nyc3.cdn.digitaloceanspaces.com/hamro-lifebank/website/images/whyhlb_image.png"
-                alt="blood"
-                className="img-fluid rounded shadow-lg"
-              />
+              <div
+                className="position-relative w-100 "
+                style={{ maxWidth: "32rem" }}
+              >
+                <img
+                  src="https://rumsan.nyc3.cdn.digitaloceanspaces.com/hamro-lifebank/website/images/whyhlb_image.png"
+                  alt="blood"
+                  className="img-fluid rounded shadow-lg"
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/*SERVICES */}
-      <h3 className="text-center fs-1 fw-bolder">SERVICES</h3>
-      <div className="container my-4">
-        <div className="row g-3">
-          {" "}
-          {/* g-3 adds space between columns */}
-          <div className="col-md-6">
-            <div className="card " >
-              <div className="row g-0">
-                <div className="col-md-4">
-                  <img
-                    src="logo1.jpg"
-                    className="img-fluid rounded-start"
-                    alt="..."
-                  />
+      <div>
+        <h3 className="text-center fs-1 fw-bolder">SERVICES</h3>
+        <div className="container my-4">
+          <div className="row g-3">
+            {" "}
+            {/* g-3 adds space between columns */}
+            <div className="col-md-6">
+              <div className="card">
+                <div className="row g-0">
+                  <div className="col-md-4">
+                    <img
+                      src="logo1.jpg"
+                      className="img-fluid rounded-start"
+                      alt="..."
+                    />
+                  </div>
+                  <div className="col-md-8">
+                    <div className="card-body">
+                      <h5 className="card-title">Blood Storage</h5>
+                      <p className="card-text">
+                        We store the safest blood of all kind of blood groups
+                        which you can use for any kind of treatments or in an
+                        emergency.
+                      </p>
+                      <div>
+                        <button type="button" className="btn btn-danger">
+                          Enquire now
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="col-md-8">
-                  <div className="card-body">
-                    <h5 className="card-title">Blood Storage</h5>
-                    <p className="card-text">
-                      We store the safest blood of all kind of blood groups
-                      which you can use for any kind of treatments or in an
-                      emergency.
-                    </p>
-                    <div>
-                      <button type="button" className="btn btn-danger">
-                        Enquire now
-                      </button>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="card">
+                <div className="row g-0">
+                  <div className="col-md-4">
+                    <img
+                      src="logo1.jpg"
+                      className="img-fluid rounded-start"
+                      alt="..."
+                    />
+                  </div>
+                  <div className="col-md-8">
+                    <div className="card-body">
+                      <h5 className="card-title">Blood Bank Locator</h5>
+                      <p className="card-text">
+                        With the helps of google map users find nearby blood
+                        banks and donation centers with real-time availability
+                        and contact details.
+                      </p>
+                      <div>
+                        <button type="button" className="btn btn-danger">
+                          Enquire now
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="col-md-6">
-            <div className="card" >
-              <div className="row g-0">
-                <div className="col-md-4">
-                  <img
-                    src="logo1.jpg"
-                    className="img-fluid rounded-start"
-                    alt="..."
-                  />
+        </div>
+        <div className="container my-4">
+          <div className="row g-3">
+            {" "}
+            {/* g-3 adds space between columns */}
+            <div className="col-md-6">
+              <div className="card">
+                <div className="row g-0">
+                  <div className="col-md-4">
+                    <img
+                      src="logo1.jpg"
+                      className="img-fluid rounded-start"
+                      alt="..."
+                    />
+                  </div>
+                  <div className="col-md-8">
+                    <div className="card-body">
+                      <h5 className="card-title">Donor Registration</h5>
+                      <p className="card-text">
+                        The process of enrolling blood donors, tracking donation
+                        history, ensuring timely reminder and notifications.
+                      </p>
+                      <div>
+                        <button type="button" className="btn btn-danger">
+                          Enquire now
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="col-md-8">
-                  <div className="card-body">
-                    <h5 className="card-title">Blood Bank Locator</h5>
-                    <p className="card-text">
-                      With the helps of google map users find nearby blood banks
-                      and donation centers with real-time availability and
-                      contact details.
-                    </p>
-                    <div>
-                      <button type="button" className="btn btn-danger">
-                        Enquire now
-                      </button>
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="card ">
+                <div className="row g-0">
+                  <div className="col-md-4">
+                    <img
+                      src="logo1.jpg"
+                      className="img-fluid rounded-start"
+                      alt="..."
+                    />
+                  </div>
+                  <div className="col-md-8">
+                    <div className="card-body">
+                      <h5 className="card-title">Blood Donation</h5>
+                      <p className="card-text">
+                        Donation of blood is a selfless service that we do for
+                        mankind! We allow you to save alife by donating blood to
+                        the ones who nedd it.
+                      </p>
+                      <div>
+                        <button type="button" className="btn btn-danger">
+                          Enquire now
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -355,68 +293,84 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="container my-4">
-        <div className="row g-3">
-          {" "}
-          {/* g-3 adds space between columns */}
-          <div className="col-md-6">
-            <div className="card" >
-              <div className="row g-0">
-                <div className="col-md-4">
-                  <img
-                    src="logo1.jpg"
-                    className="img-fluid rounded-start"
-                    alt="..."
-                  />
-                </div>
-                <div className="col-md-8">
-                  <div className="card-body">
-                    <h5 className="card-title">Donor Registration</h5>
-                    <p className="card-text">
-                      The process of enrolling blood donors, tracking donation
-                      history, ensuring timely reminder and notifications.
-                    </p>
-                    <div>
-                      <button type="button" className="btn btn-danger">
-                        Enquire now
-                      </button>
-                    </div>
-                  </div>
-                </div>
+
+
+      <div className="footer">
+        <div className="sb_footer section_padding">
+          <div className="sb_footer-links">
+            <div className="sb_footer-links-div">
+              <h4>For Business</h4>
+              <a href="/">
+                <p>Employee</p>
+              </a>
+              <a href="/">
+                <p>Health plan</p>
+              </a>
+              <a href="/">
+                <p>Indiviual</p>
+              </a>
+            </div>
+            <div className="sb_footer-links-div">
+              <h4>Resources</h4>
+              <a href="/">
+                <p>Resouces center </p>
+              </a>
+              <a href="/">
+                <p>Testimonals</p>
+              </a>
+              <a href="/">
+                <p>STV</p>
+              </a>
+            </div>
+            <div className="sb_footer-links-div">
+              <h4>Patners</h4>
+              <a href="/">
+                <p>Swing Techno</p>
+              </a>
+            </div>
+            <div className="sb_footer-links-div">
+              <h4>Company</h4>
+              <a href="/">
+                <p>About</p>
+              </a>
+              <a href="/">
+                <p>Press</p>
+              </a>
+              <a href="/">
+                <p>Q&A</p>
+              </a>
+              <a href="/">
+                <p>Contact</p>
+              </a>
+            </div>
+            <div className="sb_footer-links-div">
+              <h4>Comming Soon</h4>
+              <div className="socialmedia">
+                <p><img src="whatsapp.png" alt="" /></p>
+                <p><img src="twitter1.png" alt="" /></p>
+                <p><img src="instagram.png" alt="" /></p>
+                <p><img src="facebook.png" alt="" /></p>
+                
               </div>
             </div>
           </div>
-          <div className="col-md-6">
-            <div className="card " >
-              <div className="row g-0">
-                <div className="col-md-4">
-                  <img
-                    src="logo1.jpg"
-                    className="img-fluid rounded-start"
-                    alt="..."
-                  />
-                </div>
-                <div className="col-md-8">
-                  <div className="card-body">
-                    <h5 className="card-title">Blood Donation</h5>
-                    <p className="card-text">
-                      Donation of blood is a selfless service that we do for
-                      mankind! We allow you to save alife by donating blood to
-                      the ones who nedd it.
-                    </p>
-                    <div>
-                      <button type="button" className="btn btn-danger">
-                        Enquire now
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <hr/>
+          <div className="sb_footer-below">
+            <div className="sb_footer-copyright">
+              <p>
+                @{new Date().getFullYear} Blood Portal. All right reserved
+              </p>
+            </div>
+            <div className="sb_footer-below-links">
+              <a href="/"><div><p>Terms & COnditions</p></div></a>
+              <a href="/"><div><p>Privacy</p></div></a>
+              <a href="/"><div><p>Security</p></div></a>
+              <a href="/"><div><p>Cookie Declaration</p></div></a>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+          </div>
+          </div>
+          
     </>
   );
 }
