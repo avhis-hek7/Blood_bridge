@@ -53,10 +53,10 @@ export default function Footer() {
             <div className="sb_footer-links-div">
               <h4>Comming Soon</h4>
               <div className="socialmedia">
-                <p><img src="whatsapp.png" alt="" /></p>
-                <p><img src="twitter1.png" alt="" /></p>
-                <p><img src="instagram.png" alt="" /></p>
-                <p><img src="facebook.png" alt="" /></p>
+                <p><img src="Social-media-icon/whatsapp.png" alt="" /></p>
+                <p><img src="Social-media-icon/twitter1.png" alt="" /></p>
+                <p><img src="Social-media-icon/instagram.png" alt="" /></p>
+                <p><img src="Social-media-icon/facebook.png" alt="" /></p>
                 
               </div>
             </div>

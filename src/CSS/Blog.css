@@ -1,0 +1,29 @@
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    background-color: #ccd2dd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+header {
+    color: rgb(17, 3, 3);
+    text-align: center;
+    padding: 15px 0;
+    font-size: 24px;
+}
+.post {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+.post h2 {
+    color: #a75f5c;
+}
+.post p {
+    color: #0e0b0b;
+    font-size: 18px;
+}
+
+li{
+    font-size: 18px;
+}
