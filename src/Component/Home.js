@@ -38,7 +38,7 @@ export default function Home() {
                 src="https://images.unsplash.com/photo-1615461066841-6116e61058f4?q=80&w=1583&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 className="d-block w-100"
                 alt="Blood Donation"
-                style={{ height: "450px", objectFit: "cover" }}
+                style={{ height: "500px", objectFit: "cover" }}
               />
               <div className="carousel-caption d-flex flex-column justify-content-center align-items-center w-100">
                 <h1 className="carousel-heading">Welcome to Blood-Bridge</h1>
@@ -61,7 +61,7 @@ export default function Home() {
                 src="https://images.unsplash.com/photo-1536856136534-bb679c52a9aa?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 className="d-block w-100"
                 alt="Donor Registration"
-                style={{ height: "450px", objectFit: "cover" }}
+                style={{ height: "500px", objectFit: "cover" }}
               />
               <div className="carousel-caption d-flex flex-column justify-content-center align-items-center w-100">
                 <h1 className="carousel-heading">
@@ -86,7 +86,7 @@ export default function Home() {
                 src="https://images.unsplash.com/photo-1606206591513-adbfbdd7a177?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                 className="d-block w-100"
                 alt="Blood Donation Camp"
-                style={{ height: "450px", objectFit: "cover" }}
+                style={{ height: "500px", objectFit: "cover" }}
               />
               <div className="carousel-caption d-flex flex-column justify-content-center align-items-center w-100">
                 <h1 className="carousel-heading">Every Drop Saves a Life</h1>
@@ -292,85 +292,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
-
-
-      <div className="footer">
-        <div className="sb_footer section_padding">
-          <div className="sb_footer-links">
-            <div className="sb_footer-links-div">
-              <h4>For Business</h4>
-              <a href="/">
-                <p>Employee</p>
-              </a>
-              <a href="/">
-                <p>Health plan</p>
-              </a>
-              <a href="/">
-                <p>Indiviual</p>
-              </a>
-            </div>
-            <div className="sb_footer-links-div">
-              <h4>Resources</h4>
-              <a href="/">
-                <p>Resouces center </p>
-              </a>
-              <a href="/">
-                <p>Testimonals</p>
-              </a>
-              <a href="/">
-                <p>STV</p>
-              </a>
-            </div>
-            <div className="sb_footer-links-div">
-              <h4>Patners</h4>
-              <a href="/">
-                <p>Swing Techno</p>
-              </a>
-            </div>
-            <div className="sb_footer-links-div">
-              <h4>Company</h4>
-              <a href="/">
-                <p>About</p>
-              </a>
-              <a href="/">
-                <p>Press</p>
-              </a>
-              <a href="/">
-                <p>Q&A</p>
-              </a>
-              <a href="/">
-                <p>Contact</p>
-              </a>
-            </div>
-            <div className="sb_footer-links-div">
-              <h4>Comming Soon</h4>
-              <div className="socialmedia">
-                <p><img src="whatsapp.png" alt="" /></p>
-                <p><img src="twitter1.png" alt="" /></p>
-                <p><img src="instagram.png" alt="" /></p>
-                <p><img src="facebook.png" alt="" /></p>
-                
-              </div>
-            </div>
-          </div>
-          <hr/>
-          <div className="sb_footer-below">
-            <div className="sb_footer-copyright">
-              <p>
-                @{new Date().getFullYear} Blood Portal. All right reserved
-              </p>
-            </div>
-            <div className="sb_footer-below-links">
-              <a href="/"><div><p>Terms & COnditions</p></div></a>
-              <a href="/"><div><p>Privacy</p></div></a>
-              <a href="/"><div><p>Security</p></div></a>
-              <a href="/"><div><p>Cookie Declaration</p></div></a>
-            </div>
-          </div>
-          </div>
-          </div>
-          
+      </div>    
     </>
   );
 }

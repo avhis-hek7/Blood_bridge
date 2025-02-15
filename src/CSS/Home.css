@@ -1,0 +1,74 @@
+/* Default (All screen sizes) */
+.carousel-caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+  }
+  /* Heading */
+  .carousel-heading {
+    font-size: 3rem;
+    font-weight: bold;
+    color: rgb(250, 245, 245);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  }
+  /* Text */
+  .carousel-text {
+    font-size: 2rem;
+    color: rgb(238, 247, 242);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  }
+  /* Button */
+  .carousel-btn {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+  }
+  /* Tablet (768px and below) */
+  @media (max-width: 768px) {
+    .carousel-heading {
+      font-size: 2rem;
+    }
+    .carousel-text {
+      font-size: 1.2rem;
+    }
+    .carousel-btn {
+      font-size: 1rem;
+      padding: 8px 16px;
+    }
+  }
+  /* Mobile (576px and below) */
+  @media (max-width: 576px) {
+    .carousel-heading {
+      font-size: 1.5rem;
+    }
+    .carousel-text {
+      font-size: 1rem;
+    }
+    .carousel-btn {
+      font-size: 0.9rem;
+      padding: 6px 12px;
+    }
+  }
+  
+  
+  /* backgroundColor */
+  .c-btn:hover
+  {
+  width:80px;
+  background-color:#ae8ee0;
+  }
+  .background1{
+    background-image: linear-gradient(to left, #b8a6d6,#e0e0e0);
+  
+  }
+  .navbar{
+  background-color:#37474F;
+  }
+  .card{
+    background-color: #f8deded2;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
+    
+  }

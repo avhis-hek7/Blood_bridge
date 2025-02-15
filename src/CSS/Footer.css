@@ -1,0 +1,118 @@
+
+/* Footer */
+.footer {
+    background-color: #37474F; /* Dark red */
+    color: #ffffff;
+    padding: 40px 20px;
+    font-family: "Arial", sans-serif;
+  }
+  
+  .sb_footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .sb_footer-links-div {
+    flex: 1;
+    min-width: 200px;
+    margin: 10px;
+  }
+  
+  .sb_footer-links-div h4 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    border-bottom: 2px solid #FFFFFF; /* Gold accent */
+    padding-bottom: 5px;
+  }
+  
+  .sb_footer-links-div a {
+    text-decoration: none;
+    color: #FFFFFF; /* Light red */
+    display: block;
+    margin: 5px 0;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .sb_footer-links-div a:hover {
+    color: #FF5252; /* Gold on hover */
+  }
+  
+  .socialmedia {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .socialmedia p img {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .socialmedia p img:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Horizontal Line */
+  .sb_footer hr {
+    margin: 20px 0;
+    border: none;
+    height: 2px;
+    background-color: #FFFFFF;
+  }
+  
+  /* Footer Bottom */
+  .sb_footer-below {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .sb_footer-copyright p {
+    font-size: 18px;
+    color: #FFFFFF;
+  }
+  
+  .sb_footer-below-links {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .sb_footer-below-links a {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 16px;
+    transition: color 0.3s ease-in-out;
+  }
+  
+  .sb_footer-below-links a:hover {
+    color: #fbc02d; /* Gold */
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .sb_footer-links {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .sb_footer-links-div {
+      text-align: center;
+    }
+  
+    .sb_footer-below {
+      flex-direction: column;
+      text-align: center;
+      gap: 10px;
+    }
+  }
+  
+  
+  
