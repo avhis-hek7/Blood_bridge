@@ -126,6 +126,15 @@ background-color:#37474F;
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
   
 }
+.ListName
+{
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
+
+}
+.list-group-item
+{
+  background-color:#f8deded2;
+}
 
 /* Footer */
 .footer {
@@ -242,6 +251,10 @@ background-color:#37474F;
   }
 }
 
+/* .btndonate:hover
+{
+  background-color:#b8a6d6 ;
+} */
 
 /* .navbar{
 background-color: #9b2528;

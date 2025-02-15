@@ -2,7 +2,9 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./Component/Home";
 import About from "./Component/About";
-import Navbar from "./Component/Navbar"; // Optional: Create a navbar for navigation
+import Navbar from "./Component/Navbar"; 
+import Donate from "./Component/Donate";
+import BloodBank from "./Component/BloodBank";// Optional: Create a navbar for navigation
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
+          <Route path="/donate" element={<Donate />} />
+          <Route path="/bloodbank" element={<BloodBank />} />
         </Routes>
       </div>
     </Router>
