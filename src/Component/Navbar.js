@@ -10,7 +10,7 @@ function Navbar() {
     console.log(location.pathname);
   }, [location]);
   return (
-    <nav className="navbar navbar-expand-lg" style={{ height: "55px" }}>
+    <nav className="navbar navbar-expand-lg bg-secondary" >
       <div className="container-fluid">
         <Link className="navbar-brand d-flex align-items-center" to="/">
           <img
@@ -66,6 +66,14 @@ function Navbar() {
                 to="/"
               >
                 Contact
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className={`nav-link ${
+                  location.pathname === "/blog" ? "active" : ""
+                } text-white fs-7 fw-semibold mx-3`}
+                to="/blog" >
+                Blog
               </Link>
             </li>
           </ul>

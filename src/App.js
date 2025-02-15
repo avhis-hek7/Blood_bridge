@@ -1,4 +1,8 @@
-import "./App.css";
+import "./CSS/Home.css";
+import "./CSS/Footer.css";
+import "./CSS/Navbar.css";
+import "./CSS/Contact.css";
+import "./CSS/About.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./Component/Home";
 import About from "./Component/About";
@@ -17,7 +21,9 @@ function App() {
           <Route path="/donate" element={<Donate />} />
           <Route path="/bloodbank" element={<BloodBank />} />
         </Routes>
+        <Footer/>
       </div>
+      
     </Router>
   );
 }

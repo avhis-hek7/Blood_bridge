@@ -1,0 +1,74 @@
+
+.container {
+   
+    background: #cfafa5;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(90, 81, 81, 0.1);
+}
+
+.contact-section {
+    background: #e0bbbb;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #3d4855;
+    font-weight: 600;
+}
+
+/* Form Styling */
+.form-label {
+    font-weight: 500;
+    color: #020f1d;
+    font-size: 18px;
+
+}
+
+.form-control {
+    border-radius: 8px;
+    border: 1px solid #bbcddf;
+    padding: 10px;
+    transition: all 0.3s;
+    font-size: 18px;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+}
+
+.btn-custom {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.btn-custom:hover {
+    background: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Contact Info */
+.text-center h4 {
+    color: #21525e;
+    font-weight: 600;
+}
+
+.text-center p {
+    color: #6c757d;
+    font-size: 17px;
+}
+
+/* Map Styling */
+iframe {
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
