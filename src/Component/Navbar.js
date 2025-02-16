@@ -54,16 +54,20 @@ function Navbar() {
             </li>
             <li className="nav-item">
               <Link
-                className="nav-link text-white fs-7 fw-semibold mx-3"
-                to="/"
+                className={`nav-link ${
+                  location.pathname === "/events" ? "active" : ""
+                } text-white fs-7 fw-semibold mx-3`}
+                to="/events"
               >
                 Events
               </Link>
             </li>
             <li className="nav-item">
               <Link
-                className="nav-link text-white fs-7 fw-semibold mx-3"
-                to="/"
+                className={`nav-link ${
+                  location.pathname === "/contact" ? "active" : ""
+                } text-white fs-7 fw-semibold mx-3`}
+                to="/contact"
               >
                 Contact
               </Link>
