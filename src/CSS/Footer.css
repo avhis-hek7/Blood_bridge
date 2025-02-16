@@ -43,19 +43,30 @@
   
   .socialmedia {
     display: flex;
-    gap: 15px;
+    
+    gap: 20px;
   }
   
-  .socialmedia p img {
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out;
+ 
+  
+  .socialmedia a:hover {
+    color: #007bff;
+    transform: scale(1.2);
   }
   
-  .socialmedia p img:hover {
-    transform: scale(1.1);
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .socialmedia a {
+      font-size: 2.5rem; /* Increase size on smaller screens */
+    }
   }
+  
+  @media (max-width: 480px) {
+    .socialmedia a {
+      font-size: 3rem; /* Even bigger for mobile */
+    }
+  }
+  
   
   /* Horizontal Line */
   .sb_footer hr {
