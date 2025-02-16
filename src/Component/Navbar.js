@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { FaTint, FaHospital } from "react-icons/fa";
 
 function Navbar() {
   let location = useLocation();
@@ -8,7 +9,6 @@ function Navbar() {
   useEffect(() => {
     console.log(location.pathname);
   }, [location]);
-
   return (
     <nav className="navbar navbar-expand-lg bg-secondary" >
       <div className="container-fluid">
@@ -53,18 +53,18 @@ function Navbar() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className={`nav-link ${
-                  location.pathname === "/events" ? "active" : ""
-                } text-white fs-7 fw-semibold mx-3`}
-                to="/events">
+              <Link
+                className="nav-link text-white fs-7 fw-semibold mx-3"
+                to="/"
+              >
                 Events
               </Link>
             </li>
             <li className="nav-item">
-              <Link className={`nav-link ${
-                  location.pathname === "/contact" ? "active" : ""
-                } text-white fs-7 fw-semibold mx-3`}
-                to="/contact">
+              <Link
+                className="nav-link text-white fs-7 fw-semibold mx-3"
+                to="/"
+              >
                 Contact
               </Link>
             </li>
@@ -78,15 +78,22 @@ function Navbar() {
             </li>
           </ul>
           <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-            />
-            <button className="btn btn-outline-light" type="submit">
-              Search
-            </button>
+            <Link
+              className="btn btn-outline-light me-2 pe-1 rounded-pill btndonate"
+              type="submit"
+              to="/donate"
+            >
+              Donate Blood
+              <FaTint className="pb-1" style={{ color: "#c20f33" }} />
+            </Link>
+            <Link
+              className="btn btn-outline-light rounded-pill ms-2"
+              type="submit"
+              to="/bloodbank"
+            >
+              Blood Bank
+              <FaHospital className="pb-1" style={{ color: "#c20f33" }} />
+            </Link>
           </form>
         </div>
       </div>

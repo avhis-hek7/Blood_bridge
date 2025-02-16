@@ -7,7 +7,7 @@ function About() {
       <div className="container p-4">
       <h1 className="display-4 mb-4">About Us</h1>
       <p className="mb-4">
-        Welcome to <strong>[Blood Donation Portal Name]</strong>, a dedicated platform committed to saving lives through voluntary blood donation.
+        Welcome to <strong>[Blood-Bridge]</strong>, a dedicated platform committed to saving lives through voluntary blood donation.
         Our mission is to connect generous donors with those in urgent need, ensuring that no one suffers due to a shortage of blood.
       </p>
       
@@ -24,8 +24,8 @@ function About() {
       </p>
       
       <h2 className="h2 mt-4">How It Works</h2>
-      <ul className="list-group mb-4">
-        <li className="list-group-item"><strong>Register:</strong> Sign up as a donor or request blood through our user-friendly platform.</li>
+      <ul className="list-group mb-4 ListName">
+        <li className="list-group-item "><strong>Register:</strong> Sign up as a donor or request blood through our user-friendly platform.</li>
         <li className="list-group-item"><strong>Find a Match:</strong> Our advanced system helps connect donors with nearby blood banks and patients in need.</li>
         <li className="list-group-item"><strong>Donate:</strong> Visit the nearest blood donation center or participate in a donation drive.</li>
         <li className="list-group-item"><strong>Save Lives:</strong> Your contribution can make a difference and bring hope to those in distress.</li>
