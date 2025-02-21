@@ -81,9 +81,10 @@ function Navbar() {
               </Link>
             </li>
           </ul>
+          
           <form className="d-flex" role="search">
             <Link
-              className="btn btn-outline-light me-2 pe-1 rounded-pill btndonate"
+              className="btn btn-outline-light me-2 pe-1 rounded-pill btndonate bg-secondary"
               type="submit"
               to="/donate"
             >
@@ -91,7 +92,7 @@ function Navbar() {
               <FaTint className="pb-1" style={{ color: "#c20f33" }} />
             </Link>
             <Link
-              className="btn btn-outline-light rounded-pill ms-2"
+              className="btn btn-outline-light rounded-pill ms-2 bg-secondary"
               type="submit"
               to="/bloodbank"
             >

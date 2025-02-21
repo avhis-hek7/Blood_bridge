@@ -55,18 +55,19 @@
     transform: scale(1.2);
   }
   
-  /* Responsive styles */
+  .socialmedia {
+    display: flex;
+    justify-content: space-around;  /* Center elements horizontally on larger screens */
+    align-items: center;
+  }
+  
   @media (max-width: 768px) {
-    .socialmedia a {
-      font-size: 2.5rem; /* Increase size on smaller screens */
+    .socialmedia {
+      justify-content: center;  /* Center elements horizontally on smaller screens */
+      gap: 1rem;  /* Optional: adjust spacing between icons */
     }
   }
   
-  @media (max-width: 480px) {
-    .socialmedia a {
-      font-size: 3rem; /* Even bigger for mobile */
-    }
-  }
   
   
   /* Horizontal Line */

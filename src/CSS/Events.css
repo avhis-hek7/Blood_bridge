@@ -1,0 +1,285 @@
+
+header {
+    position: relative;
+    background: linear-gradient(to bottom right, #e74c3c, #c0392b);
+    color: white;
+    text-align: center;
+    padding: 100px 20px;
+}  
+
+.hero-container h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+.hero-container p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.btn-main {
+    display: inline-block;
+    background-color: #fff;
+    color: #e74c3c;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-main:hover {
+    background-color: #e74c3c;
+    color: white;
+    transform: scale(1.05);
+}
+
+
+.event-details {
+    padding: 40px 20px;
+    background-color: #e6aeae;
+}
+
+.section-title h2 {
+    font-size: 2.5em;
+    color: #e74c3c;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.details-item {
+    background-color: #e5ecec;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+strong{
+    font-size: 20px;
+}
+p{
+    font-size: 18px;
+}
+
+
+.cta {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn-register {
+    display: inline-block;
+    background-color: #e74c3c;
+    color: white;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    border-radius: 30px;
+    text-decoration: none;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+}
+
+.btn-register:hover {
+    background-color: #c0392b;
+}
+
+
+.why-donate {
+    background-color: #b6a2a2;
+    padding: 40px 20px;
+}
+
+.cards {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+
+
+.card {
+    background-color: rgb(223, 213, 213);
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    flex-basis: 30%;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card h3 {
+    font-size: 1.8em;
+    color: #e74c3c;
+}
+
+.card p {
+    font-size: 1.2em;
+}
+
+.preparation {
+    padding: 40px 20px;
+    background-color:#b6a2;
+}
+
+.preparation ul {
+    list-style-type: square;
+    padding-left: 20px;
+    font-size: 1.2em;
+}
+
+
+@media (max-width: 768px) {
+    .cards {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        flex-basis: 100%;
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+
+    .hero-container h1 {
+        font-size: 2.5em;
+    }
+
+    .hero-container p {
+        font-size: 1em;
+    }
+
+    .details-grid {
+        grid-template-columns: 1fr;
+        margin-top: 20px;
+    }
+
+    .details-item {
+        text-align: center;
+        padding: 10px;
+    }
+
+    .btn-main {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+
+    .btn-register {
+        font-size: 1em;
+        padding: 12px 25px;
+    }
+}
+
+
+@media (max-width: 480px) {
+    .hero-container h1 {
+        font-size: 2em;
+    }
+
+    .hero-container p {
+        font-size: 0.9em;
+    }
+
+    .details-item {
+        font-size: 1em;
+    }
+
+    .card h3 {
+        font-size: 1.5em;
+    }
+
+    .card p {
+        font-size: 1.1em;
+    }
+
+    .preparation ul {
+        font-size: 1em;
+    }
+}
+
+.blood{
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    text-align: center;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+th {
+    background-color: #f4f4f4;
+}
+@media (max-width: 768px) {
+    table, thead, tbody, th, td, tr {
+        display: block;
+
+    }
+    thead {
+        display: none;
+    }
+    tr {
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        padding: 10px;
+        background: #f9f9f9;
+    }
+    td {
+        text-align: left;
+        position: relative;
+        padding-left: 50%;
+        text-align: center;
+    }
+    td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        font-weight: bold;
+    }
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  thead {
+    background-color: #f4f4f4;
+  }
+  
+  @media (max-width: 768px) {
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  
+    th, td {
+      text-align: center;
+    }
+  }
+  

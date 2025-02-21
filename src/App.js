@@ -4,6 +4,8 @@ import "./CSS/Navbar.css";
 import "./CSS/Contact.css";
 import "./CSS/About.css";
 import "./CSS/Blog.css";
+import "./CSS/Donate.css";
+import "./CSS/Events.css"
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./Component/Home";
 import About from "./Component/About";
