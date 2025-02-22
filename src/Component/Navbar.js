@@ -55,7 +55,7 @@ function Navbar() {
             <li className="nav-item">
               <Link
                 className="nav-link text-white fs-7 fw-semibold mx-3"
-                to="/"
+                to="/events"
               >
                 Events
               </Link>
@@ -63,7 +63,7 @@ function Navbar() {
             <li className="nav-item">
               <Link
                 className="nav-link text-white fs-7 fw-semibold mx-3"
-                to="/"
+                to="/contact"
               >
                 Contact
               </Link>
@@ -98,6 +98,7 @@ function Navbar() {
         </div>
       </div>
     </nav>
+    
   );
 }
 

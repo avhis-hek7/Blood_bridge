@@ -1,4 +1,9 @@
 import React from "react";
+import { FaFacebook } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
+import { FaInstagram } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
+
 export default function Footer() {
   return (
     <>
@@ -53,10 +58,10 @@ export default function Footer() {
             <div className="sb_footer-links-div">
               <h4>Comming Soon</h4>
               <div className="socialmedia">
-                <p><img src="whatsapp.png" alt="" /></p>
-                <p><img src="twitter1.png" alt="" /></p>
-                <p><img src="instagram.png" alt="" /></p>
-                <p><img src="facebook.png" alt="" /></p>
+              <a href="/"><p><FaFacebook style={{fontSize:"1.6rem"}}/></p></a>
+                <a href="/"><p><FaTwitter style={{fontSize:"1.6rem"}}/></p></a>
+                <a href="/"><p><FaInstagram style={{fontSize:"1.6rem"}}/></p></a>
+                <a href="/"><p><FaWhatsapp style={{fontSize:"1.6rem"}}/></p></a>
                 
               </div>
             </div>
