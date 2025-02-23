@@ -1,4 +1,4 @@
-
+/* navbarCss */
 .navbar-toggler {
   border: none;
   font-size: 1.2rem;
@@ -19,6 +19,17 @@
 .nav-link.active {
   color: blanchedalmond;
 }
+.navbar{
+  background-color:#37474F;
+  }
+  .sticky-navbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1050; /* Ensures it stays on top */
+    background-color: #6c757d; /* Same as bg-secondary */
+    transition: all 0.3s ease-in-out;
+  }
 
 @media (min-width: 991px) {
   .nav-link::before {
@@ -93,26 +104,28 @@
     padding: 6px 12px;
   }
 }
-
-
-/* backgroundColor */
+/* backgroundColor caraousel */
 .c-btn:hover
 {
 width:80px;
 background-color:#ae8ee0;
 }
+/* backgroundColor Body */
 .background1{
   background-image: linear-gradient(to left, #b8a6d6,#e0e0e0);
 
 }
-.navbar{
-background-color:#37474F;
-}
-.card{
+
+
+.hcard{
   background-color: #f8deded2;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
-  
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15); 
+  transition: transform 0.3s, box-shadow 0.3s; 
 }
+.hcard:hover {
+  transform: translateY(-5px);
+}
+
 .ListName
 {
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
@@ -282,10 +295,10 @@ background-color:#37474F;
 
 
 /* Events Css */
-.hero-container p {
+   .hero-container p {
   font-size: 1.2em;
   margin-bottom: 30px;
-}
+} 
 
 .btn-main {
   display: inline-block;
@@ -336,7 +349,7 @@ background-color:#37474F;
 strong{
   font-size: 20px;
 }
-p{
+pevent{
   font-size: 18px;
 }
 
@@ -375,9 +388,7 @@ p{
   margin-top: 20px;
 }
 
-
-
-.card {
+.Ecard {
   background-color: rgb(223, 213, 213);
   border-radius: 8px;
   padding: 30px;
@@ -387,17 +398,17 @@ p{
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
-.card:hover {
+.Ecard:hover {
   transform: translateY(-10px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
-.card h3 {
+.Ecard h3 {
   font-size: 1.8em;
   color: #e74c3c;
 }
 
-.card p {
+.Ecard p {
   font-size: 1.2em;
 }
 
@@ -551,4 +562,4 @@ thead {
   th, td {
     text-align: center;
   }
-}
+}  

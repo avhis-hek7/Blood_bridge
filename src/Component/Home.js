@@ -225,7 +225,7 @@ export default function Home() {
             {" "}
             {/* g-3 adds space between columns */}
             <div className="col-md-6">
-              <div className="card">
+              <div className="card hcard">
                 <div className="row g-0">
                   <div className="col-md-4">
                     <img
@@ -253,7 +253,7 @@ export default function Home() {
               </div>
             </div>
             <div className="col-md-6">
-              <div className="card">
+              <div className="card hcard">
                 <div className="row g-0">
                   <div className="col-md-4">
                     <img
@@ -287,7 +287,7 @@ export default function Home() {
             {" "}
             {/* g-3 adds space between columns */}
             <div className="col-md-6">
-              <div className="card">
+              <div className="card hcard">
                 <div className="row g-0">
                   <div className="col-md-4">
                     <img
@@ -314,7 +314,7 @@ export default function Home() {
               </div>
             </div>
             <div className="col-md-6">
-              <div className="card ">
+              <div className="card hcard">
                 <div className="row g-0">
                   <div className="col-md-4">
                     <img

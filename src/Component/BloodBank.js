@@ -1,91 +1,85 @@
-import React, { useState } from "react";
+import React from "react";
 
-const BloodBankSearch = () => {
-  const [district, setDistrict] = useState("");
-  const [city, setCity] = useState("");
-  const [bloodBankName, setBloodBankName] = useState("");
-  const [bloodBanks, setBloodBanks] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    try {
-      const query = `district=${district}&city=${city}${
-        bloodBankName ? `&name=${bloodBankName}` : ""
-      }`;
-      const apiKey = "2cc22390140a40cead3a2799f4fd9fce"; // Store API key separately
-      const apiUrl = `https://newsapi.org/v2/top-headlines?apiKey=${apiKey}&${query}`;
-
-      const response = await fetch(apiUrl);
-      // Replace with real API
-      const data = await response.json();
-      setBloodBanks(data);
-    } catch (err) {
-      setError("Failed to fetch blood banks.");
-    }
-    setLoading(false);
-  };
+const BloodBankList = () => {
+  // Sample blood bank data (can be replaced with API data later)
+  const bloodBanks = [
+    {
+      name: "Red Cross Blood Bank",
+      address: "123 Main Street, Kathmandu",
+      landmark: "Near City Hospital",
+      city: "Kathmandu",
+      email: "redcross@bloodbank.com",
+      mobile: "+977-9812345678",
+      image: "logo1.jpg"
+    },
+    {
+      name: "LifeCare Blood Bank",
+      address: "45 New Road, Pokhara",
+      landmark: "Opposite Pokhara Mall",
+      city: "Pokhara",
+      email: "lifecare@bloodbank.com",
+      mobile: "+977-9801234567",
+      image: "logo1.jpg"
+    },
+    {
+      name: "Health First Blood Bank",
+      address: "78 Lakeside, Chitwan",
+      landmark: "Near Bharatpur Hospital",
+      city: "Chitwan",
+      email: "healthfirst@bloodbank.com",
+      mobile: "+977-9823456789",
+      image: "logo1.jpg"
+    },
+        {
+      name: "Health First Blood Bank",
+      address: "78 Lakeside, Chitwan",
+      landmark: "Near Bharatpur Hospital",
+      city: "Chitwan",
+      email: "healthfirst@bloodbank.com",
+      mobile: "+977-9823456789",
+      image: "logo1.jpg"
+    },
+        {
+      name: "Health First Blood Bank",
+      address: "78 Lakeside, Chitwan",
+      landmark: "Near Bharatpur Hospital",
+      city: "Chitwan",
+      email: "healthfirst@bloodbank.com",
+      mobile: "+977-9823456789",
+      image: "logo1.jpg"
+    },
+        {
+      name: "Health First Blood Bank",
+      address: "78 Lakeside, Chitwan",
+      landmark: "Near Bharatpur Hospital",
+      city: "Chitwan",
+      email: "healthfirst@bloodbank.com",
+      mobile: "+977-9823456789",
+      image: "logo1.jpg"
+    },
+  ];
 
   return (
     <div className="container mt-4">
-      <h2 className="text-center mb-4">Search for Blood Banks</h2>
-      <form onSubmit={handleSearch} className="mb-3">
-        <div className="mb-3">
-          <label className="form-label">District</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Enter District"
-            value={district}
-            onChange={(e) => setDistrict(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">City</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Enter City"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Blood Bank Name (Optional)</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Enter Blood Bank Name"
-            value={bloodBankName}
-            onChange={(e) => setBloodBankName(e.target.value)}
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Search
-        </button>
-      </form>
-      {loading && <p className="text-center">Loading...</p>}
-      {error && <p className="text-danger text-center">{error}</p>}
+      <h2 className="text-center mb-4">Blood Bank Information</h2>
       <div className="row">
         {bloodBanks.map((bank, index) => (
-          <div className="col-md-4 mb-3" key={index}>
-            <div className="card shadow">
-              <div className="card-body">
-                <h5 className="card-title">{bank.name}</h5>
-                <p className="card-text">Address: {bank.address}</p>
-                <a
-                  href={`https://www.google.com/maps?q=${bank.latitude},${bank.longitude}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-primary"
-                >
-                  View on Map
-                </a>
+          <div className="col-md-6 mb-3" key={index}>
+            <div className="card mb-3" style={{ maxWidth: "540px" }}>
+              <div className="row g-0">
+                <div className="col-md-4">
+                  <img src={bank.image} className="img-fluid rounded-start" alt={bank.name} />
+                </div>
+                <div className="col-md-8">
+                  <div className="card-body">
+                    <h5 className="card-title">{bank.name}</h5>
+                    <p className="card-text"><strong>Address:</strong> {bank.address}</p>
+                    <p className="card-text"><strong>Landmark:</strong> {bank.landmark}</p>
+                    <p className="card-text"><strong>City:</strong> {bank.city}</p>
+                    <p className="card-text"><strong>Email:</strong> {bank.email}</p>
+                    <p className="card-text"><strong>Mobile:</strong> {bank.mobile}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -95,4 +89,4 @@ const BloodBankSearch = () => {
   );
 };
 
-export default BloodBankSearch;
+export default BloodBankList;

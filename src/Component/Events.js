@@ -34,7 +34,7 @@ const BloodNewsCard = () => {
     fetchNews();
   }, []);
 
-  if (loading) return <p>Loading blood donation news...</p>;
+  if (loading) return <p className="pevent">Loading blood donation news...</p>;
   if (error) return <p className="text-danger">{error}</p>;
 
   return (
@@ -77,7 +77,7 @@ function Events() {
       <header>
         <div className="hero-container">
           <h1>Save Lives: Donate Blood</h1>
-          <p>Join us in making a difference!</p>
+          <p className="pevent">Join us in making a difference!</p>
           <a href="#register" className="btn-main">
             Register Now
           </a>
@@ -91,15 +91,15 @@ function Events() {
           <div className="details-grid">
             <div className="details-item">
               <strong>Date:</strong>
-              <p>February 25, 2025</p>
+              <p className="pevent">February 25, 2025</p>
             </div>
             <div className="details-item">
               <strong>Time:</strong>
-              <p>9:00 AM - 3:00 PM</p>
+              <p className="pevent">9:00 AM - 3:00 PM</p>
             </div>
             <div className="details-item">
               <strong>Location:</strong>
-              <p>City Community Center, 123 Main St</p>
+              <p className="pevent">City Community Center, 123 Main St</p>
             </div>
           </div>
           <div className="cta">
@@ -111,17 +111,17 @@ function Events() {
 
         <section className="why-donate">
           <div className="cards">
-            <div className="card">
+            <div className="card Ecard">
               <h3>Save Lives</h3>
-              <p>Each donation can save up to 3 lives.</p>
+              <p className="pevent">Each donation can save up to 3 lives.</p>
             </div>
-            <div className="card">
+            <div className="card Ecard">
               <h3>Quick & Easy</h3>
-              <p>Donating blood takes only 30 minutes.</p>
+              <p className="pevent">Donating blood takes only 30 minutes.</p>
             </div>
-            <div className="card">
+            <div className="card Ecard">
               <h3>Urgent Need</h3>
-              <p>Your blood is needed every day in emergencies.</p>
+              <p className="pevent">Your blood is needed every day in emergencies.</p>
             </div>
           </div>
         </section>
@@ -141,7 +141,7 @@ function Events() {
       </main>
       <div className="blood">
         <h2>Donate Outside the Kathmandu Valley</h2>
-        <p>
+        <p className="pevent">
           To donate outside Kathmandu Valley, please contact one of the Regional
           Blood Transfusion Centres in Biratnagar, Pokhara, Nepalgunj, and
           Chitwan, or the nearest District Blood Bank or Hospital unit.

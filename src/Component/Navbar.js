@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaTint, FaHospital } from "react-icons/fa";
 
@@ -9,8 +8,9 @@ function Navbar() {
   useEffect(() => {
     console.log(location.pathname);
   }, [location]);
+
   return (
-    <nav className="navbar navbar-expand-lg bg-secondary" >
+    <nav className="navbar navbar-expand-lg bg-secondary sticky-navbar">
       <div className="container-fluid">
         <Link className="navbar-brand d-flex align-items-center" to="/">
           <img
@@ -53,26 +53,32 @@ function Navbar() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link
-                className="nav-link text-white fs-7 fw-semibold mx-3"
+            <Link
+                className={`nav-link ${
+                  location.pathname === "/events" ? "active" : ""
+                } text-white fs-7 fw-semibold mx-3`}
                 to="/events"
               >
                 Events
               </Link>
             </li>
             <li className="nav-item">
-              <Link
-                className="nav-link text-white fs-7 fw-semibold mx-3"
+            <Link
+                className={`nav-link ${
+                  location.pathname === "/contact" ? "active" : ""
+                } text-white fs-7 fw-semibold mx-3`}
                 to="/contact"
               >
                 Contact
               </Link>
             </li>
             <li className="nav-item">
-              <Link className={`nav-link ${
+              <Link
+                className={`nav-link ${
                   location.pathname === "/blog" ? "active" : ""
                 } text-white fs-7 fw-semibold mx-3`}
-                to="/blog" >
+                to="/blog"
+              >
                 Blog
               </Link>
             </li>
@@ -80,17 +86,12 @@ function Navbar() {
           <form className="d-flex" role="search">
             <Link
               className="btn btn-outline-light me-2 pe-1 rounded-pill btndonate"
-              type="submit"
               to="/donate"
             >
               Donate Blood
               <FaTint className="pb-1" style={{ color: "#c20f33" }} />
             </Link>
-            <Link
-              className="btn btn-outline-light rounded-pill ms-2"
-              type="submit"
-              to="/bloodbank"
-            >
+            <Link className="btn btn-outline-light rounded-pill ms-2" to="/bloodbank">
               Blood Bank
               <FaHospital className="pb-1" style={{ color: "#c20f33" }} />
             </Link>
@@ -98,7 +99,6 @@ function Navbar() {
         </div>
       </div>
     </nav>
-    
   );
 }
 
