@@ -53,13 +53,24 @@
     }
   }
   
+  .transparent-btn {
+      background: transparent;
+      border: 1px solid currentColor;
+      padding: 8px 16px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease-in-out;
+    }
+
+  .transparent-btn:hover {
+      background: rgba(0, 0, 0, 0.1);
+      color: black;
+    }
+ 
+
+
   
   /* backgroundColor */
-  .c-btn:hover
-  {
-  width:80px;
-  background-color:#ae8ee0;
-  }
   .background1{
     background-image: linear-gradient(to left, #b8a6d6,#e0e0e0);
   
@@ -72,3 +83,40 @@
     box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
     
   }
+
+
+  /* loginform */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 10;
+}
+
+.login-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.6);
+  padding: 60px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  z-index: 11;
+  text-align: center;
+  width: 400px;
+  height: 350px;
+}
+
+.input-field {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}

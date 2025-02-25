@@ -16,6 +16,7 @@ import Blog from "./Component/Blog";
 import Events from "./Component/Events";
 import Donate from "./Component/Donate";
 import BloodBank from "./Component/BloodBank";
+import Egibility from "./Component/Egibility";
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/donate" element={<Donate />} />
           <Route path="/bloodbank" element={<BloodBank />} />
+          <Route path="/egibility" element={<Egibility />} />
           
         </Routes>
         <Footer/>

@@ -1,7 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 export default function Home() {
+  const [showLogin, setShowLogin] = useState(false);
+
+  const handleLoginToggle = () => {
+    setShowLogin(!showLogin);
+  };
   return (
     <>
+      {showLogin && <div className="overlay" onClick={handleLoginToggle}></div>}
+
+      {showLogin && (
+        <div className="login-form">
+          <h2>Login</h2>
+          <input type="text" placeholder="Username" className="input-field" />
+          <input
+            type="password"
+            placeholder="Password"
+            className="input-field"
+          />
+          <button className="btn btn-danger me-5" onClick={handleLoginToggle}>
+            Submit
+          </button>
+          <button className="btn btn-secondary" onClick={handleLoginToggle}>
+            Close
+          </button>
+        </div>
+      )}
       {/*Caraousel*/}
       <div>
         <div
@@ -46,12 +71,18 @@ export default function Home() {
                   Connecting blood donors with those in need. Every drop counts!
                 </p>
                 <div className="d-flex gap-3">
-                  <button className="btn btn-outline-light fw-bold text-dark c-btn">
-                    Log in
+                  <button
+                    className="btn fw-bold text-dark c-btn transparent-btn"
+                    onClick={handleLoginToggle}
+                  >
+                    Log In
                   </button>
-                  <button className="btn btn-outline-light fw-bold text-dark c-btn">
-                    Sign in
-                  </button>
+                  <Link
+                    className="btn fw-bold text-dark c-btn transparent-btn"
+                    to="/donate"
+                  >
+                    Sign In
+                  </Link>
                 </div>
               </div>
             </div>
@@ -71,12 +102,19 @@ export default function Home() {
                   A small act of kindness makes a big difference.
                 </p>
                 <div className="d-flex gap-3">
-                  <button className="btn btn-outline-light fw-bold text-dark c-btn">
+                  <button
+                    className="btn btn-outline-light fw-bold text-dark c-btn"
+                    onClick={handleLoginToggle}
+                  >
                     Log in
                   </button>
-                  <button className="btn btn-outline-light fw-bold text-dark c-btn">
+                  <Link
+                    type="button"
+                    className="btn btn-outline-light fw-bold text-dark c-btn"
+                    to="/donate"
+                  >
                     Sign in
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -92,12 +130,19 @@ export default function Home() {
                 <h1 className="carousel-heading">Every Drop Saves a Life</h1>
                 <p className="carousel-text">Be a hero. Donate blood today!</p>
                 <div className="C-button d-flex gap-3">
-                  <button className="btn btn-outline-light fw-bold text-dark c-btn">
+                  <button
+                    className="btn btn-outline-light fw-bold text-dark c-btn "
+                    onClick={handleLoginToggle}
+                  >
                     Log in
                   </button>
-                  <button className="btn btn-outline-light fw-bold text-dark c-btn">
+                  <Link
+                    type="button"
+                    className="btn btn-outline-light fw-bold text-dark "
+                    to="/donate"
+                  >
                     Sign in
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -292,7 +337,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>    
+      </div>
     </>
   );
 }

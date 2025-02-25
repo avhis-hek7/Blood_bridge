@@ -8,10 +8,10 @@ function Contact() {
   return (
     <>
       <div>
-        <div className="container mt-5">
+        <div className=" mt-5">
           <div className="row">
             <div className="col-md-6 mx-auto contact-section">
-              <h2 className="text-center mb-4">Contact Us</h2>
+              <h1 className="text-center mb-4">Contact Us</h1>
               <form>
                 <div className="mb-3">
                   <label for="name" className="form-label">

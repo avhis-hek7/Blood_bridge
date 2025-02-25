@@ -5,7 +5,9 @@
   "dependencies": {
     "cra-template": "1.2.0",
     "install": "^0.13.0",
+    "lucide-react": "^0.476.0",
     "react": "^19.0.0",
+    "react-bootstrap": "^2.10.9",
     "react-dom": "^19.0.0",
     "react-icons": "^5.4.0",
     "react-router-dom": "^7.1.5",
