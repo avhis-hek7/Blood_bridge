@@ -52,24 +52,23 @@
       padding: 6px 12px;
     }
   }
+  .custom-btn {
+    background-color: transparent;
+    border: 2px solid white;
+    border-radius: 5px;
+    color: black;
+    font-weight: bold;
+    padding: 10px 20px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
   
-  .transparent-btn {
-      background: transparent;
-      border: 1px solid currentColor;
-      padding: 8px 16px;
-      text-decoration: none;
-      display: inline-block;
-      transition: all 0.3s ease-in-out;
-    }
-
-  .transparent-btn:hover {
-      background: rgba(0, 0, 0, 0.1);
-      color: black;
-    }
- 
-
-
-  
+  .custom-btn:hover,
+  .custom-btn:focus {
+    background-color: rgba(26, 29, 29, 0.2);
+    border: 2px solid rgb(201, 175, 175);
+  }
+    
   /* backgroundColor */
   .background1{
     background-image: linear-gradient(to left, #b8a6d6,#e0e0e0);
@@ -85,8 +84,32 @@
   }
 
 
-  /* loginform */
-
+  .custom {
+    background-color: #dc3545; /* Bootstrap danger red */
+    color: white;
+    font-weight: bold;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .custom:hover {
+    background-color: #b02a37; /* Darker red */
+    border-color: white;
+    transform: scale(1.05);
+  }
+  
+  .custom:active {
+    background-color: #a12631; /* Even darker red */
+    transform: scale(0.98);
+  }
+  
+ 
 .overlay {
   position: fixed;
   top: 0;

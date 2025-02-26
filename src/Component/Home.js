@@ -71,17 +71,11 @@ export default function Home() {
                   Connecting blood donors with those in need. Every drop counts!
                 </p>
                 <div className="d-flex gap-3">
-                  <button
-                    className="btn fw-bold text-dark c-btn transparent-btn"
-                    onClick={handleLoginToggle}
-                  >
-                    Log In
+                  <button className="custom-btn" onClick={handleLoginToggle}>
+                    Log in
                   </button>
-                  <Link
-                    className="btn fw-bold text-dark c-btn transparent-btn"
-                    to="/donate"
-                  >
-                    Sign In
+                  <Link to="/donate" className="custom-btn">
+                    Sign in
                   </Link>
                 </div>
               </div>
@@ -102,17 +96,10 @@ export default function Home() {
                   A small act of kindness makes a big difference.
                 </p>
                 <div className="d-flex gap-3">
-                  <button
-                    className="btn btn-outline-light fw-bold text-dark c-btn"
-                    onClick={handleLoginToggle}
-                  >
+                  <button className="custom-btn" onClick={handleLoginToggle}>
                     Log in
                   </button>
-                  <Link
-                    type="button"
-                    className="btn btn-outline-light fw-bold text-dark c-btn"
-                    to="/donate"
-                  >
+                  <Link to="/donate" className="custom-btn">
                     Sign in
                   </Link>
                 </div>
@@ -129,18 +116,11 @@ export default function Home() {
               <div className="carousel-caption d-flex flex-column justify-content-center align-items-center w-100">
                 <h1 className="carousel-heading">Every Drop Saves a Life</h1>
                 <p className="carousel-text">Be a hero. Donate blood today!</p>
-                <div className="C-button d-flex gap-3">
-                  <button
-                    className="btn btn-outline-light fw-bold text-dark c-btn "
-                    onClick={handleLoginToggle}
-                  >
+                <div className="d-flex gap-3">
+                  <button className="custom-btn" onClick={handleLoginToggle}>
                     Log in
                   </button>
-                  <Link
-                    type="button"
-                    className="btn btn-outline-light fw-bold text-dark "
-                    to="/donate"
-                  >
+                  <Link to="/donate" className="custom-btn">
                     Sign in
                   </Link>
                 </div>
@@ -237,9 +217,9 @@ export default function Home() {
                         emergency.
                       </p>
                       <div>
-                        <button type="button" className="btn btn-danger">
+                        <Link to="/" className="custom">
                           Enquire now
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -265,9 +245,9 @@ export default function Home() {
                         and contact details.
                       </p>
                       <div>
-                        <button type="button" className="btn btn-danger">
+                        <Link to="/bloodbank" className="custom">
                           Enquire now
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -298,9 +278,9 @@ export default function Home() {
                         history, ensuring timely reminder and notifications.
                       </p>
                       <div>
-                        <button type="button" className="btn btn-danger">
+                        <Link to="/egibility" className="custom">
                           Enquire now
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -326,9 +306,9 @@ export default function Home() {
                         the ones who nedd it.
                       </p>
                       <div>
-                        <button type="button" className="btn btn-danger">
+                        <Link to="/donate" className="custom">
                           Enquire now
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   </div>

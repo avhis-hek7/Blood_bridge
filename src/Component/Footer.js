@@ -57,10 +57,10 @@ export default function Footer() {
             <div className="sb_footer-links-div">
               <h4>Follow us</h4>
               <div className="socialmedia">
-                <a href=""><p><FaFacebook style={{fontSize:"1.6rem"}}/></p></a>
-                <a href=""><p><FaTwitter style={{fontSize:"1.6rem"}}/></p></a>
-                <a href=""><p><FaInstagram style={{fontSize:"1.6rem"}}/></p></a>
-                <a href=""><p><FaWhatsapp style={{fontSize:"1.6rem"}}/></p></a>
+                <a href="https://www.facebook.com/BDHNepal/" target="_blank"><p><FaFacebook style={{fontSize:"1.6rem"}}/></p></a>
+                <a href="https://x.com/givebloodnhs?lang=en" target="_blank"><p><FaTwitter style={{fontSize:"1.6rem"}}/></p></a>
+                <a href="https://www.instagram.com/givebloodnhs/?hl=en" target="_blank"><p><FaInstagram style={{fontSize:"1.6rem"}}/></p></a>
+                <a href="https://chat.whatsapp.com/EPbdI3vGVLrIlsRxlsjpfY" target="_blank"><p><FaWhatsapp style={{fontSize:"1.6rem"}}/></p></a>
               </div>
             </div>
           </div>
