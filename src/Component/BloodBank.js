@@ -1,7 +1,7 @@
 import React from "react";
 
 const BloodBankList = () => {
-  // Sample blood bank data (can be replaced with API data later)
+  // Blood banks available in Nepal
   const bloodBanks = [
     {
       name: "Red Cross Blood Bank",
@@ -10,7 +10,8 @@ const BloodBankList = () => {
       city: "Kathmandu",
       email: "redcross@bloodbank.com",
       mobile: "+977-9812345678",
-      image: "logo1.jpg"
+      image: "logo1.jpg",
+      website: "https://www.redcross.org"
     },
     {
       name: "LifeCare Blood Bank",
@@ -19,7 +20,8 @@ const BloodBankList = () => {
       city: "Pokhara",
       email: "lifecare@bloodbank.com",
       mobile: "+977-9801234567",
-      image: "logo1.jpg"
+      image: "logo1.jpg",
+      website: "https://www.lifecarebloodbank.com"
     },
     {
       name: "Health First Blood Bank",
@@ -28,35 +30,39 @@ const BloodBankList = () => {
       city: "Chitwan",
       email: "healthfirst@bloodbank.com",
       mobile: "+977-9823456789",
-      image: "logo1.jpg"
+      image: "logo1.jpg",
+      website: "https://www.healthfirstbloodbank.com"
     },
-        {
-      name: "Health First Blood Bank",
-      address: "78 Lakeside, Chitwan",
-      landmark: "Near Bharatpur Hospital",
-      city: "Chitwan",
-      email: "healthfirst@bloodbank.com",
-      mobile: "+977-9823456789",
-      image: "logo1.jpg"
+    {
+      name: "B.P. Koirala Blood Bank",
+      address: "Dharan, Sunsari",
+      landmark: "Near BPKIHS Hospital",
+      city: "Dharan",
+      email: "bpkoirala@bloodbank.com",
+      mobile: "+977-9841234567",
+      image: "logo1.jpg",
+      website: "https://www.bpkoiralabloodbank.com"
     },
-        {
-      name: "Health First Blood Bank",
-      address: "78 Lakeside, Chitwan",
-      landmark: "Near Bharatpur Hospital",
-      city: "Chitwan",
-      email: "healthfirst@bloodbank.com",
-      mobile: "+977-9823456789",
-      image: "logo1.jpg"
+    {
+      name: "Nobel Blood Bank",
+      address: "Biratnagar, Morang",
+      landmark: "Near Nobel Medical College",
+      city: "Biratnagar",
+      email: "nobel@bloodbank.com",
+      mobile: "+977-9818765432",
+      image: "logo1.jpg",
+      website: "https://www.nobelbloodbank.com"
     },
-        {
-      name: "Health First Blood Bank",
-      address: "78 Lakeside, Chitwan",
-      landmark: "Near Bharatpur Hospital",
-      city: "Chitwan",
-      email: "healthfirst@bloodbank.com",
-      mobile: "+977-9823456789",
-      image: "logo1.jpg"
-    },
+    {
+      name: "Gandaki Blood Bank",
+      address: "Pokhara, Kaski",
+      landmark: "Near Gandaki Hospital",
+      city: "Pokhara",
+      email: "gandaki@bloodbank.com",
+      mobile: "+977-9823456780",
+      image: "logo1.jpg",
+      website: "https://www.gandakibloodbank.com"
+    }
   ];
 
   return (
@@ -78,6 +84,9 @@ const BloodBankList = () => {
                     <p className="card-text"><strong>City:</strong> {bank.city}</p>
                     <p className="card-text"><strong>Email:</strong> {bank.email}</p>
                     <p className="card-text"><strong>Mobile:</strong> {bank.mobile}</p>
+                    <a href={bank.website} target="_blank" rel="noopener noreferrer" className="btn btn-primary mt-2">
+                      Visit Website
+                    </a>
                   </div>
                 </div>
               </div>
