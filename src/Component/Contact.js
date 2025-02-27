@@ -8,7 +8,7 @@ function Contact() {
   return (
     <>
       <div>
-        <div className="container mt-5">
+        <div className="container b-container mt-5">
           <div className="row">
             <div className="col-md-6 mx-auto contact-section">
               <h2 className="text-center mb-4">Contact Us</h2>

@@ -19,17 +19,17 @@
 .nav-link.active {
   color: blanchedalmond;
 }
-.navbar{
-  background-color:#37474F;
-  }
-  .sticky-navbar {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    z-index: 1050; /* Ensures it stays on top */
-    background-color: #6c757d; /* Same as bg-secondary */
-    transition: all 0.3s ease-in-out;
-  }
+.navbar {
+  background-color: #37474f;
+}
+.sticky-navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1050; /* Ensures it stays on top */
+  background-color: #6c757d; /* Same as bg-secondary */
+  transition: all 0.3s ease-in-out;
+}
 
 @media (min-width: 991px) {
   .nav-link::before {
@@ -44,7 +44,8 @@
     visibility: hidden;
     transition: 0.3s ease-in-out;
   }
-  .nav-link:hover::before, .nav-link.active::before {
+  .nav-link:hover::before,
+  .nav-link.active::before {
     width: 100%;
     visibility: visible;
   }
@@ -105,40 +106,34 @@
   }
 }
 /* backgroundColor caraousel */
-.c-btn:hover
-{
-width:80px;
-background-color:#ae8ee0;
+.c-btn:hover {
+  width: 80px;
+  background-color: #ae8ee0;
 }
 /* backgroundColor Body */
-.background1{
-  background-image: linear-gradient(to left, #b8a6d6,#e0e0e0);
-
+.background1 {
+  background-image: linear-gradient(to left, #b8a6d6, #e0e0e0);
 }
 
-
-.hcard{
+.hcard {
   background-color: #f8deded2;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15); 
-  transition: transform 0.3s, box-shadow 0.3s; 
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 .hcard:hover {
   transform: translateY(-5px);
 }
 
-.ListName
-{
+.ListName {
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15);
-
 }
-.list-group-item
-{
-  background-color:#f8deded2;
+.list-group-item {
+  background-color: #f8deded2;
 }
 
 /* Footer */
 .footer {
-  background-color: #37474F; /* Dark red */
+  background-color: #37474f; /* Dark red */
   color: #ffffff;
   padding: 40px 20px;
   font-family: "Arial", sans-serif;
@@ -162,20 +157,20 @@ background-color:#ae8ee0;
   font-size: 18px;
   margin-bottom: 15px;
   font-weight: bold;
-  border-bottom: 2px solid #FFFFFF; /* Gold accent */
+  border-bottom: 2px solid #ffffff; /* Gold accent */
   padding-bottom: 5px;
 }
 
 .sb_footer-links-div a {
   text-decoration: none;
-  color: #FFFFFF; /* Light red */
+  color: #ffffff; /* Light red */
   display: block;
   margin: 5px 0;
   transition: color 0.3s ease-in-out;
 }
 
 .sb_footer-links-div a:hover {
-  color: #FF5252; /* Gold on hover */
+  color: #ff5252; /* Gold on hover */
 }
 
 .socialmedia {
@@ -204,7 +199,7 @@ background-color:#ae8ee0;
   margin: 20px 0;
   border: none;
   height: 2px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 /* Footer Bottom */
@@ -219,7 +214,7 @@ background-color:#ae8ee0;
 
 .sb_footer-copyright p {
   font-size: 14px;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .sb_footer-below-links {
@@ -292,13 +287,11 @@ background-color:#ae8ee0;
   border-radius: 8px;
 }
 
-
-
 /* Events Css */
-   .hero-container p {
+.hero-container p {
   font-size: 1.2em;
   margin-bottom: 30px;
-} 
+}
 
 .btn-main {
   display: inline-block;
@@ -318,7 +311,6 @@ background-color:#ae8ee0;
   color: white;
   transform: scale(1.05);
 }
-
 
 .event-details {
   padding: 40px 20px;
@@ -346,13 +338,12 @@ background-color:#ae8ee0;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
-strong{
+strong {
   font-size: 20px;
 }
-pevent{
+pevent {
   font-size: 18px;
 }
-
 
 .cta {
   text-align: center;
@@ -374,7 +365,6 @@ pevent{
 .btn-register:hover {
   background-color: #c0392b;
 }
-
 
 .why-donate {
   background-color: #b6a2a2;
@@ -414,7 +404,7 @@ pevent{
 
 .preparation {
   padding: 40px 20px;
-  background-color:#b6a2;
+  background-color: #b6a2;
 }
 
 .preparation ul {
@@ -423,76 +413,74 @@ pevent{
   font-size: 1.2em;
 }
 
-
 @media (max-width: 768px) {
   .cards {
-      flex-direction: column;
-      align-items: center;
+    flex-direction: column;
+    align-items: center;
   }
 
   .card {
-      flex-basis: 100%;
-      margin-bottom: 20px;
-      padding: 20px;
+    flex-basis: 100%;
+    margin-bottom: 20px;
+    padding: 20px;
   }
 
   .hero-container h1 {
-      font-size: 2.5em;
+    font-size: 2.5em;
   }
 
   .hero-container p {
-      font-size: 1em;
+    font-size: 1em;
   }
 
   .details-grid {
-      grid-template-columns: 1fr;
-      margin-top: 20px;
+    grid-template-columns: 1fr;
+    margin-top: 20px;
   }
 
   .details-item {
-      text-align: center;
-      padding: 10px;
+    text-align: center;
+    padding: 10px;
   }
 
   .btn-main {
-      font-size: 1em;
-      padding: 10px 20px;
+    font-size: 1em;
+    padding: 10px 20px;
   }
 
   .btn-register {
-      font-size: 1em;
-      padding: 12px 25px;
+    font-size: 1em;
+    padding: 12px 25px;
   }
 }
-
 
 @media (max-width: 480px) {
   .hero-container h1 {
-      font-size: 2em;
+    font-size: 2em;
   }
 
   .hero-container p {
-      font-size: 0.9em;
+    font-size: 0.9em;
   }
 
   .details-item {
-      font-size: 1em;
+    font-size: 1em;
   }
 
   .card h3 {
-      font-size: 1.5em;
+    font-size: 1.5em;
   }
 
   .card p {
-      font-size: 1.1em;
+    font-size: 1.1em;
   }
 
   .preparation ul {
-      font-size: 1em;
+    font-size: 1em;
   }
 }
 
-.blood{
+.blood {
   font-family: Arial, sans-serif;
   margin: 20px;
   text-align: center;
@@ -502,7 +490,8 @@ table {
   border-collapse: collapse;
   margin-top: 20px;
 }
-th, td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 10px;
   text-align: center;
@@ -511,30 +500,34 @@ th {
   background-color: #f4f4f4;
 }
 @media (max-width: 768px) {
-  table, thead, tbody, th, td, tr {
-      display: block;
-
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
   }
   thead {
-      display: none;
+    display: none;
   }
   tr {
-      margin-bottom: 15px;
-      border: 1px solid #ddd;
-      padding: 10px;
-      background: #f9f9f9;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    background: #f9f9f9;
   }
   td {
-      text-align: left;
-      position: relative;
-      padding-left: 50%;
-      text-align: center;
+    text-align: left;
+    position: relative;
+    padding-left: 50%;
+    text-align: center;
   }
   td:before {
-      content: attr(data-label);
-      position: absolute;
-      left: 10px;
-      font-weight: bold;
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    font-weight: bold;
   }
 }
 table {
@@ -542,7 +535,8 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
@@ -559,7 +553,73 @@ thead {
     white-space: nowrap;
   }
 
-  th, td {
+  th,
+  td {
     text-align: center;
   }
-}  
+}
+
+/* Blog.css */
+.b-container {
+  width: 80%;
+  margin: auto;
+  padding: 20px;
+  background-color: #ccd2dd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+header {
+  color: rgb(17, 3, 3);
+  text-align: center;
+  padding: 15px 0;
+  font-size: 24px;
+}
+.post {
+  margin-bottom: 20px;
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+}
+.post h2 {
+  color: #a75f5c;
+}
+.post p {
+  color: #0e0b0b;
+  font-size: 18px;
+} 
+ li {
+  font-size: 18px;
+}
+
+/* CountCss */
+
+/* Counting Cards */
+.c-container {
+  background-color:transparent; /* Light gray background */
+  padding: 60px 20px;
+  border-radius: 10px;
+}
+
+.stat-card {
+  background: #f8deded2;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #dc3545; /* Red color to match blood donation theme */
+}
+
+.stat-label {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #343a40; /* Dark gray for better readability */
+  margin-top: 5px;
+}

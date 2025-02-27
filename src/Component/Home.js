@@ -1,7 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+
+const stats = [
+  { id: "count1", target: 50, label: "Total Donors Registered" },
+  { id: "count2", target: 120, label: "Blood Event Organized" },
+  { id: "count3", target: 275, label: "Lives saved" },
+  { id: "count4", target: 5982, label: "Total blood collected" },
+];
+
+const Counter = ({ target, isVisible }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!isVisible) {
+      setCount(0);
+      return;
+    }
+    let countValue = 0;
+    let speed = target / 100;
+    const interval = setInterval(() => {
+      countValue += Math.ceil(speed);
+      if (countValue >= target) {
+        countValue = target;
+        clearInterval(interval);
+      }
+      setCount(countValue);
+    }, 30);
+    return () => clearInterval(interval);
+  }, [target, isVisible]);
+
+  return <span className="highlight">{count}</span>;
+};
 export default function Home() {
   const [showLogin, setShowLogin] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const statsRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        setIsVisible(entries[0].isIntersecting);
+      },
+      { threshold: 0.5 }
+    );
+    if (statsRef.current) {
+      observer.observe(statsRef.current);
+    }
+    return () => {
+      if (statsRef.current) {
+        // eslint-disable-next-line
+        observer.unobserve(statsRef.current);
+      }
+    };
+  }, []);
 
   const handleLoginToggle = () => {
     setShowLogin(!showLogin);
@@ -22,7 +74,7 @@ export default function Home() {
             className="input-field"
           />
           <button className="btn btn-danger me-5" onClick={handleLoginToggle}>
-            Submit 
+            Submit
           </button>
           <button className="btn btn-secondary" onClick={handleLoginToggle}>
             Close
@@ -342,6 +394,20 @@ export default function Home() {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+      {/* Counting cards */}
+      <div ref={statsRef} className="container c-container py-5 text-center">
+        <h2 className="py-2">Making a Difference, One Drop at a Time</h2>
+        <div className="row">
+          {stats.map((stat) => (
+            <div key={stat.id} className="col-md-4 col-sm-6 mb-4">
+              <div className="stat-card p-4 shadow rounded">
+                <h3 className="stat-value"><Counter target={stat.target} isVisible={isVisible} /></h3>
+                <p className="stat-label">{stat.label}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </>

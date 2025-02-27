@@ -4,7 +4,7 @@ function About() {
   return (
     <>
 
-      <div className="container p-4">
+      <div className="container b-container p-4">
       <h1 className="display-4 mb-4">About Us</h1>
       <p className="mb-4">
         Welcome to <strong>[Blood-Bridge]</strong>, a dedicated platform committed to saving lives through voluntary blood donation.
