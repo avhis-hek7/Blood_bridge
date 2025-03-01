@@ -20,6 +20,13 @@ const UserSchema = new Schema({
         lowercase: true,
         match: [/\S+@\S+\.\S+/, "Please enter a valid email"], // Validates email
       },
+      password: {
+        type: String,
+        required: true,
+        trim: true, // Removes spaces before and after the password
+        minlength: 6, // Ensures a minimum length for security
+        select: false, // Prevents password from being returned in queries
+      },
       dob: {
         type: Date,
         required: true,

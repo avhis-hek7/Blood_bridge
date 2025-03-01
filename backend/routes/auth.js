@@ -1,5 +1,5 @@
 const express = require("express");
-const User = require("../models/User");
+const User = require("../models/user");
 const router = express.Router();
 
 // Create a User using:Post "/api/auth". Doesnt require Auth
@@ -10,4 +10,4 @@ router.post("/", (req, res) => {
   res.send(req.body);
 });
 
-module.exports = router;
+module.exports = router; 

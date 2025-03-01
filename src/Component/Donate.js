@@ -5,6 +5,7 @@ export default function BloodDonationForm() {
     name: "",
     phone: "",
     email: "",
+    password: "", 
     dob: "",
     gender: "",
     bloodGroup: "",
@@ -43,7 +44,8 @@ export default function BloodDonationForm() {
             {/* Right Section with Form */}
             <div className="col-lg-6 col-md-12">
               <form onSubmit={handleSubmit} className="p-4 shadow-sm rounded bg-white mb-2">
-      <h2>Please Send Us Your Detail</h2>
+                <h2>Please Send Us Your Details</h2>
+
                 <input
                   type="text"
                   name="name"
@@ -75,11 +77,20 @@ export default function BloodDonationForm() {
                 />
 
                 <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Password"
+                  className="form-control mb-3"
+                  required
+                />
+
+                <input
                   type="date"
                   name="dob"
                   value={formData.dob}
                   onChange={handleChange}
-                  placeholder="Date of Birth"
                   className="form-control mb-3"
                   required
                 />
@@ -93,9 +104,9 @@ export default function BloodDonationForm() {
                     required
                   >
                     <option value="">Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
                   </select>
 
                   <select
@@ -148,7 +159,7 @@ export default function BloodDonationForm() {
             </div>
           </div>
         </div>
-        </div>
-        </div>
+      </div>
+    </div>
   );
 }
