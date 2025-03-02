@@ -1,0 +1,67 @@
+/* Terms and Conditions */
+
+.terms-container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #b7c7d6;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+
+  label {
+    font-size: 1rem;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  /* Button styling */
+  .btn-danger {
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .btn-danger:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .btn-danger:hover:not(:disabled) {
+    background: #c82333;
+    box-shadow: 0px 4px 6px rgba(220, 53, 69, 0.4);
+  }
+  
+
+  /* Security */
+  .security-container {
+ 
+    margin: auto;
+    padding: 20px;
+    background: #bcd4eb;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .security-content h3 {
+    color: #dc3545;
+    margin-top: 20px;
+  }
+  
+  .security-content p, .security-content ul {
+    font-size: 20px;
+    line-height: 1.6;
+  }
+  
+  .security-content ul {
+    padding-left: 20px;
+  }
+ 
+  

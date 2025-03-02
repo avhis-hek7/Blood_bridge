@@ -1,8 +1,7 @@
 import React from "react";
-import { FaFacebook } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
-import { FaWhatsapp } from "react-icons/fa";
+import { FaFacebook, FaTwitter, FaInstagram, FaWhatsapp } from "react-icons/fa";
+import { Link } from "react-router-dom";
+
 export default function Footer() {
   return (
     <>
@@ -11,76 +10,116 @@ export default function Footer() {
           <div className="sb_footer-links">
             <div className="sb_footer-links-div">
               <h4>For Donation</h4>
-              <a href="/">
-                <p>Registration</p>
-              </a>
-              <a href="/">
+              <Link to="/donate">
                 <p>Blood Donate</p>
-              </a>
-              <a href="/">
+              </Link>
+              <Link to="/contact">
                 <p>Map</p>
-              </a>
+              </Link>
             </div>
+
             <div className="sb_footer-links-div">
               <h4>Resources</h4>
-              <a href="/">
-                <p>Blood bank</p>
-              </a>
-              <a href="/">
-                <p>Age</p>
-              </a>
-              <a href="/">
-                <p>STV</p>
-              </a>
+              <Link to="/bloodbank">
+                <p>Blood Bank</p>
+              </Link>
+              <Link to="/egibility">
+                <p>Health Check</p>
+              </Link>
+              <Link to="/events">
+                <p>New Campaign</p>
+              </Link>
             </div>
+
             <div className="sb_footer-links-div">
-              <h4>Patners</h4>
-              <a href="/">
+              <h4>Partners</h4>
+              <a href="https://nrcs.org/" target="_blank">
                 <p>Red Cross</p>
               </a>
             </div>
+
             <div className="sb_footer-links-div">
               <h4>Company</h4>
-              <a href="/">
+              <Link to="/about">
                 <p>About</p>
-              </a>
-              <a href="/">
-                <p>Press</p>
-              </a>
-              <a href="/">
-                <p>Q&A</p>
-              </a>
-              <a href="/">
+              </Link>
+              <Link to="/blog">
+                <p>Blogs</p>
+              </Link>
+              <Link to="/contact">
                 <p>Contact</p>
-              </a>
+              </Link>
             </div>
+
             <div className="sb_footer-links-div">
               <h4>Follow us</h4>
               <div className="socialmedia">
-                <a href="https://www.facebook.com/BDHNepal/" target="_blank"><p><FaFacebook style={{fontSize:"1.6rem"}}/></p></a>
-                <a href="https://x.com/givebloodnhs?lang=en" target="_blank"><p><FaTwitter style={{fontSize:"1.6rem"}}/></p></a>
-                <a href="https://www.instagram.com/givebloodnhs/?hl=en" target="_blank"><p><FaInstagram style={{fontSize:"1.6rem"}}/></p></a>
-                <a href="https://chat.whatsapp.com/EPbdI3vGVLrIlsRxlsjpfY" target="_blank"><p><FaWhatsapp style={{fontSize:"1.6rem"}}/></p></a>
+                <a
+                  href="https://www.facebook.com/BDHNepal/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaFacebook style={{ fontSize: "1.6rem" }} />
+                </a>
+                <a
+                  href="https://x.com/givebloodnhs?lang=en"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaTwitter style={{ fontSize: "1.6rem" }} />
+                </a>
+                <a
+                  href="https://www.instagram.com/givebloodnhs/?hl=en"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaInstagram style={{ fontSize: "1.6rem" }} />
+                </a>
+                <a
+                  href="https://chat.whatsapp.com/EPbdI3vGVLrIlsRxlsjpfY"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaWhatsapp style={{ fontSize: "1.6rem" }} />
+                </a>
               </div>
             </div>
           </div>
-          <hr/>
+
+          <hr />
+
           <div className="sb_footer-below">
             <div className="sb_footer-copyright">
               <p>
-                @{new Date().getFullYear()} Blood Portal. All right reserved
+                © {new Date().getFullYear()} Blood Portal. All rights reserved.
               </p>
             </div>
             <div className="sb_footer-below-links">
-              <a href="/"><div><p>Terms & COnditions</p></div></a>
-              <a href="/"><div><p>Privacy</p></div></a>
-              <a href="/"><div><p>Security</p></div></a>
-              <a href="/"><div><p>Cookie Declaration</p></div></a>
+              <Link to="/termscondition">
+                <p>Terms & Conditions</p>
+              </Link>
+             
+              <Link to="/security">
+                <p>Security</p>
+              </Link>
+              <Link to="/">
+                <p>Cookie Declaration</p>
+              </Link>
             </div>
           </div>
-          </div>
-          </div>
-          
+
+          <footer className="foot">
+            <div className="footercontent">
+            <img
+            className="footer-logo"
+            src="blood.png"
+            alt="Blood-Bridge Logo"
+            style={{ height: "40px" }}
+          />
+            </div>
+          </footer>
+        </div>
+      </div>
     </>
   );
 }

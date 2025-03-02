@@ -73,6 +73,16 @@ export default function BloodDonationForm() {
                   className="form-control mb-3"
                   required
                 />
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Password"
+                  className="form-control mb-3"
+                  required
+                />
+
 
                 <input
                   type="date"

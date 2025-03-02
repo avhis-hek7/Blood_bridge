@@ -1,7 +1,6 @@
 
-/* Footer */
 .footer {
-    background-color: #37474F; /* Dark red */
+    background-color: #37474F; 
     color: #ffffff;
     padding: 40px 20px;
     font-family: "Arial", sans-serif;
@@ -39,7 +38,7 @@
   }
   
   .sb_footer-links-div a:hover {
-    color: #FF5252; /* Gold on hover */
+    color: #FF5252; 
   }
   
   .socialmedia {
@@ -126,6 +125,27 @@
       gap: 10px;
     }
   }
+
+  .foot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    padding: 20px;
+    position: relative;
+    width: 100%;
+  }
   
+  .footercontent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
   
+  .footer-logo {
+    height: 80px; 
+    margin-top: 10px; 
+  }
   
