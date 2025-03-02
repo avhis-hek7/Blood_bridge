@@ -20,6 +20,7 @@ import BloodBank from "./Component/BloodBank";
 import Egibility from "./Component/Egibility";
 import Terms  from "./Component/Terms";
 import Security from "./Component/Security";
+import Profile from "./Component/Profile";
 
 
 
@@ -39,6 +40,7 @@ function App() {
           <Route path="/egibility" element={<Egibility />} />
           <Route path="/termscondition" element={<Terms/>} />
           <Route path="/security" element={<Security/>} />
+          <Route path="/profile" element={<Profile/>} />
           
         </Routes>
         <Footer/>

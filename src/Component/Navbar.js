@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaTint, FaHospital } from "react-icons/fa";
+import { FaTint, FaHospital, FaUser } from "react-icons/fa";
 
 function Navbar() {
   let location = useLocation();
@@ -83,6 +83,14 @@ function Navbar() {
           </ul>
           
           <form className="d-flex" role="search">
+          <Link
+              className="btn btn-outline-light rounded-pill me-3 bg-secondary"
+              type="submit"
+              to="/profile"
+            >
+              Profile
+              <FaUser className="pb-1" style={{ color: "#c20f33" }} />
+            </Link>
             <Link
               className="btn btn-outline-light me-2 pe-1 rounded-pill btndonate bg-secondary"
               type="submit"
@@ -99,6 +107,7 @@ function Navbar() {
               Blood Bank
               <FaHospital className="pb-1" style={{ color: "#c20f33" }} />
             </Link>
+            
           </form>
         </div>
       </div>
