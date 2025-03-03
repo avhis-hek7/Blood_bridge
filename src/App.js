@@ -21,6 +21,7 @@ import Egibility from "./Component/Egibility";
 import Terms  from "./Component/Terms";
 import Security from "./Component/Security";
 import Profile from "./Component/Profile";
+import Cookie from "./Component/Cookie";
 
 
 
@@ -41,7 +42,7 @@ function App() {
           <Route path="/termscondition" element={<Terms/>} />
           <Route path="/security" element={<Security/>} />
           <Route path="/profile" element={<Profile/>} />
-          
+          <Route path="/cookie" element={<Cookie/>} />
         </Routes>
         <Footer/>
       </div>

@@ -83,7 +83,6 @@ export default function BloodDonationForm() {
                   required
                 />
 
-
                 <input
                   type="date"
                   name="dob"

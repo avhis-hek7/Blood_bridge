@@ -102,7 +102,7 @@ export default function Footer() {
               <Link to="/security">
                 <p>Security</p>
               </Link>
-              <Link to="/">
+              <Link to="/cookie">
                 <p>Cookie Declaration</p>
               </Link>
             </div>
