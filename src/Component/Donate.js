@@ -1,17 +1,21 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function BloodDonationForm() {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
-    password: "", 
+    password: "",
     dob: "",
     gender: "",
     bloodGroup: "",
     address: "",
     terms: false,
   });
+  const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -21,17 +25,24 @@ export default function BloodDonationForm() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Form submitted!" + JSON.stringify(formData, null, 2));
+    try {
+      const response = await axios.post("http://localhost:5000/api/auth", formData);
+      alert(response.data.message);
+      // setSubmitted(true);
+      navigate("/");// Redirect after 1 second
+    } catch (error) {
+      alert(error.response?.data?.message || "An error occurred while submitting the form");
+    }
   };
+
 
   return (
     <div className="d-flex flex-column min-vh-100 mt-4">
       <div className="flex-grow-1 d-flex align-items-center justify-content-center">
         <div className="container">
           <div className="row">
-            {/* Left Section with Logo */}
             <div className="col-lg-6 col-md-12 d-flex flex-column align-items-center justify-content-center mb-4 mb-lg-0">
               <img
                 src="logo1.jpg"
@@ -41,7 +52,6 @@ export default function BloodDonationForm() {
               />
             </div>
 
-            {/* Right Section with Form */}
             <div className="col-lg-6 col-md-12">
               <form onSubmit={handleSubmit} className="p-4 shadow-sm rounded bg-white mb-2">
                 <h2>Please Send Us Your Details</h2>
@@ -55,7 +65,6 @@ export default function BloodDonationForm() {
                   className="form-control mb-3"
                   required
                 />
-
                 <input
                   type="text"
                   name="phone"
@@ -65,7 +74,6 @@ export default function BloodDonationForm() {
                   className="form-control mb-3"
                   required
                 />
-
                 <input
                   type="email"
                   name="email"
@@ -75,7 +83,6 @@ export default function BloodDonationForm() {
                   className="form-control mb-3"
                   required
                 />
-
                 <input
                   type="password"
                   name="password"
@@ -85,7 +92,6 @@ export default function BloodDonationForm() {
                   className="form-control mb-3"
                   required
                 />
-
                 <input
                   type="date"
                   name="dob"

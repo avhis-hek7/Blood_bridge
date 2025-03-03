@@ -25,7 +25,7 @@ const UserSchema = new Schema({
         required: true,
         trim: true, // Removes spaces before and after the password
         minlength: 6, // Ensures a minimum length for security
-        select: false, // Prevents password from being returned in queries
+        select: true, // Prevents password from being returned in queries
       },
       dob: {
         type: Date,
@@ -46,6 +46,11 @@ const UserSchema = new Schema({
         required: true,
         trim: true,
       },
+      terms: {
+        type: Boolean,
+        required: true,
+        default: false
+      }
   }
 );
 

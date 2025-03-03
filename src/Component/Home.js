@@ -1,6 +1,6 @@
-import React, { useState, useRef } from "react";
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const stats = [
   { id: "count1", target: 50, label: "Total Donors Registered" },
@@ -13,10 +13,7 @@ const Counter = ({ target, isVisible }) => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (!isVisible) {
-      setCount(0);
-      return;
-    }
+    if (!isVisible) return; // Prevent resetting
     let countValue = 0;
     let speed = target / 100;
     const interval = setInterval(() => {
@@ -32,32 +29,49 @@ const Counter = ({ target, isVisible }) => {
 
   return <span className="highlight">{count}</span>;
 };
+
 export default function Home() {
   const [showLogin, setShowLogin] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const statsRef = useRef(null);
+  // eslint-disable-next-line
+  const navigate = useNavigate();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      (entries) => {
-        setIsVisible(entries[0].isIntersecting);
-      },
+      (entries) => setIsVisible(entries[0].isIntersecting),
       { threshold: 0.5 }
     );
-    if (statsRef.current) {
-      observer.observe(statsRef.current);
-    }
-    return () => {
-      if (statsRef.current) {
-        // eslint-disable-next-line
-        observer.unobserve(statsRef.current);
-      }
-    };
+    if (statsRef.current) observer.observe(statsRef.current);
+    return () => observer.disconnect();
   }, []);
 
-  const handleLoginToggle = () => {
-    setShowLogin(!showLogin);
+  const handleLoginToggle = () => setShowLogin(!showLogin);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        {
+          email,
+          password,
+        }
+      );
+
+      if (response.data.authToken) {
+        localStorage.setItem("authToken", response.data.authToken);
+        alert("Login successful!");
+        setShowLogin(false);
+        // navigate("/dashboard");
+      }
+    } catch (error) {
+      alert(error.response?.data?.error || "Login failed");
+    }
   };
+
   return (
     <>
       {/* Dark Overlay when login is open */}
@@ -65,22 +79,39 @@ export default function Home() {
 
       {/* Login Form */}
       {showLogin && (
-        <div className="login-form">
-          <h2>Login</h2>
-          <input type="text" placeholder="Username" className="input-field" />
-          <input
-            type="password"
-            placeholder="Password"
-            className="input-field"
-          />
-          <button className="btn btn-danger me-5" onClick={handleLoginToggle}>
-            Submit
-          </button>
-          <button className="btn btn-secondary" onClick={handleLoginToggle}>
-            Close
-          </button>
+        <div className="login-form" onClick={(e) => e.stopPropagation()}>
+          <form onSubmit={handleLogin}>
+            <h2>Login</h2>
+            <input
+              type="email"
+              placeholder="Email"
+              className="input-field"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              className="input-field"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <button type="submit" className="btn btn-danger me-2">
+              Submit
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={handleLoginToggle}
+            >
+              Close
+            </button>
+          </form>
         </div>
       )}
+
       {/*Caraousel*/}
       <div>
         <div
@@ -403,7 +434,9 @@ export default function Home() {
           {stats.map((stat) => (
             <div key={stat.id} className="col-md-4 col-sm-6 mb-4">
               <div className="stat-card p-4 shadow rounded">
-                <h3 className="stat-value"><Counter target={stat.target} isVisible={isVisible} /></h3>
+                <h3 className="stat-value">
+                  <Counter target={stat.target} isVisible={isVisible} />
+                </h3>
                 <p className="stat-label">{stat.label}</p>
               </div>
             </div>
