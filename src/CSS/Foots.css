@@ -64,6 +64,39 @@
     padding-left: 20px;
   }
 
+  .cookie-popup {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    z-index: 1000;
+  }
   
+  .cookie-buttons {
+    margin-top: 10px;
+  }
+  
+  .accept-btn, .reject-btn {
+    padding: 8px 12px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .accept-btn {
+    background: #4caf50;
+    color: white;
+  }
+  
+  .reject-btn {
+    background: #f44336;
+    color: white;
+  }
  
   
