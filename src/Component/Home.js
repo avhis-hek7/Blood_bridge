@@ -13,7 +13,7 @@ const Counter = ({ target, isVisible }) => {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (!isVisible) return; // Prevent resetting
+    if (!isVisible) return;
     let countValue = 0;
     let speed = target / 100;
     const interval = setInterval(() => {
@@ -32,11 +32,12 @@ const Counter = ({ target, isVisible }) => {
 
 export default function Home() {
   const [showLogin, setShowLogin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const statsRef = useRef(null);
-  // eslint-disable-next-line
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,23 +50,29 @@ export default function Home() {
   }, []);
 
   const handleLoginToggle = () => setShowLogin(!showLogin);
+  const toggleAdminLogin = () => setIsAdmin(!isAdmin);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        {
-          email,
-          password,
-        }
-      );
+      const loginData = isAdmin
+        ? { username, password} // UPDATED: Send both username and password for admin login
+        : { email, password };
 
+        const response = await axios.post(
+          `http://localhost:5000/api/auth/${isAdmin ? "admin-login" : "login"}`,
+          loginData
+        );
       if (response.data.authToken) {
         localStorage.setItem("authToken", response.data.authToken);
+        localStorage.setItem("isAdmin", isAdmin.toString());
         alert("Login successful!");
         setShowLogin(false);
-        // navigate("/dashboard");
+        if (isAdmin) {
+          navigate("/admin/dashboard"); // Redirect to admin dashboard
+        } else {
+          navigate("/events"); // Redirect to events page
+        }
       }
     } catch (error) {
       alert(error.response?.data?.error || "Login failed");
@@ -74,30 +81,51 @@ export default function Home() {
 
   return (
     <>
-      {/* Dark Overlay when login is open */}
       {showLogin && <div className="overlay" onClick={handleLoginToggle}></div>}
 
-      {/* Login Form */}
       {showLogin && (
         <div className="login-form" onClick={(e) => e.stopPropagation()}>
           <form onSubmit={handleLogin}>
-            <h2>Login</h2>
-            <input
-              type="email"
-              placeholder="Email"
-              className="input-field"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              className="input-field"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <h2>{isAdmin ? "Admin Login" : "User Login"}</h2>
+            {isAdmin ? (
+              <>
+                <input
+                  type="text"
+                  placeholder="Username"
+                  className="input-field"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="input-field"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </>
+            ) : (
+              <>
+                <input
+                  type="email"
+                  placeholder="Email"
+                  className="input-field"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className="input-field"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </>
+            )}
             <button type="submit" className="btn btn-danger me-2">
               Submit
             </button>
@@ -108,6 +136,15 @@ export default function Home() {
             >
               Close
             </button>
+            <p className="mt-2">
+              <button
+                type="button"
+                className="btn btn-link"
+                onClick={toggleAdminLogin}
+              >
+                {isAdmin ? "Login as User" : "Login as Admin"}
+              </button>
+            </p>
           </form>
         </div>
       )}

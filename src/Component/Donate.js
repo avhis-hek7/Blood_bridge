@@ -14,6 +14,7 @@ export default function BloodDonationForm() {
     address: "",
     terms: false,
   });
+  // eslint-disable-next-line
   const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
 

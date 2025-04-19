@@ -2,9 +2,11 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const User = require("../models/user");
+const Admin = require("../models/admin");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const fetchuser = require("../middleware/fetchuser");
+const fetchadmin = require("../middleware/fetchadmin");
 const JWT_SECRET = "Susanisagood$";
 
 // Create a User using: Post "/api/auth". Doesn't require Auth
@@ -140,6 +142,148 @@ router.post(
     }
   }
 );
+
+// Create Admin Route - Only superadmin can create new admins
+router.post(
+  "/create-admin",
+  fetchadmin,
+  [
+    body("username").notEmpty().withMessage("Username is required"),
+    body("email").isEmail().withMessage("Please enter a valid email"),
+    body("password")
+      .isLength({ min: 6 })
+      .withMessage("Password must be at least 6 characters long"),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    try {
+      // Check if the requesting admin is a superadmin
+      const requestingAdmin = await Admin.findById(req.admin.id);
+      if (!requestingAdmin || requestingAdmin.role !== "superadmin") {
+        return res.status(403).json({ error: "Only superadmin can create new admins" });
+      }
+
+      const { username, email, password } = req.body;
+
+      // Check if admin with same username or email exists
+      const existingAdmin = await Admin.findOne({
+        $or: [{ username }, { email }],
+      });
+
+      if (existingAdmin) {
+        return res.status(400).json({
+          error: "Admin with this username or email already exists",
+        });
+      }
+
+      // Hash the password
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      // Create new admin
+      const admin = new Admin({
+        username,
+        email,
+        password: hashedPassword,
+        role: "admin", // Default role is admin
+      });
+
+      await admin.save();
+
+      res.status(201).json({
+        success: true,
+        message: "Admin created successfully",
+        admin: {
+          id: admin.id,
+          username: admin.username,
+          email: admin.email,
+          role: admin.role,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+);
+
+// Admin Login Route
+router.post(
+  "/admin-login",
+  [
+    body("username").notEmpty().withMessage("Username is required"),
+    body("password").exists().withMessage("Password cannot be empty"),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { username, password } = req.body;
+
+    try {
+      // Find admin by username
+      const admin = await Admin.findOne({ username });
+      if (!admin) {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+
+      // Compare password
+      const isPasswordValid = await bcrypt.compare(password, admin.password);
+      if (!isPasswordValid) {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+
+      // Create JWT payload
+      const payload = {
+        admin: {
+          id: admin.id,
+          role: admin.role
+        }
+      };
+
+      // Generate token
+      const authToken = jwt.sign(payload, JWT_SECRET, {
+        expiresIn: "24h"
+      });
+
+      res.json({
+        success: true,
+        authToken,
+        admin: {
+          id: admin.id,
+          username: admin.username,
+          email: admin.email,
+          role: admin.role
+        }
+      });
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+);
+
+// Get Admin Profile - Protected Route
+router.get("/getadmin", fetchadmin, async (req, res) => {
+  try {
+    const admin = await Admin.findById(req.admin.id).select("-password");
+    if (!admin) {
+      return res.status(404).json({ error: "Admin not found" });
+    }
+    res.json(admin);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 //Route:3 Get loggedin User Details using: POST "/api/auth/getuser". Login required
 router.post("/getuser", fetchuser, async (req, res) => {
   try {
@@ -150,7 +294,5 @@ router.post("/getuser", fetchuser, async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-
-
 
 module.exports = router;
