@@ -36,6 +36,7 @@ function App() {
 
 function PageWrapper({ setProgress }) {
   const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
 
   useEffect(() => {
     setProgress(30);
@@ -45,7 +46,7 @@ function PageWrapper({ setProgress }) {
 
   return (
     <div className="background1">
-      <Navbar />
+      {!isAdminRoute && <Navbar />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -57,7 +58,7 @@ function PageWrapper({ setProgress }) {
         <Route path="/events" element={<Events />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Routes>
-      <Footer />
+      {!isAdminRoute && <Footer />}
     </div>
   );
 }

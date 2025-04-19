@@ -295,4 +295,63 @@ router.post("/getuser", fetchuser, async (req, res) => {
   }
 });
 
+// Get all users - Requires auth
+router.get("/users", fetchadmin, async (req, res) => {
+  try {
+    const users = await User.find().select("-password");
+    res.json(users);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Get single user - Requires auth
+router.get("/user/:id", fetchadmin, async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select("-password");
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Update user - Requires auth
+router.put("/user/:id", fetchadmin, async (req, res) => {
+  try {
+    const { name, phone, email, address } = req.body;
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      { name, phone, email, address },
+      { new: true }
+    ).select("-password");
+    
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json(updatedUser);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Delete user - Requires auth
+router.delete("/user/:id", fetchadmin, async (req, res) => {
+  try {
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    if (!deletedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json({ message: "User deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 module.exports = router;

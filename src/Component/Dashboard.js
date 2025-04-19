@@ -1,7 +1,7 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
-import { FaTachometerAlt, FaUsers, FaCog, FaBars } from "react-icons/fa";
-// import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from "react-router-dom";
+import { FaTachometerAlt, FaUsers, FaCog, FaBars, FaEdit, FaTrash } from "react-icons/fa";
+import axios from "axios";
 
 function Sidebar() {
   return (
@@ -30,60 +30,265 @@ function Sidebar() {
 }
 
 function Dashboard() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [editingUser, setEditingUser] = useState(null);
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    address: ''
+  });
+
+  // Get auth token
+  const getAuthToken = () => localStorage.getItem('authToken');
+
+  // Create axios instance with auth header
+  const api = axios.create({
+    baseURL: 'http://localhost:5000/api/auth',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+
+  // Add auth token to every request
+  api.interceptors.request.use(
+    (config) => {
+      const token = getAuthToken();
+      if (token) {
+        config.headers['auth-token'] = token;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  // Handle unauthorized responses
+  api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response?.status === 401) {
+        // Redirect to login if unauthorized
+        navigate('/admin-login');
+      }
+      return Promise.reject(error);
+    }
+  );
+
+  useEffect(() => {
+    const token = getAuthToken();
+    if (!token) {
+      navigate('/admin-login');
+      return;
+    }
+    fetchUsers();
+  }, [navigate]);
+
+  // Fetch all users
+  const fetchUsers = async () => {
+    try {
+      setLoading(true);
+      const response = await api.get('/users');
+      setUsers(response.data);
+      setError(null);
+    } catch (err) {
+      if (err.response?.status === 401) {
+        setError('Please login to access this page');
+      } else {
+        setError('Failed to fetch users: ' + (err.response?.data?.error || err.message));
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  // Update user
+  const handleUpdateUser = async (e) => {
+    e.preventDefault();
+    if (!editingUser) return;
+
+    try {
+      const response = await api.put(`/user/${editingUser._id}`, formData);
+      setUsers(users.map(user => 
+        user._id === editingUser._id ? {
+          _id: response.data._id,
+          name: response.data.name,
+          phone: response.data.phone,
+          email: response.data.email,
+          address: response.data.address
+        } : user
+      ));
+      setEditingUser(null);
+      setFormData({
+        name: '',
+        phone: '',
+        email: '',
+        address: ''
+      });
+      setError(null);
+    } catch (err) {
+      setError('Failed to update user: ' + (err.response?.data?.error || err.message));
+    }
+  };
+
+  // Delete user
+  const handleDeleteUser = async (userId) => {
+    if (!window.confirm('Are you sure you want to delete this user?')) return;
+
+    try {
+      await api.delete(`/user/${userId}`);
+      setUsers(users.filter(user => user._id !== userId));
+      setError(null);
+    } catch (err) {
+      setError('Failed to delete user: ' + (err.response?.data?.error || err.message));
+    }
+  };
+
+  // Set up user for editing
+  const startEditing = (user) => {
+    setEditingUser(user);
+    setFormData({
+      name: user.name,
+      phone: user.phone,
+      email: user.email,
+      address: user.address
+    });
+  };
+
+  if (loading) return <div className="p-4 w-100"><h3>Loading...</h3></div>;
+
   return (
     <div className="p-4 w-100">
-      <h2>Dashboard</h2>
-      <div className="row">
-        <div className="col-md-3">
-          <div className="card p-3 bg-primary text-white">
-            <h4>Users</h4>
-            <p>26K (-1.2%)</p>
+      <h2>User Management</h2>
+      
+      {error && <div className="alert alert-danger">{error}</div>}
+
+      {/* Edit User Form */}
+      {editingUser && (
+        <div className="card mb-4">
+          <div className="card-body">
+            <h4>Edit User</h4>
+            <form onSubmit={handleUpdateUser}>
+              <div className="row">
+                <div className="col-md-3 mb-3">
+                  <input
+                    type="text"
+                    name="name"
+                    className="form-control"
+                    placeholder="Name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="col-md-3 mb-3">
+                  <input
+                    type="tel"
+                    name="phone"
+                    className="form-control"
+                    placeholder="Phone (10 digits)"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    pattern="9[0-9]{9}"
+                    required
+                  />
+                </div>
+                <div className="col-md-3 mb-3">
+                  <input
+                    type="email"
+                    name="email"
+                    className="form-control"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+                <div className="col-md-3 mb-3">
+                  <input
+                    type="text"
+                    name="address"
+                    className="form-control"
+                    placeholder="Address"
+                    value={formData.address}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
+              </div>
+              <button type="submit" className="btn btn-primary me-2">
+                Update User
+              </button>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => {
+                  setEditingUser(null);
+                  setFormData({
+                    name: '',
+                    phone: '',
+                    email: '',
+                    address: ''
+                  });
+                }}
+              >
+                Cancel
+              </button>
+            </form>
           </div>
         </div>
-        <div className="col-md-3">
-          <div className="card p-3 bg-success text-white">
-            <h4>Income</h4>
-            <p>$6,200 (40.9%)</p>
-          </div>
-        </div>
-        <div className="col-md-3">
-          <div className="card p-3 bg-warning text-white">
-            <h4>Conversion Rate</h4>
-            <p>2.49% (84.7%)</p>
-          </div>
-        </div>
-        <div className="col-md-3">
-          <div className="card p-3 bg-danger text-white">
-            <h4>Sessions</h4>
-            <p>44K (-23.6%)</p>
-          </div>
-        </div>
+      )}
+
+      {/* Users Table */}
+      <div className="table-responsive">
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>Email</th>
+              <th>Address</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map(user => (
+              <tr key={user._id}>
+                <td>{user.name}</td>
+                <td>{user.phone}</td>
+                <td>{user.email}</td>
+                <td>{user.address}</td>
+                <td>
+                  <button
+                    className="btn btn-sm btn-info me-2"
+                    onClick={() => startEditing(user)}
+                  >
+                    <FaEdit /> Edit
+                  </button>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => handleDeleteUser(user._id)}
+                  >
+                    <FaTrash /> Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-      <h4 className="mt-4">Traffic & Sales</h4>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>User</th>
-            <th>Country</th>
-            <th>Usage</th>
-            <th>Activity</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Yorgos Avram</td>
-            <td>USA</td>
-            <td>50%</td>
-            <td>10 sec ago</td>
-          </tr>
-          <tr>
-            <td>Avram Tasarios</td>
-            <td>Brazil</td>
-            <td>10%</td>
-            <td>5 min ago</td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   );
 }
