@@ -1,92 +1,51 @@
-import React from "react";
+import React, { useState } from 'react';
 
 const BloodBank = () => {
-  // Sample blood bank data (can be replaced with API data later)
-  const bloodBanks = [
-    {
-      name: "Red Cross Blood Bank",
-      address: "123 Main Street, Kathmandu",
-      landmark: "Near City Hospital",
-      city: "Kathmandu",
-      email: "redcross@bloodbank.com",
-      mobile: "+977-9812345678",
-      image: "logo1.jpg"
-    },
-    {
-      name: "LifeCare Blood Bank",
-      address: "45 New Road, Pokhara",
-      landmark: "Opposite Pokhara Mall",
-      city: "Pokhara",
-      email: "lifecare@bloodbank.com",
-      mobile: "+977-9801234567",
-      image: "logo1.jpg"
-    },
-    {
-      name: "Health First Blood Bank",
-      address: "78 Lakeside, Chitwan",
-      landmark: "Near Bharatpur Hospital",
-      city: "Chitwan",
-      email: "healthfirst@bloodbank.com",
-      mobile: "+977-9823456789",
-      image: "logo1.jpg"
-    },
-        {
-      name: "Health First Blood Bank",
-      address: "78 Lakeside, Chitwan",
-      landmark: "Near Bharatpur Hospital",
-      city: "Chitwan",
-      email: "healthfirst@bloodbank.com",
-      mobile: "+977-9823456789",
-      image: "logo1.jpg"
-    },
-        {
-      name: "Health First Blood Bank",
-      address: "78 Lakeside, Chitwan",
-      landmark: "Near Bharatpur Hospital",
-      city: "Chitwan",
-      email: "healthfirst@bloodbank.com",
-      mobile: "+977-9823456789",
-      image: "logo1.jpg"
-    },
-        {
-      name: "Health First Blood Bank",
-      address: "78 Lakeside, Chitwan",
-      landmark: "Near Bharatpur Hospital",
-      city: "Chitwan",
-      email: "healthfirst@bloodbank.com",
-      mobile: "+977-9823456789",
-      image: "logo1.jpg"
-    },
-  ];
+    const [bloodBanks, setBloodBanks] = useState([]);
+    const [error, setError] = useState('');
 
-  return (
-    <div className="container mt-4">
-      <h2 className="text-center mb-4">Blood Bank Information</h2>
-      <div className="row">
-        {bloodBanks.map((bank, index) => (
-          <div className="col-md-6 mb-3" key={index}>
-            <div className="card mb-3" style={{ maxWidth: "540px" }}>
-              <div className="row g-0">
-                <div className="col-md-4">
-                  <img src={bank.image} className="img-fluid rounded-start" alt={bank.name} />
-                </div>
-                <div className="col-md-8">
-                  <div className="card-body">
-                    <h5 className="card-title">{bank.name}</h5>
-                    <p className="card-text"><strong>Address:</strong> {bank.address}</p>
-                    <p className="card-text"><strong>Landmark:</strong> {bank.landmark}</p>
-                    <p className="card-text"><strong>City:</strong> {bank.city}</p>
-                    <p className="card-text"><strong>Email:</strong> {bank.email}</p>
-                    <p className="card-text"><strong>Mobile:</strong> {bank.mobile}</p>
-                  </div>
-                </div>
-              </div>
+    const fetchBloodBanks = async (lat, lng) => {
+      const apiKey = '2cc22390140a40cead3a2799f4fd9fce';
+      try {
+          const response = await fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=5000&type=hospital&keyword=blood+bank&key=${apiKey}`);
+          
+          if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          
+          const data = await response.json();
+          setBloodBanks(data.results);
+      } catch (err) {
+          console.error(err);
+          setError('Failed to fetch blood banks. Please check the console for more details.');
+      }
+  };
+    const getLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                fetchBloodBanks(lat, lng);
+            }, () => {
+                setError('Unable to retrieve your location.');
+            });
+        } else {
+            setError('Geolocation is not supported by this browser.');
+        }
+    };
+
+    return (
+        <div>
+            <h1>Find Nearest Blood Bank</h1>
+            <button onClick={getLocation}>Get My Location</button>
+            {error && <p>{error}</p>}
+            <div id='results'>
+                {bloodBanks.map((bank, index) => (
+                    <div key={index}>{bank.name}</div>
+                ))}
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default BloodBank;

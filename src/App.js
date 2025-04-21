@@ -7,6 +7,7 @@ import "./CSS/Blog.css";
 import "./CSS/Donate.css";
 import "./CSS/Events.css";
 import "./CSS/Foots.css";
+import "./CSS/Pelegibilty.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./Component/Home";
 import About from "./Component/About";
@@ -21,6 +22,7 @@ import Egibility from "./Component/Egibility";
 import Terms  from "./Component/Terms";
 import Security from "./Component/Security";
 import Profile from "./Component/Profile";
+import Participantselegibility from "./Component/Participantselegibility";
 
 
 
@@ -43,8 +45,8 @@ function App() {
           <Route path="/termscondition" element={<Terms/>} />
           <Route path="/security" element={<Security/>} />
           <Route path="/profile" element={<Profile/>} />
-     
-
+          <Route path="/Participantselegibility" element={<Participantselegibility/>} />
+         
         </Routes>
         <Footer/>
       </div>

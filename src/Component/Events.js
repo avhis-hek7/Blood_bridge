@@ -148,9 +148,9 @@ function Events() {
             </div>
           </div>
           <div className="cta">
-            <a href="#register" className="btn-register">
-              Register Now
-            </a>
+            <Link to="/Participantselegibility" className="btn-register">
+              Participants
+            </Link>
           </div>
         </section>
 
