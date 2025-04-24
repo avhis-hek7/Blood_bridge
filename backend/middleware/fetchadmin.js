@@ -11,7 +11,7 @@ const fetchadmin = (req, res, next) => {
 
   try {
     // Verify the token
-    const data = jwt.verify(token, JWT_SECRET);
+    const data = jwt.verify(token, JWT_SECRET); 
 
     // Attach the decoded user (admin) information to the request object
     req.admin = data;
@@ -23,3 +23,4 @@ const fetchadmin = (req, res, next) => {
   }
 };
 module.exports = fetchadmin;
+ 

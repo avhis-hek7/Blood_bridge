@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { FaUsers, FaTint, FaHospital, FaCalendarCheck, FaEdit, FaTrash, FaTachometerAlt, FaClipboardList, FaCog, FaSignOutAlt, FaFirstAid } from 'react-icons/fa';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 function AdminSidebar() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
@@ -15,48 +16,73 @@ function AdminSidebar() {
 
   return (
     <nav className="d-flex flex-column p-3 bg-dark text-white vh-100" style={{ width: "250px", position: "fixed" }}>
-      <h3 className="text-center mb-4">Admin Panel</h3>
-      <hr />
-      <ul className="nav flex-column mb-auto">
-        <li className="nav-item mb-2">
-          <Link to="/admin" className="nav-link text-white d-flex align-items-center">
-            <FaTachometerAlt className="me-2" /> Dashboard
-          </Link>
-        </li>
-        <li className="nav-item mb-2">
-          <Link to="/admin/users" className="nav-link text-white d-flex align-items-center">
-            <FaUsers className="me-2" /> Users
-          </Link>
-        </li>
-        <li className="nav-item mb-2">
-          <Link to="/admin/donors" className="nav-link text-white d-flex align-items-center">
-            <FaFirstAid className="me-2" /> SuperUsers
-          </Link>
-        </li>
-        <li className="nav-item mb-2">
-          <Link to="/admin/hospitals" className="nav-link text-white d-flex align-items-center">
-            <FaHospital className="me-2" /> Hospitals
-          </Link>
-        </li>
-        <li className="nav-item mb-2">
-          <Link to="/admin/requests" className="nav-link text-white d-flex align-items-center">
-            <FaClipboardList className="me-2" /> Requests
-          </Link>
-        </li>
-        <li className="nav-item mb-2">
-          <Link to="/admin/settings" className="nav-link text-white d-flex align-items-center">
-            <FaCog className="me-2" /> Settings
-          </Link>
-        </li>
-      </ul>
-      <hr />
-      <button 
-        onClick={handleLogout}
-        className="btn btn-outline-light d-flex align-items-center justify-content-center w-100"
-      >
-        <FaSignOutAlt className="me-2" /> Logout
-      </button>
-    </nav>
+    <h3 className="text-center mb-4">Admin Panel</h3>
+    <hr />
+    <ul className="nav flex-column mb-auto">
+      <li className="nav-item mb-2">
+        <button
+          onClick={() => navigate('/admin/dashboard')}
+          className={`btn w-100 text-start d-flex align-items-center ${location.pathname === '/admin/dashboard' ? 'bg-primary text-white' : 'btn-dark text-white'}`}
+          style={{ border: 'none' }}
+        >
+          <FaTachometerAlt className="me-2" /> Dashboard
+        </button>
+      </li>
+      <li className="nav-item mb-2">
+        <button
+          onClick={() => navigate('/admin/users')}
+          className={`btn w-100 text-start d-flex align-items-center ${location.pathname === '/admin/users' ? 'bg-primary text-white' : 'btn-dark text-white'}`}
+          style={{ border: 'none' }}
+        >
+          <FaUsers className="me-2" /> Users
+        </button>
+      </li>
+      <li className="nav-item mb-2">
+        <button
+          onClick={() => navigate('/admin/events')}
+          className={`btn w-100 text-start d-flex align-items-center ${location.pathname === '/admin/events' ? 'bg-primary text-white' : 'btn-dark text-white'}`}
+          style={{ border: 'none' }}
+        >
+          <FaFirstAid className="me-2" /> Add Events
+        </button>
+      </li>
+      <li className="nav-item mb-2">
+        <button
+          onClick={() => navigate('/admin/hospitals')}
+          className={`btn w-100 text-start d-flex align-items-center ${location.pathname === '/admin/hospitals' ? 'bg-primary text-white' : 'btn-dark text-white'}`}
+          style={{ border: 'none' }}
+        >
+          <FaHospital className="me-2" /> Bloodbanks
+        </button>
+      </li>
+      <li className="nav-item mb-2">
+        <button
+          onClick={() => navigate('/admin/requests')}
+          className={`btn w-100 text-start d-flex align-items-center ${location.pathname === '/admin/requests' ? 'bg-primary text-white' : 'btn-dark text-white'}`}
+          style={{ border: 'none' }}
+        >
+          <FaClipboardList className="me-2" /> Notifications
+        </button>
+      </li>
+      <li className="nav-item mb-2">
+        <button
+          onClick={() => navigate('/admin/settings')}
+          className={`btn w-100 text-start d-flex align-items-center ${location.pathname === '/admin/settings' ? 'bg-primary text-white' : 'btn-dark text-white'}`}
+          style={{ border: 'none' }}
+        >
+          <FaCog className="me-2" /> Settings
+        </button>
+      </li>
+    </ul>
+    <hr />
+    <button 
+      onClick={handleLogout}
+      className="btn btn-outline-light d-flex align-items-center justify-content-center w-100"
+    >
+      <FaSignOutAlt className="me-2" /> Logout
+    </button>
+  </nav>
+  
   );
 }
 
@@ -135,23 +161,30 @@ function AdminDashboard() {
     fetchUsers();
     fetchDashboardData();
   }, [navigate]);
-// eslint-disable-next-line
-  const fetchUsers = async () => {
-    try {
-      setLoading(true);
-      const response = await api.get('/users');
-      setUsers(response.data);
-      setError(null);
-    } catch (err) {
-      if (err.response?.status === 401) {
-        setError('Please login to access this page');
-      } else {
-        setError('Failed to fetch users: ' + (err.response?.data?.error || err.message));
-      }
-    } finally {
-      setLoading(false);
+  // eslint-disable-next-line
+const fetchUsers = async () => {
+  try {
+    setLoading(true);
+    const response = await api.get('/users');
+    const fetchedUsers = response.data.users || response.data;
+
+    if (Array.isArray(fetchedUsers)) {
+      setUsers(fetchedUsers);
+      setError(null); // Clear error only if data is valid
+    } else {
+      throw new Error('Invalid user data format received');
     }
-  };
+  } catch (err) {
+    if (err.response?.status === 401) {
+      setError('Please login to access this page');
+    } else {
+      setError('Failed to fetch users: ' + (err.response?.data?.error || err.message));
+    }
+  } finally {
+    setLoading(false);
+  }
+};
+
 // eslint-disable-next-line
   const fetchDashboardData = async () => {
     try {

@@ -163,8 +163,8 @@ router.post(
     try {
       // Check if the requesting admin is a superadmin
       const requestingAdmin = await Admin.findById(req.admin.id);
-      if (!requestingAdmin || requestingAdmin.role !== "superadmin") {
-        return res.status(403).json({ error: "Only superadmin can create new admins" });
+      if (!requestingAdmin || requestingAdmin.role !== "admin") {
+        return res.status(403).json({ error: "Only admin can create new admins" });
       }
 
       const { username, email, password } = req.body;
@@ -249,7 +249,7 @@ router.post(
 
       // Generate token
       const authToken = jwt.sign(payload, JWT_SECRET, {
-        expiresIn: "24h"
+        expiresIn: "7d"
       });
 
       res.json({
