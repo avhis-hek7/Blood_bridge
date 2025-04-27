@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const stats = [
   { id: "count1", target: 50, label: "Total Donors Registered" },
@@ -34,12 +35,19 @@ const Counter = ({ target, isVisible }) => {
 
 export default function Home() {
   const [showLogin, setShowLogin] = useState(false);
-  const statsRef = useRef(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const statsRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleLoginToggle = () => {
     setShowLogin(!showLogin);
   };
+
+  const toggleAdminLogin = () => setIsAdmin(!isAdmin);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,23 +65,182 @@ export default function Home() {
     };
   }, []);
 
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const loginData = isAdmin
+        ? { username, password }
+        : { email, password };
+
+      const response = await axios.post(
+        `http://localhost:5000/api/auth/${isAdmin ? "admin-login" : "login"}`,
+        loginData
+      );
+      if (response.data.authToken) {
+        localStorage.setItem("authToken", response.data.authToken);
+        localStorage.setItem("isAdmin", isAdmin.toString());
+        alert("Login successful!");
+        setShowLogin(false);
+        if (isAdmin) {
+          navigate("/admin/dashboard");
+        } else {
+          navigate("/events");
+        }
+      }
+    } catch (error) {
+      alert(error.response?.data?.error || "Login failed");
+    }
+  };
+
   return (
     <>
       {showLogin && <div className="overlay" onClick={handleLoginToggle}></div>}
 
       {showLogin && (
-        <div className="login-form">
-          <h2>Login</h2>
-          <input type="text" placeholder="Username" className="input-field" />
-          <input type="password" placeholder="Password" className="input-field" />
-          <button className="btn btn-danger me-5" onClick={handleLoginToggle}>
-            Submit
-          </button>
-          <button className="btn btn-secondary" onClick={handleLoginToggle}>
-            Close
-          </button>
-        </div>
+  <div 
+    className="login-form" 
+    onClick={(e) => e.stopPropagation()}
+    style={{
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      backgroundColor: isAdmin ? '#f8d7da' : '#d1ecf1', // Different background for admin/user
+      padding: '2rem',
+      borderRadius: '8px',
+      boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+      zIndex: 1000,
+      width: '350px',
+      border: isAdmin ? '2px solid #dc3545' : '2px solid #17a2b8' // Different border colors
+    }}
+  >
+    <form onSubmit={handleLogin}>
+      <h2 style={{
+        color: isAdmin ? '#dc3545' : '#17a2b8',
+        marginBottom: '1.5rem',
+        textAlign: 'center'
+      }}>
+        {isAdmin ? "Admin Login" : "User Login"}
+      </h2>
+      {isAdmin ? (
+        <>
+          <input
+            type="text"
+            placeholder="Username"
+            className="input-field"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            style={{
+              width: '100%',
+              padding: '0.5rem',
+              marginBottom: '1rem',
+              borderRadius: '4px',
+              border: '1px solid #dc3545'
+            }}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="input-field"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            style={{
+              width: '100%',
+              padding: '0.5rem',
+              marginBottom: '1rem',
+              borderRadius: '4px',
+              border: '1px solid #dc3545'
+            }}
+          />
+        </>
+      ) : (
+        <>
+          <input
+            type="email"
+            placeholder="Email"
+            className="input-field"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            style={{
+              width: '100%',
+              padding: '0.5rem',
+              marginBottom: '1rem',
+              borderRadius: '4px',
+              border: '1px solid #17a2b8'
+            }}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            className="input-field"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            style={{
+              width: '100%',
+              padding: '0.5rem',
+              marginBottom: '1rem',
+              borderRadius: '4px',
+              border: '1px solid #17a2b8'
+            }}
+          />
+        </>
       )}
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1rem' }}>
+        <button
+          type="submit"
+          style={{
+            backgroundColor: isAdmin ? '#dc3545' : '#17a2b8',
+            color: 'white',
+            padding: '0.5rem 1rem',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            flex: 1,
+            marginRight: '0.5rem'
+          }}
+        >
+          Submit
+        </button>
+        <button
+          type="button"
+          onClick={handleLoginToggle}
+          style={{
+            backgroundColor: '#6c757d',
+            color: 'white',
+            padding: '0.5rem 1rem',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            flex: 1,
+            marginLeft: '0.5rem'
+          }}
+        >
+          Close
+        </button>
+      </div>
+      <p style={{ textAlign: 'center', marginTop: '1rem' }}>
+        <button
+          type="button"
+          onClick={toggleAdminLogin}
+          style={{
+            background: 'none',
+            border: 'none',
+            color: isAdmin ? '#17a2b8' : '#dc3545',
+            textDecoration: 'underline',
+            cursor: 'pointer',
+            fontSize: '0.9rem'
+          }}
+        >
+          {isAdmin ? "Login as User" : "Login as Admin"}
+        </button>
+      </p>
+    </form>
+  </div>
+)}
 
       {/* Carousel Section */}
       <div id="carouselExampleCaptions" className="carousel slide" data-bs-ride="carousel">
@@ -136,30 +303,30 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {/* Controls */}
-          <button
-            className="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExampleCaptions"
-            data-bs-slide="prev"
-          >
-            <span className="carousel-control-prev-icon" aria-hidden="true" />
-            <span className="visually-hidden">Previous</span>
-          </button>
-          <button
-            className="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExampleCaptions"
-            data-bs-slide="next"
-          >
-            <span className="carousel-control-next-icon" aria-hidden="true" />
-            <span className="visually-hidden">Next</span>
-          </button>
         </div>
+        {/* Controls */}
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleCaptions"
+          data-bs-slide="prev"
+        >
+          <span className="carousel-control-prev-icon" aria-hidden="true" />
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleCaptions"
+          data-bs-slide="next"
+        >
+          <span className="carousel-control-next-icon" aria-hidden="true" />
+          <span className="visually-hidden">Next</span>
+        </button>
       </div>
 
       {/* How it works */}
-      <div className="container  py-5">
+      <div className="container py-5">
         <div className="row align-items-center">
           {/* Text Section */}
           <div className="col-lg-6 text-center text-lg-start mt-4 mt-lg-0">
@@ -167,10 +334,10 @@ export default function Home() {
               How Does this website work!
             </h2>
             <p className="mt-3 fs-3 text-lg-danger text-sm-dark">
-              Here’s a step-by-step guide for signing in to a blood donation
+              Here's a step-by-step guide for signing in to a blood donation
               portal:
             </p>
-            <p className="mt-3 ">
+            <p className="mt-3">
               <ul className="list-disc mt-4 fs-4 text-left px-10">
                 <li>Sign up and create a donor profile.</li>
                 <li>Find nearby donation centers or recipients in need.</li>
@@ -182,31 +349,24 @@ export default function Home() {
           {/* Image Section */}
           <div className="col-lg-6 d-flex flex-column gap-4">
             <div
-              className="position-relative w-100 "
+              className="position-relative w-100"
               style={{ maxWidth: "32rem" }}
             >
-              <div
-                className="position-relative w-100 "
-                style={{ maxWidth: "32rem" }}
-              >
-                <img
-                  src="https://rumsan.nyc3.cdn.digitaloceanspaces.com/hamro-lifebank/website/images/whyhlb_image.png"
-                  alt="blood"
-                  className="img-fluid rounded shadow-lg"
-                />
-              </div>
+              <img
+                src="https://rumsan.nyc3.cdn.digitaloceanspaces.com/hamro-lifebank/website/images/whyhlb_image.png"
+                alt="blood"
+                className="img-fluid rounded shadow-lg"
+              />
             </div>
           </div>
         </div>
       </div>
 
-      {/*SERVICES */}
+      {/* SERVICES */}
       <div>
         <h3 className="text-center fs-1 fw-bolder">SERVICES</h3>
         <div className="container my-4">
           <div className="row g-3">
-            {" "}
-            {/* g-3 adds space between columns */}
             <div className="col-md-6">
               <div className="card hcard">
                 <div className="row g-0">
@@ -267,8 +427,6 @@ export default function Home() {
         </div>
         <div className="container my-4">
           <div className="row g-3">
-            {" "}
-            {/* g-3 adds space between columns */}
             <div className="col-md-6">
               <div className="card hcard">
                 <div className="row g-0">
@@ -311,8 +469,8 @@ export default function Home() {
                       <h5 className="card-title">Blood Donation</h5>
                       <p className="card-text">
                         Donation of blood is a selfless service that we do for
-                        mankind! We allow you to save alife by donating blood to
-                        the ones who nedd it.
+                        mankind! We allow you to save a life by donating blood to
+                        the ones who need it.
                       </p>
                       <div>
                         <button type="button" className="btn btn-danger">
@@ -333,7 +491,7 @@ export default function Home() {
         <h2 className="py-2">Making a Difference, One Drop at a Time</h2>
         <div className="row">
           {stats.map((stat) => (
-            <div key={stat.id} className="col-md-4 col-sm-6 mb-4">
+            <div key={stat.id} className="col-md-3 col-sm-6 mb-4">
               <div className="stat-card p-4 shadow rounded">
                 <h3 className="stat-value">
                   <Counter target={stat.target} isVisible={isVisible} />
