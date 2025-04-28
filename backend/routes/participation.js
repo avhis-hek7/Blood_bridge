@@ -36,4 +36,51 @@ router.get('/', fetchParticipations, (req, res) => {
   res.status(200).json({ success: true, data: req.participations });
 });
 
+console.log('📦 Participation routes file loaded');
+
+
+
+router.post('/check-participants', fetchParticipations, async (req, res) => {
+  console.log('📬 POST /check route hit');
+
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      console.log('⚠️ Email missing in request body');
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    const emailToCheck = email.trim().toLowerCase();
+    console.log('🔍 Checking participation for:', emailToCheck);
+
+    console.log('📦 All participations:', req.participations);
+
+    const participant = req.participations.find(p => {
+      const participantEmail = p.user?.email?.trim().toLowerCase();
+      console.log('👤 Checking participant:', participantEmail);
+      return participantEmail === emailToCheck;
+    });
+
+    if (participant) {
+      console.log('✅ Participation match found:', participant);
+
+      res.json({
+        hasParticipated: true,
+        event: participant.event,
+        participatedAt: participant.participatedAt, // optional if you want
+        user: participant.user // sending user details too
+      });
+    } else {
+      res.json({ hasParticipated: false });
+    }
+
+  } catch (err) {
+    console.error('❌ Error in participation check:', err.message);
+    res.status(500).send('Server Error');
+  }
+});
+
+
+
 module.exports = router;

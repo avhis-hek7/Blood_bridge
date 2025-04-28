@@ -3,7 +3,7 @@ const Participation = require('../models/participation');
 
 const fetchParticipations = async (req, res, next) => {
   try {
-    const participations = await Participation.find();
+    const participations = await Participation.find().lean();
     req.participations = participations;
     next();
   } catch (err) {

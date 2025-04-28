@@ -9,10 +9,12 @@ import {
 } from "react-router-dom";
 import AdminDashboard from './Component/AdminDashboard';
 import AddEvent from './Component/AddEvent';
+import UserManagement from './Component/UserManagement'; 
 import { useState, useEffect } from "react";
 import LoadingBar from "react-top-loading-bar";
 import Home from "./Component/Home";
 import Events from "./Component/Events";
+import Profile from './Component/Profile';
 import About from "./Component/About";
 import Navbar from "./Component/Navbar";
 import Donate from "./Component/Donate";
@@ -58,12 +60,12 @@ function PageWrapper({ setProgress }) {
         <Route path="/blog" element={<Blog />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/events" element={<Events />} />
-
+        <Route path="/profile" element={<Profile />} />
         {/* Admin Routes */}
         <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        {/* <Route path="/admin/events" element={<AdminDashboard />} /> */}
         <Route path="/admin/events" element={<AddEvent />} />
+        <Route path="/admin/users" element={<UserManagement />} />
         <Route path="/admin/users" element={<AdminDashboard />} />
         <Route path="/admin/donors" element={<AdminDashboard />} />
         <Route path="/admin/hospitals" element={<AdminDashboard />} />
