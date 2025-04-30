@@ -50,11 +50,11 @@ const AdminSidebar = () => {
         </li>
         <li className="nav-item mb-2">
           <button
-            onClick={() => navigate('/admin/hospitals')}
-            className={`btn w-100 text-start d-flex align-items-center ${location.pathname === '/admin/hospitals' ? 'bg-primary text-white' : 'btn-dark text-white'}`}
+            onClick={() => navigate('/admin/bloodbank')}
+            className={`btn w-100 text-start d-flex align-items-center ${location.pathname === '/admin/bloodbank' ? 'bg-primary text-white' : 'btn-dark text-white'}`}
             style={{ border: 'none' }}
           >
-            <FaHospital className="me-2" /> Bloodbanks
+            <FaHospital className="me-2" /> BloodBanks
           </button>
         </li>
         <li className="nav-item mb-2">

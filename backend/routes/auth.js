@@ -354,4 +354,37 @@ router.delete("/user/:id", fetchadmin, async (req, res) => {
   }
 });
 
+// Get the count of all users - Requires auth
+router.get("/users/count", fetchadmin, async (req, res) => {
+  try {
+    const userCount = await User.countDocuments(); // Counts the number of users in the collection
+    res.json({ count: userCount });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+router.get('/bloodgroup', async (req, res) => {
+  try {
+    const users = await User.find({}, 'bloodGroup'); // Only fetch bloodGroup field
+    const distribution = {};
+
+    users.forEach(user => {
+      const group = user.bloodGroup || 'Unknown';
+      distribution[group] = (distribution[group] || 0) + 1;
+    });
+
+    // Format as array for charts
+    const result = Object.entries(distribution).map(([bloodGroup, count]) => ({
+      bloodGroup,
+      count,
+    }));
+
+    res.json(result);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 module.exports = router;

@@ -11,8 +11,10 @@
     "bootstrap": "^5.3.3",
     "cors": "^2.8.5",
     "cra-template": "1.2.0",
+    "framer": "^2.4.1",
     "install": "^0.13.0",
     "lucide-react": "^0.476.0",
+    "motion": "^12.9.2",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^19.0.0",
@@ -29,7 +31,6 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "both": "concurrently \"npm run start\" \"nodemon backend/index.js\""
-    
   },
   "eslintConfig": {
     "extends": [

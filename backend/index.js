@@ -4,7 +4,7 @@ const connectToMongo = require('./database');
 const userRoutes = require('./routes/auth');
 const eventRoutes = require('./routes/authevent');
 const participationRoutes = require('./routes/participation'); // ✅ New file
-
+const bloodbankRoutes = require("./routes/authbank");
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -21,6 +21,7 @@ connectToMongo();
 app.use('/api/auth', userRoutes);          
 app.use('/api/authevent', eventRoutes);    
 app.use('/api/participation', participationRoutes);  // ✅ Separate prefix
+app.use("/api/bloodbank", bloodbankRoutes);
 
 // Health check
 app.get('/', (req, res) => {

@@ -11,6 +11,15 @@
 .fade-in {
   animation: fadeIn 0.5s ease-in;
 }
+/* Fade out animation */
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; transform: translateY(10px); }
+}
+
+.event-disappear {
+  animation: fadeOut 1s forwards;
+}
 
 /* Slide in from left animation */
 @keyframes slideInLeft {

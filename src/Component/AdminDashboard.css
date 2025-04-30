@@ -1,0 +1,41 @@
+.card:hover {
+    transform: translateY(-5px);
+    transition: transform 0.3s ease-in-out;
+  }
+/* AdminDashboard.css */
+
+/* Total User Card Animation */
+.card-body h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: countUp 2s forwards;
+  }
+  
+  @keyframes countUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+      content: '0';
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Bar chart animation for smooth growth */
+  .recharts-bar-rect-curve {
+    transition: transform 1s ease-out;
+  }
+  
+  .recharts-bar-rect-curve.recharts-bar-rect-active {
+    transform: scaleY(1);
+  }
+  
+  /* Bar chart container */
+  .recharts-wrapper {
+    margin-top: 20px;
+  }
+  

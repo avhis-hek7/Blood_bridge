@@ -39,41 +39,64 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Get Single Event (GET /api/authevent/:id)
+// GET /events/summary
+router.get('/events/summary', async (req, res) => {
+  try {
+    const events = await Event.find({}, 'date'); // only fetch the `date` field
+    const count = events.length;
+    const eventDates = events.map(event => event.date);
+
+    res.json({
+      count,
+      eventDates,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+router.get('/events-by-month', async (req, res) => {
+  try {
+    const result = await Event.aggregate([
+      {
+        $group: {
+          _id: {
+            year: { $year: '$date' },
+            month: { $month: '$date' }
+          },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $sort: {
+          '_id.year': 1,
+          '_id.month': 1
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          month: {
+            $concat: [
+              { $toString: '$_id.month' },
+              '/',
+              { $toString: '$_id.year' }
+            ]
+          },
+          count: 1
+        }
+      }
+    ]);
+
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 router.get('/:id', getEvent, (req, res) => {
   res.json(req.event);
 });
-// router.post('/participation', async (req, res) => {
-//   try {
-//     const { user, event } = req.body;
-
-//     if (!user || !event) {
-//       return res.status(400).json({ error: 'User and event info required.' });
-//     }
-
-//     const participation = new Participation({
-//       user: {
-//         name: user.name,
-//         email: user.email,
-//       },
-//       event: {
-//         title: event.title,
-//         description: event.description,
-//         date: event.date,
-//         location: event.location,
-//         organizer: event.organizer,
-//       },
-//     });
-
-//     await participation.save();
-//     res.status(201).json({ success: true, message: 'Participation saved.' });
-//   } catch (err) {
-//     console.error('Error saving participation:', err.message);
-//     res.status(500).json({ error: 'Server error while saving participation.' });
-//   }
-// });
-
-
-
 module.exports = router;
 

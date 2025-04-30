@@ -22,6 +22,7 @@ import Footer from "./Component/Footer";
 import Contact from "./Component/Contact";
 import Blog from "./Component/Blog";
 import BloodBank from "./Component/BloodBank";
+import AdminBloodBank from "./Component/AdminBloodBank";
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -66,9 +67,7 @@ function PageWrapper({ setProgress }) {
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/events" element={<AddEvent />} />
         <Route path="/admin/users" element={<UserManagement />} />
-        <Route path="/admin/users" element={<AdminDashboard />} />
-        <Route path="/admin/donors" element={<AdminDashboard />} />
-        <Route path="/admin/hospitals" element={<AdminDashboard />} />
+        <Route path="/admin/bloodbank" element={<AdminBloodBank />} />
         <Route path="/admin/requests" element={<AdminDashboard />} />
         <Route path="/admin/settings" element={<AdminDashboard />} />
 

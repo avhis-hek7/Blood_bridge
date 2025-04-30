@@ -1,0 +1,165 @@
+.adminPage {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: row;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background-color: #111;
+    color: white;
+    flex-shrink: 0;
+  }
+  
+  .adminContainer {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    text-align: center;
+    color: #c0392b;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.6s ease-in-out;
+  }
+  
+  .form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 2rem;
+    animation: slideIn 0.6s ease-in-out;
+  }
+  
+  .input {
+    flex: 1 1 48%;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: border-color 0.3s;
+  }
+  
+  .input:focus {
+    border-color: #c0392b;
+    outline: none;
+  }
+  
+  .btn {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #c0392b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .btn:hover {
+    background-color: #e74c3c;
+  }
+  
+  .bankList {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .bankItem {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    position: relative;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 0.5s ease-in-out;
+  }
+  
+  .bankItem h3 {
+    margin: 0 0 0.5rem 0;
+    color: #2c3e50;
+  }
+  
+  .bankItem p,
+  .bankItem a {
+    margin: 0.3rem 0;
+    color: #555;
+  }
+  
+  .deleteBtn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .deleteBtn:hover {
+    background-color: #c0392b;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideIn {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive Layout */
+  @media (max-width: 768px) {
+    .adminPage {
+      flex-direction: column;
+    }
+  
+    .sidebar {
+      width: 100%;
+    }
+  
+    .adminContainer {
+      padding: 1rem;
+    }
+  
+    .form {
+      flex-direction: column;
+    }
+  
+    .input {
+      flex: 1 1 100%;
+    }
+  }
+  
