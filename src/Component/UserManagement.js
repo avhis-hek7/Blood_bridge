@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import AdminSidebar from './AdminSidebar';
-import AdminTimeout from './AdminTimeout'; // Import AdminTimeout
+import AdminTimeout from './AdminTimeout';
 
 function UserManagement() {
   const [users, setUsers] = useState([]);
@@ -11,6 +11,7 @@ function UserManagement() {
   const [formData, setFormData] = useState({ name: '', phone: '', email: '', address: '' });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
   const getAuthToken = () => localStorage.getItem('authToken');
@@ -95,16 +96,38 @@ function UserManagement() {
     setFormData({ name: user.name, phone: user.phone, email: user.email, address: user.address });
   };
 
+  // Filtered and grouped users
+  const groupedUsers = users
+    .filter(user => user.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    .reduce((groups, user) => {
+      const group = user.bloodGroup || 'Unknown';
+      if (!groups[group]) groups[group] = [];
+      groups[group].push(user);
+      return groups;
+    }, {});
+
   if (loading) return <div className="d-flex"><AdminSidebar /><div className="p-4">Loading...</div></div>;
 
   return (
     <div className="d-flex">
       <AdminSidebar />
       <div className="flex-grow-1 p-4" style={{ marginLeft: "250px" }}>
-        <AdminTimeout /> {/* Add AdminTimeout component here */}
+        <AdminTimeout />
         <h2>User Management</h2>
         {error && <div className="alert alert-danger">{error}</div>}
 
+        {/* Search Input */}
+        <div className="mb-4">
+          <input
+            type="text"
+            placeholder="Search by name..."
+            className="form-control w-50"
+            value={searchTerm}
+            onChange={e => setSearchTerm(e.target.value)}
+          />
+        </div>
+
+        {/* Edit Form */}
         {editingUser && (
           <form onSubmit={handleUpdateUser} className="mb-4">
             <div className="row">
@@ -126,39 +149,43 @@ function UserManagement() {
           </form>
         )}
 
-        <div className="table-responsive">
-          <table className="table table-striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Phone</th>
-                <th>Email</th>
-                <th>Address</th>
-                <th>Blood Group</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map(user => (
-                <tr key={user._id}>
-                  <td>{user.name}</td>
-                  <td>{user.phone}</td>
-                  <td>{user.email}</td>
-                  <td>{user.address}</td>
-                  <td>{user.bloodGroup}</td>
-                  <td>
-                    <button className="btn btn-sm btn-info me-2" onClick={() => startEditing(user)}>
-                      <FaEdit /> Edit
-                    </button>
-                    <button className="btn btn-sm btn-danger" onClick={() => handleDeleteUser(user._id)}>
-                      <FaTrash /> Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        {/* Render User Tables by Blood Group */}
+        {Object.entries(groupedUsers).map(([bloodGroup, groupUsers]) => (
+          <div key={bloodGroup} className="mb-5">
+            <h4 className="mt-4 mb-3">{bloodGroup} Blood Group</h4>
+            <div className="table-responsive">
+              <table className="table table-bordered table-striped">
+                <thead className="table-dark">
+                  <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {groupUsers.map(user => (
+                    <tr key={user._id}>
+                      <td>{user.name}</td>
+                      <td>{user.phone}</td>
+                      <td>{user.email}</td>
+                      <td>{user.address}</td>
+                      <td>
+                        <button className="btn btn-sm btn-info me-2" onClick={() => startEditing(user)}>
+                          <FaEdit /> Edit
+                        </button>
+                        <button className="btn btn-sm btn-danger" onClick={() => handleDeleteUser(user._id)}>
+                          <FaTrash /> Delete
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

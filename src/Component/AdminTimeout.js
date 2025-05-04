@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const AdminTimeout = ({ timeout = 15* 60 * 1000 }) => { // Default timeout: 15 minutes
+const AdminTimeout = ({ timeout = 10* 60 * 1000 }) => { // Default timeout: 15 minutes
   const navigate = useNavigate();
   const timerRef = useRef(null);
   const [sessionExpired, setSessionExpired] = useState(false);

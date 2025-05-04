@@ -114,6 +114,9 @@
 .background1 {
   background-image: linear-gradient(to left, #b8a6d6, #e0e0e0);
 }
+.background2{
+  background-color: lab(100% 0.01 -0.01);
+}
 
 .hcard {
   background-color: #f8deded2;

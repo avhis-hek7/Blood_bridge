@@ -49,5 +49,17 @@ router.post("/count", async (req, res) => {
       res.status(500).json({ error: "Failed to count blood banks" });
     }
   });
+
+// GET /api/bloodbank/count - Returns total number of blood banks
+router.get("/count", async (req, res) => {
+  try {
+    const count = await BloodBank.countDocuments(); // counts all blood banks
+    res.json({ count });
+  } catch (err) {
+    console.error("Failed to count blood banks:", err);
+    res.status(500).json({ error: "Failed to count blood banks" });
+  }
+});
+
   
 module.exports = router;

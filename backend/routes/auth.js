@@ -7,7 +7,126 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const fetchuser = require("../middleware/fetchuser");
 const fetchadmin = require("../middleware/fetchadmin");
+const verifyEmailDomain = require("../utils/emailVerifier");
 const JWT_SECRET = "Susanisagood$";
+
+// Verify email domain
+router.post("/verify-email", async (req, res) => {
+  try {
+    const { email } = req.body;
+    
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
+
+    const result = await verifyEmailDomain(email);
+    res.json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// In your auth route file create-superadmin
+router.post("/create-superadmin", async (req, res) => {
+  const { username, email, password } = req.body;
+
+  try {
+    let admin = await Admin.findOne({ $or: [{ email }, { username }] });
+    if (admin) {
+      return res.status(400).json({ error: "Superadmin already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    admin = new Admin({
+      username,
+      email,
+      password: hashedPassword,
+      role: "superadmin",
+    });
+
+    await admin.save();
+    res.status(201).json({ message: "Superadmin created successfully" });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+// superAdmin Login
+router.post(
+  "/superadmin-login",
+  [
+    body("username").notEmpty().withMessage("Username is required"),
+    body("password").exists().withMessage("Password cannot be empty"),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { username, password } = req.body;
+
+    try {
+      // Find admin by username
+      const admin = await Admin.findOne({ username });
+
+      if (!admin || admin.role !== "superadmin") {
+        return res.status(403).json({ error: "Access denied: Not a superadmin" });
+      }
+
+      // Check password
+      const isPasswordValid = await bcrypt.compare(password, admin.password);
+      if (!isPasswordValid) {
+        return res.status(401).json({ error: "Invalid credentials" });
+      }
+
+      // Create JWT payload
+      const payload = {
+        admin: {
+          id: admin.id,
+          role: admin.role
+        }
+      };
+
+      const authToken = jwt.sign(payload, JWT_SECRET, {
+        expiresIn: "30d"
+      });
+
+      res.json({
+        success: true,
+        authToken,
+        admin: {
+          id: admin.id,
+          username: admin.username,
+          email: admin.email,
+          role: admin.role
+        }
+      });
+
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+);
+
+router.get("/get-superadmin", fetchadmin, async (req, res) => {
+  try {
+    if (req.admin.role !== "superadmin") {
+      return res.status(403).json({ error: "Access denied. Not a superadmin." });
+    }
+
+    // Optionally fetch full admin data from DB
+    const admin = await Admin.findById(req.admin.id).select("-password");
+
+    res.json({ superadmin: admin });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 // Create a User using: Post "/api/auth". Doesn't require Auth
 router.post(
@@ -134,8 +253,12 @@ router.post(
 
       // Generate token without expiration
       const authToken = jwt.sign(payload, JWT_SECRET);
-
-      res.json({ authToken, message: "Login successful" });
+      res.json({
+        authToken,
+        userId: user._id, // ✅ Send the _id to frontend
+        message: "Login successful"
+      });
+      
     } catch (error) {
       console.error("Error in login route:", error);
       res.status(500).json({ error: "Internal server error" });
@@ -249,7 +372,7 @@ router.post(
 
       // Generate token
       const authToken = jwt.sign(payload, JWT_SECRET, {
-        expiresIn: "7d"
+        expiresIn: "30d"
       });
 
       res.json({

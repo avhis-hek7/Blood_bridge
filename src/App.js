@@ -23,6 +23,8 @@ import Contact from "./Component/Contact";
 import Blog from "./Component/Blog";
 import BloodBank from "./Component/BloodBank";
 import AdminBloodBank from "./Component/AdminBloodBank";
+import AdminNotification from "./Component/AdminNotification"
+import Notification from './Component/Notification'
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -50,8 +52,10 @@ function PageWrapper({ setProgress }) {
   }, [location, setProgress]);
 
   return (
-    <div className="background1">
+    <div className={isAdminRoute ? "background2" : "background1"}>
+      {/* Navbar should only be shown for public routes */}
       {!isAdminRoute && <Navbar />}
+  
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
@@ -62,21 +66,26 @@ function PageWrapper({ setProgress }) {
         <Route path="/contact" element={<Contact />} />
         <Route path="/events" element={<Events />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/notifications" element={<Notification />} />
+  
         {/* Admin Routes */}
         <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/admin/events" element={<AddEvent />} />
         <Route path="/admin/users" element={<UserManagement />} />
         <Route path="/admin/bloodbank" element={<AdminBloodBank />} />
-        <Route path="/admin/requests" element={<AdminDashboard />} />
+        <Route path="/admin/notification" element={<AdminNotification />} />
         <Route path="/admin/settings" element={<AdminDashboard />} />
-
+  
         {/* Catch all route - redirect to home */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+  
+      {/* Footer should only be shown for public routes */}
       {!isAdminRoute && <Footer />}
     </div>
   );
+  
 }
 
 export default App;

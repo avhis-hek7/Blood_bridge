@@ -1,6 +1,9 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { auth, provider } from '../firebase';
+import { signInWithPopup } from 'firebase/auth';
 
 export default function BloodDonationForm() {
   const [formData, setFormData] = useState({
@@ -15,6 +18,7 @@ export default function BloodDonationForm() {
     terms: false,
   });
 
+  const [emailStatus, setEmailStatus] = useState(null);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -23,16 +27,51 @@ export default function BloodDonationForm() {
       ...prevData,
       [name]: type === "checkbox" ? checked : value,
     }));
+
+    if (name === "email" && value) {
+      verifyEmail(value);
+    }
+  };
+
+  const verifyEmail = async (email) => {
+    try {
+      const response = await axios.post("http://localhost:5000/api/auth/verify-email", { email });
+      setEmailStatus(response.data);
+    } catch (error) {
+      setEmailStatus({
+        exists: false,
+        message: "Error verifying email"
+      });
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      setFormData((prevData) => ({
+        ...prevData,
+        email: user.email || "",
+      }));
+
+      verifyEmail(user.email);
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
+      alert("Failed to authenticate with Google. Please try again.");
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const response = await axios.post("http://localhost:5000/api/auth", formData);
       alert(response.data.message);
       navigate("/");
     } catch (error) {
-      alert(error.response?.data?.message || "An error occurred while submitting the form");
+      console.error("Submission Error:", error);
+      alert(error.response?.data?.message || "An error occurred");
     }
   };
 
@@ -50,6 +89,14 @@ export default function BloodDonationForm() {
             <div className="col-lg-6 col-md-12">
               <form onSubmit={handleSubmit} className="p-4 shadow-sm rounded bg-white mb-2">
                 <h2>Please Send Us Your Details</h2>
+
+                <button
+                  type="button"
+                  className="btn btn-outline-danger w-100 mb-3"
+                  onClick={handleGoogleSignIn}
+                >
+                  Sign in with Google
+                </button>
 
                 <input
                   type="text"
@@ -71,20 +118,27 @@ export default function BloodDonationForm() {
                   required
                 />
 
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="form-control mb-3"
-                  required
-                />
+                <div>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className={`form-control mb-1 ${emailStatus && (emailStatus.exists ? 'is-valid' : 'is-invalid')}`}
+                    required
+                  />
+                  {emailStatus && (
+                    <div className={`small ${emailStatus.exists ? 'text-success' : 'text-danger'}`}>
+                      {emailStatus.message}
+                    </div>
+                  )}
+                </div>
 
                 <input
                   type="password"
                   name="password"
-                  placeholder="Password"
+                  placeholder="Create Password"
                   value={formData.password}
                   onChange={handleChange}
                   className="form-control mb-3"
@@ -157,7 +211,11 @@ export default function BloodDonationForm() {
                   </label>
                 </div>
 
-                <button type="submit" className="btn btn-danger w-100 mb-2">
+                <button 
+                  type="submit" 
+                  className="btn btn-danger w-100 mb-2"
+                  disabled={emailStatus && !emailStatus.exists}
+                >
                   Submit
                 </button>
               </form>

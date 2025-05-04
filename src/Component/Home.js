@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -33,6 +34,7 @@ const Counter = ({ target, isVisible }) => {
 export default function Home() {
   const [showLogin, setShowLogin] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isSuperadmin, setIsSuperadmin] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -49,29 +51,55 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
-  const handleLoginToggle = () => setShowLogin(!showLogin);
-  const toggleAdminLogin = () => setIsAdmin(!isAdmin);
+  const handleLoginToggle = () => {
+    setShowLogin(!showLogin);
+    setIsSuperadmin(false); // Reset superadmin state when toggling login
+  };
+
+  const toggleAdminLogin = () => {
+    setIsAdmin(!isAdmin);
+    setIsSuperadmin(false); // Reset superadmin state when switching between user/admin
+  };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const loginData = isAdmin
-        ? { username, password} // UPDATED: Send both username and password for admin login
-        : { email, password };
+      const loginData = isAdmin ? { username, password } : { email, password };
 
-        const response = await axios.post(
-          `http://localhost:5000/api/auth/${isAdmin ? "admin-login" : "login"}`,
-          loginData
-        );
+      const endpoint = isAdmin
+        ? isSuperadmin
+          ? "superadmin-login"
+          : "admin-login"
+        : "login";
+
+      const response = await axios.post(
+        `http://localhost:5000/api/auth/${endpoint}`,
+        loginData
+      );
+
       if (response.data.authToken) {
         localStorage.setItem("authToken", response.data.authToken);
         localStorage.setItem("isAdmin", isAdmin.toString());
+        localStorage.setItem("isSuperadmin", isSuperadmin.toString());
+
+        if (response.data.userId) {
+          localStorage.setItem("userId", response.data.userId);
+        }
+
+        if (response.data.admin) {
+          localStorage.setItem(
+            "adminData",
+            JSON.stringify(response.data.admin)
+          );
+        }
+
         alert("Login successful!");
         setShowLogin(false);
+
         if (isAdmin) {
-          navigate("/admin/dashboard"); // Redirect to admin dashboard
+          navigate("/admin/dashboard");
         } else {
-          navigate("/events"); // Redirect to events page
+          navigate("/events");
         }
       }
     } catch (error) {
@@ -82,16 +110,23 @@ export default function Home() {
   return (
     <>
       {showLogin && <div className="overlay" onClick={handleLoginToggle}></div>}
-
       {showLogin && (
         <div className="login-form" onClick={(e) => e.stopPropagation()}>
           <form onSubmit={handleLogin}>
-            <h2>{isAdmin ? "Admin Login" : "User Login"}</h2>
+            <h2>
+              {isAdmin
+                ? isSuperadmin
+                  ? "Superadmin Login"
+                  : "Admin Login"
+                : "User Login"}
+            </h2>
             {isAdmin ? (
               <>
                 <input
                   type="text"
-                  placeholder="Username"
+                  placeholder={
+                    isSuperadmin ? "Superadmin Username" : "Admin Username"
+                  }
                   className="input-field"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
@@ -105,6 +140,22 @@ export default function Home() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
+                <div className="form-check mb-3" style={{ textAlign: "left" }}>
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    id="superadminCheck"
+                    checked={isSuperadmin}
+                    onChange={() => setIsSuperadmin(!isSuperadmin)}
+                  />
+                  <label
+                    className="form-check-label"
+                    htmlFor="superadminCheck"
+                    style={{ marginLeft: "5px" }}
+                  >
+                    Login as SuperAdmin
+                  </label>
+                </div>
               </>
             ) : (
               <>
@@ -149,7 +200,7 @@ export default function Home() {
         </div>
       )}
 
-      {/*Caraousel*/}
+      {/* Caraousel */}
       <div>
         <div
           id="carouselExampleCaptions"
@@ -304,7 +355,7 @@ export default function Home() {
               How Does this website work!
             </h2>
             <p className="mt-3 fs-3 text-lg-danger text-sm-dark">
-              Here’s a step-by-step guide for signing in to a blood donation
+              Here's a step-by-step guide for signing in to a blood donation
               portal:
             </p>
             <p className="mt-3 ">

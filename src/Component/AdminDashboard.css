@@ -1,41 +1,37 @@
-.card:hover {
-    transform: translateY(-5px);
-    transition: transform 0.3s ease-in-out;
-  }
-/* AdminDashboard.css */
+.pie-chart-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+.event-bar-chart-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+}
 
-/* Total User Card Animation */
-.card-body h2 {
-    font-size: 2rem;
-    font-weight: bold;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: countUp 2s forwards;
-  }
-  
-  @keyframes countUp {
-    0% {
-      opacity: 0;
-      transform: translateY(20px);
-      content: '0';
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  /* Bar chart animation for smooth growth */
-  .recharts-bar-rect-curve {
-    transition: transform 1s ease-out;
-  }
-  
-  .recharts-bar-rect-curve.recharts-bar-rect-active {
-    transform: scaleY(1);
-  }
-  
-  /* Bar chart container */
-  .recharts-wrapper {
-    margin-top: 20px;
-  }
-  
+
+/* Card styling */
+.card {
+  background-color: white;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Button styling (optional: match red theme) */
+.btn-danger {
+  background-color: #d33a2c;
+  border-color: #d33a2c;
+}
+
+.btn-danger:hover {
+  background-color: #b12d23;
+  border-color: #a1281f;
+}

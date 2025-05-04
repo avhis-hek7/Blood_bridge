@@ -1,15 +1,15 @@
 // routes/participation.js
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Participation = require('../models/participation');
-const fetchParticipations = require('../middleware/fetchparticipation');
+const Participation = require("../models/participation");
+const fetchParticipations = require("../middleware/fetchparticipation");
 
 // POST participation
-router.post('/', async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const { user, event } = req.body;
     if (!user || !event) {
-      return res.status(400).json({ error: 'User and event info required.' });
+      return res.status(400).json({ error: "User and event info required." });
     }
 
     const participation = new Participation({
@@ -24,23 +24,21 @@ router.post('/', async (req, res) => {
     });
 
     await participation.save();
-    res.status(201).json({ success: true, message: 'Participation saved.' });
+    res.status(201).json({ success: true, message: "Participation saved." });
   } catch (err) {
-    console.error('Error saving participation:', err.message);
-    res.status(500).json({ error: 'Server error while saving participation.' });
+    console.error("Error saving participation:", err.message);
+    res.status(500).json({ error: "Server error while saving participation." });
   }
 });
 
 // GET participation list
-router.get('/', fetchParticipations, (req, res) => {
+router.get("/", fetchParticipations, (req, res) => {
   res.status(200).json({ success: true, data: req.participations });
 });
 
 // console.log('📦 Participation routes file loaded');
 
-
-
-router.post('/check-participants', fetchParticipations, async (req, res) => {
+router.post("/check-participants", fetchParticipations, async (req, res) => {
   // console.log('📬 POST /check route hit');
 
   try {
@@ -48,7 +46,7 @@ router.post('/check-participants', fetchParticipations, async (req, res) => {
 
     if (!email) {
       // console.log('⚠️ Email missing in request body');
-      return res.status(400).json({ error: 'Email is required' });
+      return res.status(400).json({ error: "Email is required" });
     }
 
     const emailToCheck = email.trim().toLowerCase();
@@ -56,7 +54,7 @@ router.post('/check-participants', fetchParticipations, async (req, res) => {
 
     // console.log('📦 All participations:', req.participations);
 
-    const participant = req.participations.find(p => {
+    const participant = req.participations.find((p) => {
       const participantEmail = p.user?.email?.trim().toLowerCase();
       // console.log('👤 Checking participant:', participantEmail);
       return participantEmail === emailToCheck;
@@ -69,51 +67,54 @@ router.post('/check-participants', fetchParticipations, async (req, res) => {
         hasParticipated: true,
         event: participant.event,
         participatedAt: participant.participatedAt, // optional if you want
-        user: participant.user // sending user details too
+        user: participant.user, // sending user details too
       });
     } else {
       res.json({ hasParticipated: false });
     }
-
   } catch (err) {
-    console.error('❌ Error in participation check:', err.message);
-    res.status(500).send('Server Error');
+    console.error("❌ Error in participation check:", err.message);
+    res.status(500).send("Server Error");
   }
 });
 
-router.post('/get-all-participations', async (req, res) => {
+router.post("/get-all-participations", async (req, res) => {
   try {
     const { email } = req.body;
 
     if (!email) {
-      return res.status(400).json({ error: 'Email is required.' });
+      return res.status(400).json({ error: "Email is required." });
     }
 
-    console.log('Fetching participations for email:', email);
+    console.log("Fetching participations for email:", email);
 
     // Find participations where user.email matches
-    const participations = await Participation.find({ 'user.email': email }).lean();
+    const participations = await Participation.find({
+      "user.email": email,
+    }).lean();
 
-    console.log('Participations found:', participations.length);
+    console.log("Participations found:", participations.length);
 
     if (participations.length === 0) {
-      return res.status(404).json({ message: 'No participation history found for this user.' });
+      return res
+        .status(404)
+        .json({ message: "No participation history found for this user." });
     }
 
     res.json(participations);
   } catch (error) {
-    console.error('Error fetching participations:', error.message);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error fetching participations:", error.message);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
 // Route: GET /api/particpation/count
-router.get('/count', fetchParticipations, (req, res) => {
+router.get("/count", fetchParticipations, (req, res) => {
   try {
     const participations = req.participations || [];
 
     // Correctly extract nested email field
-    const uniqueEmails = new Set(participations.map(p => p.user.email));
+    const uniqueEmails = new Set(participations.map((p) => p.user.email));
 
     res.json({ count: uniqueEmails.size });
   } catch (error) {
@@ -122,35 +123,28 @@ router.get('/count', fetchParticipations, (req, res) => {
   }
 });
 
-router.get('/event-counts', async (req, res) => {
+router.get("/event-counts", async (req, res) => {
   try {
     const participationCounts = await Participation.aggregate([
       {
         $group: {
-          _id: '$eventId',
-          count: { $sum: 1 }
-        }
+          _id: "$event.title", // group by embedded event title
+          count: { $sum: 1 },
+        },
       },
-      {
-        $lookup: {
-          from: 'events',
-          localField: '_id',
-          foreignField: '_id',
-          as: 'event'
-        }
-      },
-      { $unwind: '$event' },
       {
         $project: {
-          eventName: '$event.name',
-          count: 1
-        }
-      }
+          eventName: "$_id",
+          count: 1,
+          _id: 0,
+        },
+      },
     ]);
 
     res.json(participationCounts);
   } catch (err) {
-    res.status(500).json({ error: 'Server error' });
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
   }
 });
 
