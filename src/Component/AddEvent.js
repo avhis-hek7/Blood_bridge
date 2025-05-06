@@ -142,6 +142,7 @@ const AddEvent = () => {
                       value={formData.date}
                       onChange={handleChange}
                       required
+                      min={new Date().toISOString().slice(0, 16)} // Prevent past date & time
                     />
                   </div>
                 </div>
