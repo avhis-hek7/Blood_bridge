@@ -94,15 +94,28 @@ function AdminDashboard() {
   applyInterceptors(userApi);
   applyInterceptors(eventApi);
   applyInterceptors(participationApi);
-  useEffect(() => {
-    const token = getAuthToken();
-    const isAdmin = localStorage.getItem("isAdmin") === "true";
-    if (!token || !isAdmin) {
-      navigate("/admin-login");
-      return;
-    }
-    fetchDashboardData();
-  }, [navigate]);
+  // useEffect(() => {
+  //   const token = getAuthToken();
+  //   const isAdmin = localStorage.getItem("isAdmin") === "true";
+  //   if (!token || !isAdmin) {
+  //     navigate("/admin-login");
+  //     return;
+  //   }
+  //   fetchDashboardData();
+  // }, [navigate]);
+// ... (previous imports remain the same)
+
+useEffect(() => {
+  const token = getAuthToken();
+  const isAdmin = localStorage.getItem("isAdmin") === "true";
+  if (!token || !isAdmin) {
+    navigate("/admin-login");
+    return;
+  }
+  fetchDashboardData();
+}, [navigate]);
+
+// ... (rest of the code remains the same)
 
   const animateCount = (finalValue, setter) => {
     let current = 0;

@@ -1,0 +1,85 @@
+/* Main container */
+.content {
+    background-color: #f9f9f9;
+    min-height: 100vh;
+    margin-left: 250px; /* Adjust for the sidebar width */
+    padding: 20px;
+    border-radius: 5px;
+  }
+  
+  /* Form styling */
+  input.form-control {
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  input.form-control:focus {
+    border-color: #c53a3a;
+    box-shadow: 0 0 0 0.25rem rgba(170, 71, 71, 0.25);
+  }
+  
+  button.btn-primary {
+    background-color: #c53a3a;
+    border: none;
+    transition: background-color 0.3s;
+  }
+  
+  button.btn-primary:hover {
+    background-color:#cf3535;
+  }
+  
+  button.btn-danger {
+    transition: background-color 0.3s;
+  }
+  
+  button.btn-danger:hover {
+    background-color: #e60000;
+  }
+  
+  /* Table Styling */
+  .table {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .table th,
+  .table td {
+    padding: 12px;
+    text-align: center;
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .table-row {
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .table-row:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Header styling */
+  h1.text-primary {
+    font-size: 2.5rem;
+    font-weight: 600;
+  }
+  
+  /* Add some padding around the table */
+  .table-responsive {
+    margin-top: 20px;
+  }
+  
+  /* Responsive Sidebar Adjustment */
+  @media (max-width: 768px) {
+    .content {
+      margin-left: 0;
+      padding: 10px;
+    }
+  
+    .table-responsive {
+      overflow-x: auto;
+    }
+  }
+  

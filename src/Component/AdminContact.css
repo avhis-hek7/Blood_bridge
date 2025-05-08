@@ -1,0 +1,7 @@
+/* Optional styling if needed */
+.table td {
+    vertical-align: middle;
+    max-width: 300px;
+    white-space: pre-wrap;
+  }
+  

@@ -35,7 +35,7 @@ export default function Footer() {
               </a>
             </div>
             <div className="sb_footer-links-div">
-              <h4>Patners</h4>
+              <h4>Partners</h4>
               <a href="/">
                 <p>Red Cross</p>
               </a>

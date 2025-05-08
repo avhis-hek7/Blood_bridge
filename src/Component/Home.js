@@ -3,33 +3,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const stats = [
-  { id: "count1", target: 50, label: "Total Donors Registered" },
-  { id: "count2", target: 120, label: "Blood Event Organized" },
-  { id: "count3", target: 275, label: "Lives saved" },
-  { id: "count4", target: 5982, label: "Total blood collected" },
-];
-
-const Counter = ({ target, isVisible }) => {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!isVisible) return;
-    let countValue = 0;
-    let speed = target / 100;
-    const interval = setInterval(() => {
-      countValue += Math.ceil(speed);
-      if (countValue >= target) {
-        countValue = target;
-        clearInterval(interval);
-      }
-      setCount(countValue);
-    }, 30);
-    return () => clearInterval(interval);
-  }, [target, isVisible]);
-
-  return <span className="highlight">{count}</span>;
-};
 
 export default function Home() {
   const [showLogin, setShowLogin] = useState(false);
@@ -61,51 +34,55 @@ export default function Home() {
     setIsSuperadmin(false); // Reset superadmin state when switching between user/admin
   };
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-      const loginData = isAdmin ? { username, password } : { email, password };
+// ... (previous imports remain the same)
 
-      const endpoint = isAdmin
-        ? isSuperadmin
-          ? "superadmin-login"
-          : "admin-login"
-        : "login";
+const handleLogin = async (e) => {
+  e.preventDefault();
+  try {
+    const loginData = isAdmin ? { username, password } : { email, password };
 
-      const response = await axios.post(
-        `http://localhost:5000/api/auth/${endpoint}`,
-        loginData
-      );
+    const endpoint = isAdmin
+      ? isSuperadmin
+        ? "superadmin-login"
+        : "admin-login"
+      : "login";
 
-      if (response.data.authToken) {
-        localStorage.setItem("authToken", response.data.authToken);
-        localStorage.setItem("isAdmin", isAdmin.toString());
-        localStorage.setItem("isSuperadmin", isSuperadmin.toString());
+    const response = await axios.post(
+      `http://localhost:5000/api/auth/${endpoint}`,
+      loginData
+    );
 
-        if (response.data.userId) {
-          localStorage.setItem("userId", response.data.userId);
-        }
+    if (response.data.authToken) {
+      localStorage.setItem("authToken", response.data.authToken);
+      localStorage.setItem("isAdmin", isAdmin.toString());
+      localStorage.setItem("isSuperadmin", isSuperadmin.toString());
 
-        if (response.data.admin) {
-          localStorage.setItem(
-            "adminData",
-            JSON.stringify(response.data.admin)
-          );
-        }
-
-        alert("Login successful!");
-        setShowLogin(false);
-
-        if (isAdmin) {
-          navigate("/admin/dashboard");
-        } else {
-          navigate("/events");
-        }
+      if (response.data.userId) {
+        localStorage.setItem("userId", response.data.userId);
       }
-    } catch (error) {
-      alert(error.response?.data?.error || "Login failed");
+
+      if (response.data.admin) {
+        localStorage.setItem(
+          "adminData",
+          JSON.stringify(response.data.admin)
+        );
+      }
+
+      alert("Login successful!");
+      setShowLogin(false);
+
+      if (isAdmin) {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/events");
+      }
     }
-  };
+  } catch (error) {
+    alert(error.response?.data?.error || "Login failed");
+  }
+};
+
+// ... (rest of the code remains the same)
 
   return (
     <>
@@ -513,22 +490,6 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      {/* Counting cards */}
-      <div ref={statsRef} className="container c-container py-5 text-center">
-        <h2 className="py-2">Making a Difference, One Drop at a Time</h2>
-        <div className="row">
-          {stats.map((stat) => (
-            <div key={stat.id} className="col-md-4 col-sm-6 mb-4">
-              <div className="stat-card p-4 shadow rounded">
-                <h3 className="stat-value">
-                  <Counter target={stat.target} isVisible={isVisible} />
-                </h3>
-                <p className="stat-label">{stat.label}</p>
-              </div>
-            </div>
-          ))}
         </div>
       </div>
     </>

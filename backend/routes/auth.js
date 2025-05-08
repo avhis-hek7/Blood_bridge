@@ -83,10 +83,6 @@ router.post('/verify-otp', async (req, res) => {
 });
 
 
-
-
-
-
 // Verify email domain
 router.post("/verify-email", async (req, res) => {
   try {
@@ -206,88 +202,6 @@ router.get("/get-superadmin", fetchadmin, async (req, res) => {
 });
 
 // Create a User using: Post "/api/auth". Doesn't require Auth
-// router.post(
-//   "/", 
-//   [
-//     body("name").notEmpty().withMessage("Name is required"),
-//     body("phone")
-//       .notEmpty()
-//       .withMessage("Phone number is required")
-//       .isMobilePhone()
-//       .withMessage("Invalid phone number"),
-//     body("email")
-//       .notEmpty()
-//       .withMessage("Email is required")
-//       .isEmail()
-//       .withMessage("Invalid email address"),
-//     body("password")
-//       .notEmpty()
-//       .withMessage("Password is required")
-//       .isLength({ min: 6 })
-//       .withMessage("Password must be at least 6 characters long"),
-//     body("dob")
-//       .notEmpty()
-//       .withMessage("Date of Birth is required")
-//       .isDate()
-//       .withMessage("Invalid Date format"),
-//     body("gender")
-//       .notEmpty()
-//       .withMessage("Gender is required")
-//       .isIn(["Male", "Female", "Other"])
-//       .withMessage("Invalid gender selection"),
-//     body("bloodGroup")
-//       .notEmpty()
-//       .withMessage("Blood Group is required")
-//       .isIn(["A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"])
-//       .withMessage("Invalid blood group"),
-//     body("address").notEmpty().withMessage("Address is required"),
-//     body("terms")
-//       .equals("true")
-//       .withMessage("You must accept the terms and conditions"),
-//   ],
-//   async (req, res) => {
-//     // Check for validation errors
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({ errors: errors.array() });
-//     }
-
-//     try {
-//       // Check if user already exists
-//       const existingUser = await User.findOne({
-//         $or: [{ phone: req.body.phone }, { email: req.body.email }],
-//       });
-//       if (existingUser) {
-//         return res.status(400).json({ message: "User already exists" });
-//       }
-
-//       // Hash the password before saving
-//       const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-//       // Create new user and save
-//       const newUser = new User({
-//         name: req.body.name,
-//         phone: req.body.phone,
-//         email: req.body.email,
-//         password: hashedPassword,
-//         dob: req.body.dob,
-//         gender: req.body.gender,
-//         bloodGroup: req.body.bloodGroup,
-//         address: req.body.address,
-//         terms: req.body.terms,
-//       });
-
-//       await newUser.save();
-
-//       // Send response
-//       res.status(201).json({ message: "User created successfully", user: newUser });
-//     } catch (err) {
-//       console.error(err);
-//       res.status(500).json({ error: err.message });
-//     }
-//   }
-// );const express = require('express');
-
 router.post(
   "/",
   [
@@ -368,7 +282,6 @@ router.post(
   }
 );
 
-module.exports = router;
 
 //Finalize verification of OTP 
 router.post('/finalize-verification', async (req, res) => {
@@ -467,9 +380,75 @@ router.post(
 );
 
 // Create Admin Route - Only superadmin can create new admins
+// router.post(
+//   "/create-admin",
+//   fetchadmin,
+//   [
+//     body("username").notEmpty().withMessage("Username is required"),
+//     body("email").isEmail().withMessage("Please enter a valid email"),
+//     body("password")
+//       .isLength({ min: 6 })
+//       .withMessage("Password must be at least 6 characters long"),
+//   ],
+//   async (req, res) => {
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//       return res.status(400).json({ errors: errors.array() });
+//     }
+
+//     try {
+//       // Check if the requesting admin is a superadmin
+//       const requestingAdmin = await Admin.findById(req.admin.id);
+//       if (!requestingAdmin || requestingAdmin.role !== "admin") {
+//         return res.status(403).json({ error: "Only admin can create new admins" });
+//       }
+
+//       const { username, email, password } = req.body;
+
+//       // Check if admin with same username or email exists
+//       const existingAdmin = await Admin.findOne({
+//         $or: [{ username }, { email }],
+//       });
+
+//       if (existingAdmin) {
+//         return res.status(400).json({
+//           error: "Admin with this username or email already exists",
+//         });
+//       }
+
+//       // Hash the password
+//       const salt = await bcrypt.genSalt(10);
+//       const hashedPassword = await bcrypt.hash(password, salt);
+
+//       // Create new admin
+//       const admin = new Admin({
+//         username,
+//         email,
+//         password: hashedPassword,
+//         role: "admin", // Default role is admin
+//       });
+
+//       await admin.save();
+
+//       res.status(201).json({
+//         success: true,
+//         message: "Admin created successfully",
+//         admin: {
+//           id: admin.id,
+//           username: admin.username,
+//           email: admin.email,
+//           role: admin.role,
+//         },
+//       });
+//     } catch (error) {
+//       console.error(error);
+//       res.status(500).json({ error: "Internal Server Error" });
+//     }
+//   }
+// );
 router.post(
   "/create-admin",
-  fetchadmin,
+  fetchadmin, // Middleware that fetches admin from JWT
   [
     body("username").notEmpty().withMessage("Username is required"),
     body("email").isEmail().withMessage("Please enter a valid email"),
@@ -484,10 +463,12 @@ router.post(
     }
 
     try {
-      // Check if the requesting admin is a superadmin
+      // Check if the requesting user is a superadmin
       const requestingAdmin = await Admin.findById(req.admin.id);
-      if (!requestingAdmin || requestingAdmin.role !== "admin") {
-        return res.status(403).json({ error: "Only admin can create new admins" });
+      if (!requestingAdmin || requestingAdmin.role !== "superadmin") {
+        return res.status(403).json({ 
+          error: "Only superadmin can create new admins" 
+        });
       }
 
       const { username, email, password } = req.body;
@@ -512,7 +493,7 @@ router.post(
         username,
         email,
         password: hashedPassword,
-        role: "admin", // Default role is admin
+        role: "admin", // Default role is admin (not superadmin)
       });
 
       await admin.save();
@@ -532,8 +513,7 @@ router.post(
       res.status(500).json({ error: "Internal Server Error" });
     }
   }
-);
-
+); 
 // Admin Login Route
 router.post(
   "/admin-login",
@@ -594,19 +574,98 @@ router.post(
 );
 
 // Get Admin Profile - Protected Route
-router.get("/getadmin", fetchadmin, async (req, res) => {
-  try {
-    const admin = await Admin.findById(req.admin.id).select("-password");
-    if (!admin) {
-      return res.status(404).json({ error: "Admin not found" });
-    }
-    res.json(admin);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
+router.get(
+  "/admins",
+  fetchadmin, // Your authentication middleware
+  async (req, res) => {
+    try {
+      // Check if requester is superadmin
+      const requestingAdmin = await Admin.findById(req.admin.id);
+      if (!requestingAdmin || requestingAdmin.role !== "superadmin") {
+        return res.status(403).json({ 
+          error: "Only superadmin can view all admins" 
+        });
+      }
 
+      // Fetch only regular admins (excluding superadmins and password field)
+      const admins = await Admin.find(
+        { role: "admin" }, // Only get users with role "admin"
+        { password: 0 }   // Exclude password field
+      );
+
+      res.status(200).json({
+        success: true,
+        count: admins.length,
+        admins
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+);
+
+// Delete Admin Route
+router.delete(
+  "/delete-admin/:id",
+  fetchadmin, // Middleware that fetches admin from JWT
+  async (req, res) => {
+    try {
+      // Check if the requesting user is a superadmin
+      const requestingAdmin = await Admin.findById(req.admin.id);
+      if (!requestingAdmin || requestingAdmin.role !== "superadmin") {
+        return res.status(403).json({ 
+          error: "Only superadmin can delete admins" 
+        });
+      }
+
+      // Check if admin ID is provided
+      const adminId = req.params.id;
+      if (!adminId) {
+        return res.status(400).json({ 
+          error: "Admin ID is required" 
+        });
+      }
+
+      // Prevent superadmin from deleting themselves
+      if (adminId === req.admin.id) {
+        return res.status(403).json({ 
+          error: "Superadmin cannot delete themselves" 
+        });
+      }
+
+      // Find and delete the admin (only regular admins can be deleted)
+      const deletedAdmin = await Admin.findOneAndDelete({
+        _id: adminId,
+        role: "admin" // Only allow deletion of regular admins, not other superadmins
+      });
+
+      if (!deletedAdmin) {
+        return res.status(404).json({ 
+          error: "Admin not found or cannot be deleted" 
+        });
+      }
+
+      res.status(200).json({
+        success: true,
+        message: "Admin deleted successfully",
+        deletedAdmin: {
+          id: deletedAdmin.id,
+          username: deletedAdmin.username,
+          email: deletedAdmin.email
+        }
+      });
+
+    } catch (error) {
+      console.error(error);
+      // Handle CastError for invalid ObjectId format
+      if (error.name === 'CastError') {
+        return res.status(400).json({ error: "Invalid admin ID format" });
+      }
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+);
 //Route:3 Get loggedin User Details using: POST "/api/auth/getuser". Login required
 router.post("/getuser", fetchuser, async (req, res) => {
   try {

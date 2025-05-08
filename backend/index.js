@@ -6,9 +6,9 @@ const eventRoutes = require('./routes/authevent');
 const participationRoutes = require('./routes/participation'); // ✅ New file
 const bloodbankRoutes = require("./routes/authbank");
 const bodyParser = require('body-parser');
-// const scheduleEventReminders = require('./cron/eventReminderJob');
-// const notificationRoutes = require('./routes/authnotification');
 const notificationRoutes = require('./routes/notification');
+const contactRoutes = require('./routes/contact')
+const inventoryRoutes=require('./routes/inventory')
 
 
 
@@ -30,6 +30,8 @@ app.use('/api/authevent', eventRoutes);
 app.use('/api/participation', participationRoutes);  // ✅ Separate prefix
 app.use('/api/notifications', notificationRoutes);
 app.use("/api/bloodbank", bloodbankRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/api/inventory',inventoryRoutes );
 // app.use('/api/notifications', notificationRoutes);
 
 // Health check

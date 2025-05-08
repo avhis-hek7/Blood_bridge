@@ -115,7 +115,7 @@
   background-image: linear-gradient(to left, #b8a6d6, #e0e0e0);
 }
 .background2{
-  background-color: lab(100% 0.01 -0.01);
+  background-color: #f9f9f9;
 }
 
 .hcard {
@@ -278,7 +278,7 @@
   z-index: 11;
   text-align: center;
   width: 400px;
-  height: 350px;
+  height: 380px;
 }
 
 .input-field {
@@ -627,3 +627,11 @@ header {
   margin-top: 5px;
 }
 
+/* Hover Effect for Table Rows */
+table tbody tr {
+  transition: background-color 0.3s ease-in-out;
+}
+
+table tbody tr:hover {
+  background-color: #f8f9fa; /* Light grey background on hover */
+}
