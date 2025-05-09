@@ -29,6 +29,8 @@ import AdminSetting from "./Component/AdminSetting";
 import AdminContact from "./Component/AdminContact";
 import AdminInventory from "./Component/AdminInventory";
 import BloodInventory from "./Component/BloodInventory";
+import Emergency from "./Component/Emergency"
+import AdminEmergency from './Component/AdminEmergency'
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -72,6 +74,8 @@ function PageWrapper({ setProgress }) {
         <Route path="/profile" element={<Profile />} />
         <Route path="/notifications" element={<Notification />} />
         <Route path="/bloodinventory" element={<BloodInventory />} />
+        <Route path="/emergency" element={<Emergency />} />
+
 
         {/* Admin Routes */}
         <Route
@@ -86,6 +90,8 @@ function PageWrapper({ setProgress }) {
         <Route path="/admin/settings" element={<AdminSetting />} />
         <Route path="/admin/contact" element={<AdminContact />} />
         <Route path="/admin/inventory" element={<AdminInventory />} />
+        <Route path="/admin/emergency" element={<AdminEmergency />} />
+
 
         {/* Catch all route - redirect to home */}
         <Route path="*" element={<Navigate to="/" replace />} />

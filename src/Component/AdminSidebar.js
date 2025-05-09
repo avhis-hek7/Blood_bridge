@@ -1,4 +1,3 @@
-
 // src/components/AdminSidebar.js
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -10,7 +9,8 @@ import {
   FaSignOutAlt,
   FaTachometerAlt,
   FaFirstAid,
-  FaEnvelopeOpenText,FaTint
+  FaEnvelopeOpenText,
+  FaTint,
 } from "react-icons/fa";
 
 const AdminSidebar = () => {
@@ -98,6 +98,19 @@ const AdminSidebar = () => {
             style={{ border: "none" }}
           >
             <FaTint className="me-2" /> AdminInventory
+          </button>
+        </li>
+        <li className="nav-item mb-2">
+          <button
+            onClick={() => navigate("/admin/emergency")}
+            className={`btn w-100 text-start d-flex align-items-center ${
+              location.pathname === "/admin/emergency"
+                ? "bg-secondary text-white"
+                : "btn-dark text-white"
+            }`}
+            style={{ border: "none" }}
+          >
+            <FaTint className="me-2" /> Emergency request
           </button>
         </li>
         <li className="nav-item mb-2">

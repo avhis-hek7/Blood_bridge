@@ -1,0 +1,122 @@
+/* About.module.css */
+.about-container {
+  background-image: linear-gradient(to left, #b8a6d6, #e0e0e0);
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+.b-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.highlight {
+  color: #8e44ad;
+  font-weight: bold;
+}
+
+.section-title {
+  color: #6c3483;
+  border-bottom: 2px solid #d2b4de;
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.card {
+  background-color: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #9b59b6;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.mission-card {
+  background-color: #f5eef8;
+  border-left: 4px solid #8e44ad;
+}
+
+.contact-card {
+  background-color: #eaf2f8;
+  border-left: 4px solid #3498db;
+}
+
+.list-group-item {
+  border: none;
+  border-left: 3px solid #d2b4de;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.list-group-item:hover {
+  background-color: #f9f9f9;
+  border-left: 3px solid #8e44ad;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes titleAnimation {
+  0% { transform: scale(0.95); opacity: 0; }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animated-content {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.title-animation {
+  animation: titleAnimation 1s ease-out forwards;
+  color: #6c3483;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.8s ease-out 0.3s forwards;
+}
+
+.card-animation {
+  opacity: 0;
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+.delay-1 { animation-delay: 0.4s; }
+.delay-2 { animation-delay: 0.6s; }
+.delay-3 { animation-delay: 0.8s; }
+.delay-4 { animation-delay: 1.0s; }
+.delay-5 { animation-delay: 1.2s; }
+
+.fade-in-list {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.fade-in-list.delay-1 { animation-delay: 0.5s; }
+.fade-in-list.delay-2 { animation-delay: 0.7s; }
+.fade-in-list.delay-3 { animation-delay: 0.9s; }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .b-container {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+  
+  .card {
+    padding: 1rem;
+  }
+}

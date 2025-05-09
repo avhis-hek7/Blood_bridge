@@ -220,6 +220,15 @@ function Navbar() {
                 <li>
                   <Link
                     className="dropdown-item d-flex align-items-center gap-2"
+                    to="/emergency"
+                  >
+                    <FaHospital style={{ color: "#c20f33" }} />
+                    Emergency Request
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="dropdown-item d-flex align-items-center gap-2"
                     to="/bloodinventory"
                   >
                     <FaVials style={{ color: "#c20f33" }} />

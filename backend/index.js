@@ -9,6 +9,9 @@ const bodyParser = require('body-parser');
 const notificationRoutes = require('./routes/notification');
 const contactRoutes = require('./routes/contact')
 const inventoryRoutes=require('./routes/inventory')
+const emergencyRoutes = require('./routes/emergency');
+
+
 
 
 
@@ -32,6 +35,7 @@ app.use('/api/notifications', notificationRoutes);
 app.use("/api/bloodbank", bloodbankRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/inventory',inventoryRoutes );
+app.use('/api/emergency', emergencyRoutes);
 // app.use('/api/notifications', notificationRoutes);
 
 // Health check

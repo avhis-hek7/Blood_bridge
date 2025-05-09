@@ -291,8 +291,8 @@
 }
 
 /* Events Css */
-.hero-container p {
-  font-size: 1.2em;
+/* .hero-container p { */
+  /* font-size: 1.2em;
   margin-bottom: 30px;
 }
 
@@ -414,7 +414,7 @@ pevent {
   list-style-type: square;
   padding-left: 20px;
   font-size: 1.2em;
-}
+} */
 
 @media (max-width: 768px) {
   .cards {
@@ -589,27 +589,28 @@ header {
   font-size: 18px;
 } 
  li {
-  font-size: 18px;
-}
+  font-size: 18px; 
+ }
+
 
 /* CountCss */
 
 /* Counting Cards */
-.c-container {
-  background-color:transparent; /* Light gray background */
+/* .c-container {
+  background-color:transparent; 
   padding: 60px 20px;
   border-radius: 10px;
-}
+} */
 
-.stat-card {
+/* .stat-card {
   background: #f8deded2;
   border-radius: 12px;
   padding: 20px;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
+} */
 
-.stat-card:hover {
+/* .stat-card:hover {
   transform: translateY(-5px);
   box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
 }
@@ -617,15 +618,15 @@ header {
 .stat-value {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #dc3545; /* Red color to match blood donation theme */
+  color: #dc3545; 
 }
 
 .stat-label {
   font-size: 1.2rem;
   font-weight: 500;
-  color: #343a40; /* Dark gray for better readability */
-  margin-top: 5px;
-}
+  color: #343a40; 
+  margin-top: 5px; 
+}*/
 
 /* Hover Effect for Table Rows */
 table tbody tr {
