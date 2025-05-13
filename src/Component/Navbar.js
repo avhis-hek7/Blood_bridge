@@ -199,13 +199,22 @@ function Navbar() {
                 Services
               </span>
               <ul className="dropdown-menu dropdown-menu-end">
-                <li>
+                {/* <li>
                   <Link
                     className="dropdown-item d-flex align-items-center gap-2"
                     to="/donate"
                   >
                     <FaTint style={{ color: "#c20f33" }} />
                     Donate Blood
+                  </Link>
+                </li> */}
+                <li>
+                  <Link
+                    className="dropdown-item d-flex align-items-center gap-2"
+                    to="/news"
+                  >
+                    <FaTint style={{ color: "#c20f33" }} />
+                    News
                   </Link>
                 </li>
                 <li>
@@ -215,6 +224,15 @@ function Navbar() {
                   >
                     <FaHospital style={{ color: "#c20f33" }} />
                     Blood Bank
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="dropdown-item d-flex align-items-center gap-2"
+                    to="/bloodbanklocator"
+                  >
+                    <FaHospital style={{ color: "#c20f33" }} />
+                    Blood Bank Locator
                   </Link>
                 </li>
                 <li>

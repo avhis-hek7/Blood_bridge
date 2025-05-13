@@ -368,7 +368,8 @@ router.post(
       const authToken = jwt.sign(payload, JWT_SECRET);
       res.json({
         authToken,
-        userId: user._id, // ✅ Send the _id to frontend
+        userId: user._id,
+        email: user.email, // ✅ Send the _id to frontend
         message: "Login successful"
       });
       

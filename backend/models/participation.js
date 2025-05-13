@@ -16,6 +16,10 @@ const ParticipationSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+   certificateIssued: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = mongoose.model('Participation', ParticipationSchema);

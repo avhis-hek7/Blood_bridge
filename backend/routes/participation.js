@@ -2,7 +2,10 @@
 const express = require("express");
 const router = express.Router();
 const Participation = require("../models/participation");
+const Event = require("../models/event"); // Ensure this is imported
 const fetchParticipations = require("../middleware/fetchparticipation");
+const generateCertificate = require("../utils/generateCertificate");
+const sendCertificateEmail = require("../utils/sendCertificate");
 
 // POST participation
 router.post("/", async (req, res) => {
@@ -147,5 +150,99 @@ router.get("/event-counts", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+// router.post("/issue-certificate", async (req, res) => {
+//   try {
+//     const { email } = req.body;
+//     if (!email) {
+//       return res.status(400).json({ error: "Email is required." });
+//     }
+
+//     const userEmail = email.trim().toLowerCase();
+//     const participations = await Participation.find({
+//       "user.email": userEmail,
+//     });
+
+//     if (participations.length < 2) {
+//       return res.status(200).json({
+//         eligible: false,
+//         message: `Only ${participations.length} participations. Need more than 1 participation for certificate.`,
+//       });
+//     }
+
+//     const user = participations[0].user;
+//     const filePath = await generateCertificate(user.name, user.email);
+//     await sendCertificateEmail(user.email, user.name, filePath);
+
+//     res.status(200).json({
+//       success: true,
+//       message: "Certificate generated and emailed successfully!",
+//     });
+//   } catch (error) {
+//     console.error("Error issuing certificate:", error.message);
+//     res.status(500).json({ error: "Server error while issuing certificate." });
+//   }
+// });
+
+
+router.post("/issue-certificate", async (req, res) => {
+  try {
+    const { email, eventTitle } = req.body;
+
+    if (!email || !eventTitle) {
+      return res
+        .status(400)
+        .json({ error: "Email and Event Title are required." });
+    }
+
+    const userEmail = email.trim().toLowerCase();
+
+    // Find the participation record for this user and event title
+    const participation = await Participation.findOne({
+      "user.email": userEmail,
+      "event.title": eventTitle,
+    });
+
+    if (!participation) {
+      return res
+        .status(404)
+        .json({ error: "No participation found for this event." });
+    }
+
+    if (participation.certificateIssued) {
+      return res.status(200).json({
+        eligible: false,
+        message: "Certificate already issued for this event.",
+      });
+    }
+
+    const { user, event } = participation;
+
+    // Generate the certificate using user and event details
+    const filePath = await generateCertificate(
+      user.name,
+      user.email,
+      event.title,
+      event.date,
+      event.location
+    );
+
+    // Send the certificate via email
+    await sendCertificateEmail(user.email, user.name, filePath, event);
+
+    // Mark certificate as issued
+    participation.certificateIssued = true;
+    await participation.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Certificate generated and emailed successfully!",
+    });
+  } catch (error) {
+    console.error("Error issuing certificate:", error.message);
+    res.status(500).json({ error: "Server error while issuing certificate." });
+  }
+});
+
+module.exports = router;
 
 module.exports = router;

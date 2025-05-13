@@ -31,6 +31,8 @@ import AdminInventory from "./Component/AdminInventory";
 import BloodInventory from "./Component/BloodInventory";
 import Emergency from "./Component/Emergency"
 import AdminEmergency from './Component/AdminEmergency'
+import BloodBankLocator from './Component/BloodBankLocator'
+import News from './Component/News'
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -75,6 +77,10 @@ function PageWrapper({ setProgress }) {
         <Route path="/notifications" element={<Notification />} />
         <Route path="/bloodinventory" element={<BloodInventory />} />
         <Route path="/emergency" element={<Emergency />} />
+        <Route path="/bloodbanklocator" element={<BloodBankLocator />} />
+        <Route path="/news" element={<News />} />
+
+
 
 
         {/* Admin Routes */}

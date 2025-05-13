@@ -1,0 +1,131 @@
+.contact-page {
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    background-image: linear-gradient(to left, #b8a6d6, #e0e0e0);
+    animation: fadeIn 1.5s ease-in;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .b-container {
+    background: #ffffffd9;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.8s ease-in-out;
+    transform: translateY(-25px);
+  }
+  
+  .contact-section h2 {
+    color: #4c3575;
+    font-weight: bold;
+  }
+  
+  .btn-custom {
+    background-color: #6c4fb5;
+    color: #fff;
+    border: none;
+    transition: background-color 0.3s ease;
+    font-weight: 600;
+    padding: 0.6rem 1rem;
+  }
+  
+  .btn-custom:hover {
+    background-color: #5a3d9a;
+  }
+  
+  .contact-icon,
+  .location-icon {
+    font-size: 2rem;
+    color: #6c4fb5;
+    margin-bottom: 0.5rem;
+    animation: pulse 2s infinite;
+  }
+  
+  .contact-info .bt {
+    background-color: #f6f3fc;
+    padding: 1rem;
+    margin: 0.5rem;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+  }
+  
+  .contact-info .bt:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .alert {
+    animation: slideDown 0.5s ease;
+  }
+  
+  .invalid-feedback {
+    font-size: 0.875rem;
+    color: #dc3545;
+  }
+  
+  textarea.form-control {
+    resize: none;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      transform: translateY(40px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0px);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideDown {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.07);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  .card {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .contact-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #6c63ff;
+  }
+    

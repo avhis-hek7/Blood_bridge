@@ -1,0 +1,98 @@
+/* Blog.module.css */
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+    animation: fadeIn 1s ease-in-out;
+  }
+  
+  header {
+    text-align: center;
+    background-color: transparent; /* changed from #e63946 to transparent */
+    color: #1d3557; /* changed from white to dark blue for readability */
+    padding: 1.5rem 0;
+    border-radius: 10px 10px 0 0;
+    animation: slideDown 0.8s ease-in-out;
+  }
+  
+  strong {
+    color: #1d3557; /* changed from red to dark blue for consistency */
+  }
+  
+  
+  header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+  }
+  
+  .post {
+    background: #ffffff;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 0.5s ease-in-out;
+    transition: transform 0.3s;
+  }
+  
+  .post:hover {
+    transform: translateY(-5px);
+  }
+  
+  .post h2 {
+    color: #1d3557;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+  }
+  
+  .post p,
+  .post ul,
+  .post ol {
+    color: #333;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+  
+  .post ul,
+  .post ol {
+    padding-left: 1.5rem;
+  }
+  
+  .post li {
+    margin-bottom: 0.5rem;
+  }
+  
+  strong {
+    color: #e63946;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

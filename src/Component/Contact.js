@@ -2,95 +2,70 @@ import React, { useState, useEffect } from "react";
 import { FaAddressBook, FaPhoneAlt, FaMapMarkerAlt } from "react-icons/fa";
 import { CgMail } from "react-icons/cg";
 import axios from "axios";
+import styles from "./Contact.module.css";
 
 function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    message: ""
+    message: "",
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState(""); // "success" or "danger"
 
-  // Auto-dismiss alert after 5 seconds
   useEffect(() => {
     if (alertMessage) {
       const timer = setTimeout(() => {
         setAlertMessage("");
         setAlertType("");
       }, 5000);
-      return () => clearTimeout(timer); // Clean up
+      return () => clearTimeout(timer);
     }
   }, [alertMessage]);
 
   const validateForm = () => {
     const newErrors = {};
-
-    if (!formData.name.trim()) {
-      newErrors.name = "Name is required";
-    }
-
+    if (!formData.name.trim()) newErrors.name = "Name is required";
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Please enter a valid email address";
     }
-
     if (!formData.message.trim()) {
       newErrors.message = "Message is required";
     } else if (formData.message.trim().length < 10) {
       newErrors.message = "Message should be at least 10 characters";
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: "" }));
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!validateForm()) {
       setAlertMessage("Please fix the errors in the form.");
       setAlertType("danger");
       return;
     }
-
     setLoading(true);
-    setAlertMessage(""); // Clear old alerts
-
+    setAlertMessage("");
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/contact",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      setAlertMessage("Your message has been sent successfully. We will contact you shortly.");
-      setAlertType("success");
-
-      setFormData({
-        name: "",
-        email: "",
-        message: ""
+      await axios.post("http://localhost:5000/api/contact", formData, {
+        headers: { "Content-Type": "application/json" },
       });
+      setAlertMessage(
+        "Your message has been sent successfully. We will contact you shortly."
+      );
+      setAlertType("success");
+      setFormData({ name: "", email: "", message: "" });
     } catch (err) {
       let errorMessage = "Failed to send message.";
       if (err.response?.data?.errors) {
@@ -100,7 +75,6 @@ function Contact() {
       } else if (err.request) {
         errorMessage = "Network error - please check your connection.";
       }
-
       setAlertMessage(errorMessage);
       setAlertType("danger");
     } finally {
@@ -109,14 +83,19 @@ function Contact() {
   };
 
   return (
-    <div className="contact-page">
-      <div className="container b-container mt-5">
+    <div className={styles["contact-page"]}>
+      <div className={`container ${styles["b-container"]} mt-5`}>
         <div className="row">
-          <div className="col-md-6 mx-auto contact-section">
-            <h2 className="text-center mb-4">Contact Us</h2>
+          <div className="col-md-6 mx-auto">
+            <h2 className={`text-center mb-4 ${styles["contact-section"]}`}>
+              Contact Us
+            </h2>
 
             {alertMessage && (
-              <div className={`alert alert-${alertType}`} role="alert">
+              <div
+                className={`alert alert-${alertType} ${styles.alert}`}
+                role="alert"
+              >
                 {alertMessage}
               </div>
             )}
@@ -128,7 +107,7 @@ function Contact() {
                 </label>
                 <input
                   type="text"
-                  className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+                  className={`form-control ${errors.name ? "is-invalid" : ""}`}
                   id="name"
                   name="name"
                   value={formData.name}
@@ -147,7 +126,7 @@ function Contact() {
                 </label>
                 <input
                   type="email"
-                  className={`form-control ${errors.email ? 'is-invalid' : ''}`}
+                  className={`form-control ${errors.email ? "is-invalid" : ""}`}
                   id="email"
                   name="email"
                   value={formData.email}
@@ -165,7 +144,9 @@ function Contact() {
                   Message
                 </label>
                 <textarea
-                  className={`form-control ${errors.message ? 'is-invalid' : ''}`}
+                  className={`form-control ${
+                    errors.message ? "is-invalid" : ""
+                  }`}
                   id="message"
                   name="message"
                   rows="4"
@@ -179,44 +160,50 @@ function Contact() {
                 )}
               </div>
 
-              <button 
-                type="submit" 
-                className="btn btn-custom w-100"
+              <button
+                type="submit"
+                className={`btn ${styles["btn-custom"]} w-100`}
                 disabled={loading}
               >
                 {loading ? (
                   <>
-                    <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    <span
+                      className="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
                     Sending...
                   </>
-                ) : "Send Message"}
+                ) : (
+                  "Send Message"
+                )}
               </button>
             </form>
           </div>
         </div>
-
-        {/* Contact information */}
-        <div className="row mt-4 text-center contact-info">
-          <div className="col-md-4 bt">
-            <FaAddressBook className="contact-icon" />
+        <div
+          className={`row mt-5 text-center d-flex justify-content-between ${styles["contact-info"]}`}
+        >
+          <div className={`col-md-3 ${styles.card}`}>
+            <FaAddressBook className={styles["contact-icon"]} />
             <h5>Address</h5>
             <p>Pokhara-8 Srijanachok, Kaski</p>
           </div>
-          <div className="col-md-4 bt">
-            <CgMail className="contact-icon" />
+          <div className={`col-md-3 ${styles.card}`}>
+            <CgMail className={styles["contact-icon"]} />
             <h5>Email</h5>
             <p>nrcskaski@gmail.com</p>
           </div>
-          <div className="col-md-4 bt">
-            <FaPhoneAlt className="contact-icon" />
+          <div className={`col-md-3 ${styles.card}`}>
+            <FaPhoneAlt className={styles["contact-icon"]} />
             <h5>Phone</h5>
             <p>+061-520811</p>
           </div>
         </div>
 
-        <div className="row mt-4 location-section">
+        <div className="row mt-4">
           <div className="col-md-12 text-center">
-            <FaMapMarkerAlt className="location-icon" />
+            <FaMapMarkerAlt className={styles["location-icon"]} />
             <h5>Location</h5>
           </div>
           <div className="col-md-12">

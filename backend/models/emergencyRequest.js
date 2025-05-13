@@ -1,13 +1,22 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const EmergencyRequestSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  // email: { type: String, required: true }, // ✅ Add this line
   bloodType: { type: String, required: true },
   unitsRequired: { type: Number, required: true },
   reason: { type: String },
   contactNumber: { type: String, required: true },
-  status: { type: String, default: 'Pending' },
-  createdAt: { type: Date, default: Date.now }
+  adminNote: String,
+  hospitalName: String,
+  hospitalLocation: String,
+    status: {
+    type: String,
+    enum: ["pending", "available", "not available", "collected"],
+    default: "pending",
+  },
+  createdAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('EmergencyRequest', EmergencyRequestSchema);
+module.exports = mongoose.model("EmergencyRequest", EmergencyRequestSchema);
+

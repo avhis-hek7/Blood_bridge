@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import styles from './Emergency.module.css'; // Import the CSS module
 
@@ -62,11 +62,51 @@ const UserEmergencyRequestForm = () => {
   return (
     <form onSubmit={handleSubmit} className={styles.formWrapper}>
       <h2 className="text-center mb-4 fw-bold text-danger">Emergency Blood Request</h2>
-      <input type="text" name="bloodType" placeholder="Blood Type" className="form-control mb-3" onChange={handleChange} required />
-      <input type="number" name="unitsRequired" placeholder="Units Required" className="form-control mb-3" onChange={handleChange} required />
-      <input type="text" name="reason" placeholder="Reason (optional)" className="form-control mb-3" onChange={handleChange} />
-      <input type="text" name="contactNumber" placeholder="Contact Number" className="form-control mb-3" onChange={handleChange} required />
-      <button type="submit" className="btn btn-danger w-100">Submit Request</button>
+
+      <select
+        name="bloodType"
+        className="form-control mb-3"
+        onChange={handleChange}
+        value={formData.bloodType}
+        required
+      >
+        <option value="">Select Blood Type</option>
+        <option value="A+">A+</option>
+        <option value="A-">A-</option>
+        <option value="B+">B+</option>
+        <option value="B-">B-</option>
+        <option value="AB+">AB+</option>
+        <option value="AB-">AB-</option>
+        <option value="O+">O+</option>
+        <option value="O-">O-</option>
+      </select>
+
+      <input
+        type="number"
+        name="unitsRequired"
+        placeholder="Units Required"
+        className="form-control mb-3"
+        onChange={handleChange}
+        required
+      />
+      <input
+        type="text"
+        name="reason"
+        placeholder="Reason (optional)"
+        className="form-control mb-3"
+        onChange={handleChange}
+      />
+      <input
+        type="text"
+        name="contactNumber"
+        placeholder="Contact Number"
+        className="form-control mb-3"
+        onChange={handleChange}
+        required
+      />
+      <button type="submit" className="btn btn-danger w-100">
+        Submit Request
+      </button>
     </form>
   );
 };
