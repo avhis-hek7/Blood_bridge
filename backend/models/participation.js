@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const ParticipationSchema = new mongoose.Schema({
   user: {
@@ -16,10 +16,14 @@ const ParticipationSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-   certificateIssued: {
+  certificateIssued: {
+    type: Boolean,
+    default: false,
+  },
+  confirmed: {
     type: Boolean,
     default: false,
   },
 });
 
-module.exports = mongoose.model('Participation', ParticipationSchema);
+module.exports = mongoose.model("Participation", ParticipationSchema);

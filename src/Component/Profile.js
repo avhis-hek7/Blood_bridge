@@ -1,4 +1,4 @@
-// import React, { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 // import axios from "axios";
 // import { useNavigate } from "react-router-dom";
 // import "./Profile.css";
@@ -16,70 +16,16 @@
 
 // const Profile = () => {
 //   const [user, setUser] = useState(null);
-//   const [participation, setParticipation] = useState(null);
-//   const [participationHistory, setParticipationHistory] = useState([]); // New
+//   const [currentParticipation, setCurrentParticipation] = useState(null);
+//   const [participationHistory, setParticipationHistory] = useState([]);
 //   const [loading, setLoading] = useState(true);
 //   const [statusMessage, setStatusMessage] = useState("");
 //   const [authToken] = useState(localStorage.getItem("authToken"));
 //   const [timeRemaining, setTimeRemaining] = useState(null);
 //   const [nextEligibleDate, setNextEligibleDate] = useState(null);
 //   const [eligibilityData, setEligibilityData] = useState(null);
+//   const [eventDurations, setEventDurations] = useState([]);
 //   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     if (!authToken) {
-//       navigate("/");
-//     } else {
-//       fetchUserData();
-//     }
-//   }, [authToken, navigate]);
-
-//   const fetchUserData = async () => {
-//     try {
-//       const userResponse = await axios.post(
-//         "http://localhost:5000/api/auth/getuser",
-//         {},
-//         { headers: { "auth-token": authToken } }
-//       );
-//       const userData = userResponse.data;
-//       setUser(userData);
-
-//       // Fetch current participation
-//       const participationResponse = await axios.post(
-//         "http://localhost:5000/api/participation/check-participants",
-//         { email: userData.email }
-//       );
-//       setParticipation(participationResponse.data);
-
-//       // Fetch participation history
-//       const historyResponse = await axios.post(
-//         "http://localhost:5000/api/participation/get-all-participations",
-//         { email: userData.email },
-//         { headers: { "auth-token": authToken } }
-//       );
-//       setParticipationHistory(
-//         historyResponse.data.sort(
-//           (a, b) => new Date(b.participatedAt) - new Date(a.participatedAt)
-//         )
-//       );
-
-//       // Setup next eligible date if applicable
-//       if (participationResponse.data?.participatedAt) {
-//         const lastDonationDate = new Date(
-//           participationResponse.data.participatedAt
-//         );
-//         const eligibleDate = new Date(lastDonationDate);
-//         eligibleDate.setDate(eligibleDate.getDate() + 90);
-//         setNextEligibleDate(eligibleDate);
-//         startCountdown(eligibleDate);
-//       }
-//     } catch (err) {
-//       console.error("Error fetching user or participation data:", err);
-//       // setStatusMessage("❌ Unable to load profile data.");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
 
 //   useEffect(() => {
 //     if (!authToken) {
@@ -98,6 +44,70 @@
 //     }
 //   }, [authToken, navigate]);
 
+//   const fetchUserData = async () => {
+//     try {
+//       const userResponse = await axios.post(
+//         "http://localhost:5000/api/auth/getuser",
+//         {},
+//         { headers: { "auth-token": authToken } }
+//       );
+//       const userData = userResponse.data;
+//       setUser(userData);
+
+//       const [historyResponse, durationResponse] = await Promise.all([
+//         axios.post(
+//           "http://localhost:5000/api/participation/get-all-participations",
+//           { email: userData.email },
+//           { headers: { "auth-token": authToken } }
+//         ),
+//         axios.get("http://localhost:5000/api/authevent"),
+//       ]);
+
+//       const allDurations = durationResponse.data || [];
+//       setEventDurations(allDurations);
+
+//       // Attach durations and enrich history
+//       const enrichedHistory = (historyResponse.data || []).map((record) => {
+//         const matched = allDurations.find(
+//           (e) => e.title === record.event.title
+//         );
+//         record.event.duration = matched?.duration || { hours: 1, minutes: 0 };
+//         return record;
+//       });
+
+//       // Find current participation (ongoing or upcoming)
+//       const current = enrichedHistory.find((record) => {
+//         const status = getEventStatus(record.event);
+//         return status === "ongoing" || status === "upcoming";
+//       });
+//       setCurrentParticipation(current);
+
+//       // Filter only completed events for history
+//       const pastEvents = enrichedHistory
+//         .filter((record) => getEventStatus(record.event) === "completed")
+//         .sort(
+//           (a, b) => new Date(b.participatedAt) - new Date(a.participatedAt)
+//         );
+//       setParticipationHistory(pastEvents);
+
+//       // Set eligibility countdown based on most recent participation
+//       const mostRecentParticipation = enrichedHistory[0];
+//       if (mostRecentParticipation?.participatedAt) {
+//         const lastDonationDate = new Date(
+//           mostRecentParticipation.participatedAt
+//         );
+//         const eligibleDate = new Date(lastDonationDate);
+//         eligibleDate.setDate(eligibleDate.getDate() + 90);
+//         setNextEligibleDate(eligibleDate);
+//         startCountdown(eligibleDate);
+//       }
+//     } catch (err) {
+//       console.error("Error fetching user or participation data:", err);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
 //   const startCountdown = (eligibleDate) => {
 //     const interval = setInterval(() => {
 //       const now = new Date();
@@ -113,6 +123,23 @@
 //         setTimeRemaining(`${days}d ${hours}h ${minutes}m ${seconds}s`);
 //       }
 //     }, 1000);
+//   };
+
+//   const getEventStatus = (event) => {
+//     if (!event?.date) return "completed";
+
+//     const now = new Date().getTime();
+//     const start = new Date(event.date).getTime();
+
+//     const durationHours = parseInt(event.duration?.hours || 0);
+//     const durationMinutes = parseInt(event.duration?.minutes || 0);
+//     const durationMs = (durationHours * 60 + durationMinutes) * 60 * 1000;
+
+//     const end = start + durationMs;
+
+//     if (now < start) return "upcoming";
+//     if (now >= start && now < end) return "ongoing";
+//     return "completed";
 //   };
 
 //   if (loading) {
@@ -132,7 +159,12 @@
 //     );
 //   }
 
-//   const event = participation?.event;
+//   const getCurrentEventStatus = () => {
+//     if (!currentParticipation) return null;
+//     return getEventStatus(currentParticipation.event);
+//   };
+
+//   const currentEventStatus = getCurrentEventStatus();
 
 //   return (
 //     <div className="container mt-5 profile-container animate-fade-slide">
@@ -144,6 +176,7 @@
 //             <div className="alert alert-info">{statusMessage}</div>
 //           )}
 
+//           {/* User Info Card */}
 //           <div className="card profile-card mb-4">
 //             <div className="card-body">
 //               <h5 className="card-title">{user.name}</h5>
@@ -154,6 +187,7 @@
 //             </div>
 //           </div>
 
+//           {/* Eligibility Info */}
 //           {eligibilityData && (
 //             <div className="card profile-card mb-4">
 //               <div className="card-body">
@@ -166,143 +200,185 @@
 //                 </p>
 //                 <p className="card-text">
 //                   <strong>Last Donation Date:</strong>{" "}
-//                   {new Date(
-//                     eligibilityData.lastDonationDate
-//                   ).toLocaleDateString()}
+//                   {eligibilityData.lastDonationDate
+//                     ? new Date(
+//                         eligibilityData.lastDonationDate
+//                       ).toLocaleDateString()
+//                     : "N/A"}
 //                 </p>
 //                 <p className="card-text">
-//                   <strong>Health Status:</strong> {eligibilityData.healthStatus}
+//                   <strong>Health Status:</strong>{" "}
+//                   {eligibilityData.healthStatus || "N/A"}
 //                 </p>
 //               </div>
 //             </div>
 //           )}
-//           {/* Latest Participation */}
-          
-//           {/* Current Event Participation */}
-// {participation?.hasParticipated && event ? (
-//   <div className="mt-4">
-//     <h4 className="section-heading">Current Event Participation</h4>
-//     <div
-//       className={`card profile-card mb-4 ${
-//         new Date(event.date).getTime() >= Date.now()
-//           ? "border-success"
-//           : "border-secondary"
-//       }`}
-//     >
-//       <div className="card-body">
-//         <h5 className="card-title">{event.title || "Untitled Event"}</h5>
-//         <p className="card-text">
-//           <FaCalendarAlt className="me-2 text-success" />
-//           <strong>Event Date:</strong>{" "}
-//           {event.date ? new Date(event.date).toLocaleString() : "N/A"}
-//         </p>
-//         <p className="card-text">
-//           <FaMapMarkerAlt className="me-2 text-danger" />
-//           <strong>Location:</strong> {event.location || "N/A"}
-//         </p>
-//         <p className="card-text">
-//           <FaUserTie className="me-2 text-warning" />
-//           <strong>Organizer:</strong> {event.organizer || "N/A"}
-//         </p>
-//         <p className="card-text">
-//           <FaClock className="me-2 text-secondary" />
-//           <strong>Last Donation:</strong>{" "}
-//           {participation.participatedAt
-//             ? new Date(participation.participatedAt).toLocaleString()
-//             : "N/A"}
-//         </p>
 
-//         {/* Countdown and Eligibility */}
-//         {nextEligibleDate && (
-//           <>
-//             <p className="card-text">
-//               <FaHourglassHalf className="me-2 text-info" />
-//               <strong>Next Eligible Date:</strong>{" "}
-//               {new Date(nextEligibleDate).toLocaleString()}
-//             </p>
-//             <p className="card-text text-danger fw-bold">⏳ {timeRemaining}</p>
-//           </>
-//         )}
+//           {/* Current Event (Ongoing or Upcoming) */}
+//           {currentParticipation ? (
+//             <div className="mt-4">
+//               <h4 className="section-heading">
+//                 {currentEventStatus === "ongoing"
+//                   ? "Current Event (Ongoing)"
+//                   : "Current Event (Upcoming)"}
+//               </h4>
+//               <div
+//                 className={`card profile-card mb-4 ${
+//                   currentEventStatus === "ongoing"
+//                     ? "border-warning"
+//                     : "border-success"
+//                 }`}
+//               >
+//                 <div className="card-body">
+//                   <h5 className="card-title">
+//                     {currentParticipation.event.title || "Untitled Event"}
+//                   </h5>
+//                   <p className="card-text">
+//                     <FaCalendarAlt className="me-2 text-success" />
+//                     <strong>Event Date:</strong>{" "}
+//                     {currentParticipation.event.date
+//                       ? new Date(
+//                           currentParticipation.event.date
+//                         ).toLocaleString()
+//                       : "N/A"}
+//                   </p>
+//                   <p className="card-text">
+//                     <FaMapMarkerAlt className="me-2 text-danger" />
+//                     <strong>Location:</strong>{" "}
+//                     {currentParticipation.event.location || "N/A"}
+//                   </p>
+//                   <p className="card-text">
+//                     <FaUserTie className="me-2 text-warning" />
+//                     <strong>Organizer:</strong>{" "}
+//                     {currentParticipation.event.organizer || "N/A"}
+//                   </p>
+//                   <p className="card-text">
+//                     <FaClock className="me-2 text-secondary" />
+//                     <strong>Registration Date:</strong>{" "}
+//                     {currentParticipation.participatedAt
+//                       ? new Date(
+//                           currentParticipation.participatedAt
+//                         ).toLocaleString()
+//                       : "N/A"}
+//                   </p>
 
-//         <p
-//           className={`card-text fw-bold mt-3 ${
-//             new Date(event.date).getTime() >= Date.now()
-//               ? "text-success"
-//               : "text-muted"
-//           }`}
-//         >
-//           {new Date(event.date).getTime() >= Date.now() ? (
-//             <>
-//               <FaCheckCircle className="me-1" /> Upcoming Event
-//             </>
-//           ) : (
-//             <>
-//               <FaTimesCircle className="me-1" /> Event Completed
-//             </>
-//           )}
-//         </p>
-//       </div>
-//     </div>
-//   </div>
-// ) : (
-//   <div className="alert alert-warning profile-alert mt-4 mb-4">
-//     You have not participated in any upcoming events.
-//   </div>
-// )}
+//                   {nextEligibleDate && (
+//                     <>
+//                       <p className="card-text">
+//                         <FaHourglassHalf className="me-2 text-info" />
+//                         <strong>Next Eligible Date:</strong>{" "}
+//                         {new Date(nextEligibleDate).toLocaleString()}
+//                       </p>
+//                       <p className="card-text text-danger fw-bold">
+//                         ⏳ {timeRemaining}
+//                       </p>
+//                     </>
+//                   )}
 
-
-//           {/* Participation History Section */}
-//           <div className="mt-5">
-//             <h4 className="section-heading">Participation History</h4>
-//             {participationHistory.length === 0 ? (
-//               <div className="alert alert-info profile-alert">
-//                 No participation history yet.
-//               </div>
-//             ) : (
-//               participationHistory.map((record, index) => {
-//                 const isActive = new Date(record.event.date) > new Date();
-//                 return (
-//                   <div
-//                     key={index}
-//                     className={`card profile-card mb-3 ${
-//                       isActive ? "border-success" : "border-secondary"
+//                   <p
+//                     className={`card-text fw-bold mt-3 ${
+//                       currentEventStatus === "ongoing"
+//                         ? "text-warning"
+//                         : "text-success"
 //                     }`}
 //                   >
-//                     <div className="card-body">
-//                       <h5 className="card-title">{record.event.title}</h5>
-//                       <p className="card-text">
-//                         <FaCalendarAlt className="me-2" />
-//                         <strong>Event Date:</strong>{" "}
-//                         {new Date(record.event.date).toLocaleString()}
-//                       </p>
-//                       <p className="card-text">
-//                         <FaMapMarkerAlt className="me-2" />
-//                         <strong>Location:</strong> {record.event.location}
-//                       </p>
-//                       <p className="card-text">
-//                         <FaClock className="me-2" />
-//                         <strong>Participated At:</strong>{" "}
-//                         {new Date(record.participatedAt).toLocaleString()}
-//                       </p>
-//                       <p
-//                         className={`card-text fw-bold ${
-//                           isActive ? "text-success" : "text-muted"
-//                         }`}
+//                     {currentEventStatus === "ongoing" ? (
+//                       <>
+//                         <FaHourglassHalf className="me-1" /> Ongoing Event
+//                       </>
+//                     ) : (
+//                       <>
+//                         <FaCheckCircle className="me-1" /> Upcoming Event
+//                       </>
+//                     )}
+//                   </p>
+//                 </div>
+//               </div>
+//             </div>
+//           ) : (
+//             <div className="alert alert-warning profile-alert mt-4 mb-4">
+//               You have no current events (ongoing or upcoming).
+//             </div>
+//           )}
+
+//           {/* Past Events History */}
+//           <div className="mt-5">
+//             <h4 className="section-heading">Past Events</h4>
+//             {participationHistory.length === 0 ? (
+//               <div className="alert alert-info profile-alert">
+//                 No past events yet.
+//               </div>
+//             ) : (
+//               participationHistory.map((record, index) => (
+//                 <div
+//                   key={index}
+//                   className="card profile-card mb-3 border-secondary"
+//                 >
+//                   <div className="card-body">
+//                     <h5 className="card-title">{record.event.title}</h5>
+//                     <p className="card-text">
+//                       <FaCalendarAlt className="me-2" />
+//                       <strong>Event Date:</strong>{" "}
+//                       {record.event.date
+//                         ? new Date(record.event.date).toLocaleString()
+//                         : "N/A"}
+//                     </p>
+//                     <p className="card-text">
+//                       <FaMapMarkerAlt className="me-2" />
+//                       <strong>Location:</strong>{" "}
+//                       {record.event.location || "N/A"}
+//                     </p>
+//                     <p className="card-text">
+//                       <FaClock className="me-2" />
+//                       <strong>Participated At:</strong>{" "}
+//                       {record.participatedAt
+//                         ? new Date(record.participatedAt).toLocaleString()
+//                         : "N/A"}
+//                     </p>
+
+//                     <p className="card-text fw-bold mt-3 text-muted">
+//                       <FaTimesCircle className="me-1" /> Past Event
+//                     </p>
+
+//                     {!record.certificateIssued && (
+//                       <button
+//                         className="btn btn-outline-primary mt-2"
+//                         onClick={async () => {
+//                           try {
+//                             const res = await axios.post(
+//                               "http://localhost:5000/api/participation/issue-certificate",
+//                               {
+//                                 email: user.email,
+//                                 eventTitle: record.event.title,
+//                               },
+//                               { headers: { "auth-token": authToken } }
+//                             );
+//                             alert(
+//                               res.data.message ||
+//                                 "Certificate issued successfully!"
+//                             );
+//                             fetchUserData(); // Refresh data
+//                           } catch (err) {
+//                             console.error("Certificate issue failed:", err);
+//                             alert(
+//                               err.response?.data?.error ||
+//                                 "Failed to issue certificate. Please try again."
+//                             );
+//                           }
+//                         }}
 //                       >
-//                         {isActive ? (
-//                           <>
-//                             <FaCheckCircle className="me-1" /> Active Event
-//                           </>
-//                         ) : (
-//                           <>
-//                             <FaTimesCircle className="me-1" /> Past Event
-//                           </>
-//                         )}
+//                         🧾 Get Certificate
+//                       </button>
+//                     )}
+
+//                     {record.certificateIssued && (
+//                       <p className="text-success mt-2 fw-bold">
+//                         🟢 Certificate already issued.
 //                       </p>
-//                     </div>
+//                     )}
 //                   </div>
-//                 );
-//               })
+//                 </div>
+//               ))
 //             )}
 //           </div>
 //         </div>
@@ -312,7 +388,6 @@
 // };
 
 // export default Profile;
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -331,7 +406,7 @@ import UserTimeout from "./UserTimeout";
 
 const Profile = () => {
   const [user, setUser] = useState(null);
-  const [participation, setParticipation] = useState(null);
+  const [currentParticipation, setCurrentParticipation] = useState(null);
   const [participationHistory, setParticipationHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [statusMessage, setStatusMessage] = useState("");
@@ -339,58 +414,8 @@ const Profile = () => {
   const [timeRemaining, setTimeRemaining] = useState(null);
   const [nextEligibleDate, setNextEligibleDate] = useState(null);
   const [eligibilityData, setEligibilityData] = useState(null);
+  const [eventDurations, setEventDurations] = useState([]);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!authToken) {
-      navigate("/");
-    } else {
-      fetchUserData();
-    }
-  }, [authToken, navigate]);
-
-  const fetchUserData = async () => {
-    try {
-      const userResponse = await axios.post(
-        "http://localhost:5000/api/auth/getuser",
-        {},
-        { headers: { "auth-token": authToken } }
-      );
-      const userData = userResponse.data;
-      setUser(userData);
-
-      const participationResponse = await axios.post(
-        "http://localhost:5000/api/participation/check-participants",
-        { email: userData.email }
-      );
-      setParticipation(participationResponse.data);
-
-      const historyResponse = await axios.post(
-        "http://localhost:5000/api/participation/get-all-participations",
-        { email: userData.email },
-        { headers: { "auth-token": authToken } }
-      );
-      setParticipationHistory(
-        historyResponse.data.sort(
-          (a, b) => new Date(b.participatedAt) - new Date(a.participatedAt)
-        )
-      );
-
-      if (participationResponse.data?.participatedAt) {
-        const lastDonationDate = new Date(
-          participationResponse.data.participatedAt
-        );
-        const eligibleDate = new Date(lastDonationDate);
-        eligibleDate.setDate(eligibleDate.getDate() + 90);
-        setNextEligibleDate(eligibleDate);
-        startCountdown(eligibleDate);
-      }
-    } catch (err) {
-      console.error("Error fetching user or participation data:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
     if (!authToken) {
@@ -409,6 +434,66 @@ const Profile = () => {
     }
   }, [authToken, navigate]);
 
+  const fetchUserData = async () => {
+    try {
+      const userResponse = await axios.post(
+        "http://localhost:5000/api/auth/getuser",
+        {},
+        { headers: { "auth-token": authToken } }
+      );
+      const userData = userResponse.data;
+      setUser(userData);
+
+      const [historyResponse, durationResponse] = await Promise.all([
+        axios.post(
+          "http://localhost:5000/api/participation/get-all-participations",
+          { email: userData.email },
+          { headers: { "auth-token": authToken } }
+        ),
+        axios.get("http://localhost:5000/api/authevent"),
+      ]);
+
+      const allDurations = durationResponse.data || [];
+      setEventDurations(allDurations);
+
+      const enrichedHistory = (historyResponse.data || []).map((record) => {
+        const matched = allDurations.find(
+          (e) => e.title === record.event.title
+        );
+        record.event.duration = matched?.duration || { hours: 1, minutes: 0 };
+        return record;
+      });
+
+      const current = enrichedHistory.find((record) => {
+        const status = getEventStatus(record.event);
+        return status === "ongoing" || status === "upcoming";
+      });
+      setCurrentParticipation(current);
+
+      const pastEvents = enrichedHistory
+        .filter((record) => getEventStatus(record.event) === "completed")
+        .sort(
+          (a, b) => new Date(b.participatedAt) - new Date(a.participatedAt)
+        );
+      setParticipationHistory(pastEvents);
+
+      const mostRecentParticipation = enrichedHistory[0];
+      if (mostRecentParticipation?.participatedAt) {
+        const lastDonationDate = new Date(
+          mostRecentParticipation.participatedAt
+        );
+        const eligibleDate = new Date(lastDonationDate);
+        eligibleDate.setDate(eligibleDate.getDate() + 90);
+        setNextEligibleDate(eligibleDate);
+        startCountdown(eligibleDate);
+      }
+    } catch (err) {
+      console.error("Error fetching user or participation data:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const startCountdown = (eligibleDate) => {
     const interval = setInterval(() => {
       const now = new Date();
@@ -424,6 +509,23 @@ const Profile = () => {
         setTimeRemaining(`${days}d ${hours}h ${minutes}m ${seconds}s`);
       }
     }, 1000);
+  };
+
+  const getEventStatus = (event) => {
+    if (!event?.date) return "completed";
+
+    const now = new Date().getTime();
+    const start = new Date(event.date).getTime();
+
+    const durationHours = parseInt(event.duration?.hours || 0);
+    const durationMinutes = parseInt(event.duration?.minutes || 0);
+    const durationMs = (durationHours * 60 + durationMinutes) * 60 * 1000;
+
+    const end = start + durationMs;
+
+    if (now < start) return "upcoming";
+    if (now >= start && now < end) return "ongoing";
+    return "completed";
   };
 
   if (loading) {
@@ -443,7 +545,12 @@ const Profile = () => {
     );
   }
 
-  const event = participation?.event;
+  const getCurrentEventStatus = () => {
+    if (!currentParticipation) return null;
+    return getEventStatus(currentParticipation.event);
+  };
+
+  const currentEventStatus = getCurrentEventStatus();
 
   return (
     <div className="container mt-5 profile-container animate-fade-slide">
@@ -455,6 +562,7 @@ const Profile = () => {
             <div className="alert alert-info">{statusMessage}</div>
           )}
 
+          {/* User Info Card */}
           <div className="card profile-card mb-4">
             <div className="card-body">
               <h5 className="card-title">{user.name}</h5>
@@ -465,6 +573,7 @@ const Profile = () => {
             </div>
           </div>
 
+          {/* Eligibility Info */}
           {eligibilityData && (
             <div className="card profile-card mb-4">
               <div className="card-body">
@@ -477,49 +586,65 @@ const Profile = () => {
                 </p>
                 <p className="card-text">
                   <strong>Last Donation Date:</strong>{" "}
-                  {new Date(
-                    eligibilityData.lastDonationDate
-                  ).toLocaleDateString()}
+                  {eligibilityData.lastDonationDate
+                    ? new Date(
+                        eligibilityData.lastDonationDate
+                      ).toLocaleDateString()
+                    : "N/A"}
                 </p>
                 <p className="card-text">
-                  <strong>Health Status:</strong> {eligibilityData.healthStatus}
+                  <strong>Health Status:</strong>{" "}
+                  {eligibilityData.healthStatus || "N/A"}
                 </p>
               </div>
             </div>
           )}
 
-          {participation?.hasParticipated && event ? (
+          {/* Current Event (Ongoing or Upcoming) */}
+          {currentParticipation ? (
             <div className="mt-4">
-              <h4 className="section-heading">Current Event Participation</h4>
+              <h4 className="section-heading">
+                {currentEventStatus === "ongoing"
+                  ? "Current Event (Ongoing)"
+                  : "Current Event (Upcoming)"}
+              </h4>
               <div
                 className={`card profile-card mb-4 ${
-                  new Date(event.date).getTime() >= Date.now()
-                    ? "border-success"
-                    : "border-secondary"
+                  currentEventStatus === "ongoing"
+                    ? "border-warning"
+                    : "border-success"
                 }`}
               >
                 <div className="card-body">
                   <h5 className="card-title">
-                    {event.title || "Untitled Event"}
+                    {currentParticipation.event.title || "Untitled Event"}
                   </h5>
                   <p className="card-text">
                     <FaCalendarAlt className="me-2 text-success" />
                     <strong>Event Date:</strong>{" "}
-                    {event.date ? new Date(event.date).toLocaleString() : "N/A"}
+                    {currentParticipation.event.date
+                      ? new Date(
+                          currentParticipation.event.date
+                        ).toLocaleString()
+                      : "N/A"}
                   </p>
                   <p className="card-text">
                     <FaMapMarkerAlt className="me-2 text-danger" />
-                    <strong>Location:</strong> {event.location || "N/A"}
+                    <strong>Location:</strong>{" "}
+                    {currentParticipation.event.location || "N/A"}
                   </p>
                   <p className="card-text">
                     <FaUserTie className="me-2 text-warning" />
-                    <strong>Organizer:</strong> {event.organizer || "N/A"}
+                    <strong>Organizer:</strong>{" "}
+                    {currentParticipation.event.organizer || "N/A"}
                   </p>
                   <p className="card-text">
                     <FaClock className="me-2 text-secondary" />
-                    <strong>Last Donation:</strong>{" "}
-                    {participation.participatedAt
-                      ? new Date(participation.participatedAt).toLocaleString()
+                    <strong>Registration Date:</strong>{" "}
+                    {currentParticipation.participatedAt
+                      ? new Date(
+                          currentParticipation.participatedAt
+                        ).toLocaleString()
                       : "N/A"}
                   </p>
 
@@ -538,18 +663,18 @@ const Profile = () => {
 
                   <p
                     className={`card-text fw-bold mt-3 ${
-                      new Date(event.date).getTime() >= Date.now()
-                        ? "text-success"
-                        : "text-muted"
+                      currentEventStatus === "ongoing"
+                        ? "text-warning"
+                        : "text-success"
                     }`}
                   >
-                    {new Date(event.date).getTime() >= Date.now() ? (
+                    {currentEventStatus === "ongoing" ? (
                       <>
-                        <FaCheckCircle className="me-1" /> Upcoming Event
+                        <FaHourglassHalf className="me-1" /> Ongoing Event
                       </>
                     ) : (
                       <>
-                        <FaTimesCircle className="me-1" /> Event Completed
+                        <FaCheckCircle className="me-1" /> Upcoming Event
                       </>
                     )}
                   </p>
@@ -558,98 +683,57 @@ const Profile = () => {
             </div>
           ) : (
             <div className="alert alert-warning profile-alert mt-4 mb-4">
-              You have not participated in any upcoming events.
+              You have no current events (ongoing or upcoming).
             </div>
           )}
 
-          {/* Participation History */}
+          {/* Past Events History */}
           <div className="mt-5">
-            <h4 className="section-heading">Participation History</h4>
+            <h4 className="section-heading">Past Events</h4>
             {participationHistory.length === 0 ? (
               <div className="alert alert-info profile-alert">
-                No participation history yet.
+                No past events yet.
               </div>
             ) : (
-              participationHistory.map((record, index) => {
-                const isActive = new Date(record.event.date) > new Date();
-                return (
-                  <div
-                    key={index}
-                    className={`card profile-card mb-3 ${
-                      isActive ? "border-success" : "border-secondary"
-                    }`}
-                  >
-                    <div className="card-body">
-                      <h5 className="card-title">{record.event.title}</h5>
-                      <p className="card-text">
-                        <FaCalendarAlt className="me-2" />
-                        <strong>Event Date:</strong>{" "}
-                        {new Date(record.event.date).toLocaleString()}
-                      </p>
-                      <p className="card-text">
-                        <FaMapMarkerAlt className="me-2" />
-                        <strong>Location:</strong> {record.event.location}
-                      </p>
-                      <p className="card-text">
-                        <FaClock className="me-2" />
-                        <strong>Participated At:</strong>{" "}
-                        {new Date(record.participatedAt).toLocaleString()}
-                      </p>
-                      <p
-                        className={`card-text fw-bold ${
-                          isActive ? "text-success" : "text-muted"
-                        }`}
-                      >
-                        {isActive ? (
-                          <>
-                            <FaCheckCircle className="me-1" /> Active Event
-                          </>
-                        ) : (
-                          <>
-                            <FaTimesCircle className="me-1" /> Past Event
-                          </>
-                        )}
-                      </p>
+              participationHistory.map((record, index) => (
+                <div
+                  key={index}
+                  className="card profile-card mb-3 border-secondary"
+                >
+                  <div className="card-body">
+                    <h5 className="card-title">{record.event.title}</h5>
+                    <p className="card-text">
+                      <FaCalendarAlt className="me-2" />
+                      <strong>Event Date:</strong>{" "}
+                      {record.event.date
+                        ? new Date(record.event.date).toLocaleString()
+                        : "N/A"}
+                    </p>
+                    <p className="card-text">
+                      <FaMapMarkerAlt className="me-2" />
+                      <strong>Location:</strong>{" "}
+                      {record.event.location || "N/A"}
+                    </p>
+                    <p className="card-text">
+                      <FaClock className="me-2" />
+                      <strong>Participated At:</strong>{" "}
+                      {record.participatedAt
+                        ? new Date(record.participatedAt).toLocaleString()
+                        : "N/A"}
+                    </p>
 
-                      {!isActive && !record.certificateIssued && (
-                        <button
-                          className="btn btn-outline-primary mt-2"
-                          onClick={async () => {
-                            try {
-                              const res = await axios.post(
-                                "http://localhost:5000/api/participation/issue-certificate",
-                                {
-                                  email: user.email,
-                                  eventTitle: record.event.title,
-                                }
-                              );
-                              alert(
-                                res.data.message ||
-                                  "Certificate issued successfully!"
-                              );
-                              fetchUserData(); // Refresh data
-                            } catch (err) {
-                              console.error("Certificate issue failed:", err);
-                              alert(
-                                err.response?.data?.error ||
-                                  "Failed to issue certificate. Please try again."
-                              );
-                            }
-                          }}
-                        >
-                          🧾 Get Certificate
-                        </button>
-                      )}
+                    <p className="card-text fw-bold mt-3 text-muted">
+                      <FaTimesCircle className="me-1" /> Past Event
+                    </p>
 
-                      {!isActive && record.certificateIssued && (
-                        <p className="text-success mt-2 fw-bold">
-                          🟢 Certificate already issued.
-                        </p>
-                      )}
-                    </div>
+                    {record.certificateIssued && (
+                      <p className="text-success mt-2 fw-bold">
+                        🟢 Certificate already issued.
+                      </p>
+                    )}
                   </div>
-                );
-              })
+                </div>
+              ))
             )}
           </div>
         </div>

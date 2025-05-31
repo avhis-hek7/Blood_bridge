@@ -33,6 +33,7 @@ import Emergency from "./Component/Emergency"
 import AdminEmergency from './Component/AdminEmergency'
 import BloodBankLocator from './Component/BloodBankLocator'
 import News from './Component/News'
+import AdminParticipation from './Component/AdminParticipation'
 
 function App() {
   const [progress, setProgress] = useState(0);
@@ -97,6 +98,7 @@ function PageWrapper({ setProgress }) {
         <Route path="/admin/contact" element={<AdminContact />} />
         <Route path="/admin/inventory" element={<AdminInventory />} />
         <Route path="/admin/emergency" element={<AdminEmergency />} />
+        <Route path="/admin/participation" element={<AdminParticipation />} />
 
 
         {/* Catch all route - redirect to home */}

@@ -11,6 +11,7 @@ import {
   FaFirstAid,
   FaEnvelopeOpenText,
   FaTint,
+  FaVials,
 } from "react-icons/fa";
 
 const AdminSidebar = () => {
@@ -97,7 +98,20 @@ const AdminSidebar = () => {
             }`}
             style={{ border: "none" }}
           >
-            <FaTint className="me-2" /> AdminInventory
+            <FaVials className="me-2" /> AdminInventory
+          </button>
+        </li>
+        <li className="nav-item mb-2">
+          <button
+            onClick={() => navigate("/admin/participation")}
+            className={`btn w-100 text-start d-flex align-items-center ${
+              location.pathname === "/admin/participation"
+                ? "bg-secondary text-white"
+                : "btn-dark text-white"
+            }`}
+            style={{ border: "none" }}
+          >
+            <FaClipboardList className="me-2" /> Particpation List
           </button>
         </li>
         <li className="nav-item mb-2">

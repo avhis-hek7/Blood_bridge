@@ -1,0 +1,5 @@
+.containerBackground {
+  background-image: linear-gradient(to left, #b8a6d6, #e0e0e0);
+  padding: 2rem;
+  border-radius: 10px;
+}

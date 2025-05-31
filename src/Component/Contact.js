@@ -207,7 +207,7 @@ function Contact() {
             <h5>Location</h5>
           </div>
           <div className="col-md-12">
-            <iframe
+            {/* <iframe
               title="location"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434509374!2d144.9559283159046!3d-37.8172097420215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642af0f11fd81%3A0xf5770d0b4c0b451b!2sMelbourne%2C%20Victoria%2C%20Australia!5e0!3m2!1sen!2s!4v1611812190123!5m2!1sen!2s"
               width="100%"
@@ -215,7 +215,16 @@ function Contact() {
               style={{ border: 0 }}
               allowFullScreen
               loading="lazy"
-            ></iframe>
+            ></iframe> */}
+            <iframe
+              title="location"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.511421246459!2d83.98281821506188!3d28.209631082604206!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39959572aa1d0de5%3A0xf4e26e8dc4050631!2sNepal%20Red%20Cross%20Society%2C%20Kaski%20District%20Chapter!5e0!3m2!1sen!2snp!4v1715863999252!5m2!1sen!2snp"
+              width="100%"
+              height="300"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+            />
           </div>
         </div>
       </div>

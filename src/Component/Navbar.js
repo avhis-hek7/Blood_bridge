@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { FaTint, FaHospital, FaBell,FaVials } from "react-icons/fa";
+import { FaRegNewspaper, FaHospital, FaBell,FaVials,FaMapMarkerAlt,FaTint } from "react-icons/fa";
 import axios from "axios";
 
 function Navbar() {
@@ -199,21 +199,13 @@ function Navbar() {
                 Services
               </span>
               <ul className="dropdown-menu dropdown-menu-end">
-                {/* <li>
-                  <Link
-                    className="dropdown-item d-flex align-items-center gap-2"
-                    to="/donate"
-                  >
-                    <FaTint style={{ color: "#c20f33" }} />
-                    Donate Blood
-                  </Link>
-                </li> */}
+
                 <li>
                   <Link
                     className="dropdown-item d-flex align-items-center gap-2"
                     to="/news"
                   >
-                    <FaTint style={{ color: "#c20f33" }} />
+                    <FaRegNewspaper style={{ color: "#c20f33" }} />
                     News
                   </Link>
                 </li>
@@ -231,7 +223,7 @@ function Navbar() {
                     className="dropdown-item d-flex align-items-center gap-2"
                     to="/bloodbanklocator"
                   >
-                    <FaHospital style={{ color: "#c20f33" }} />
+                    <FaMapMarkerAlt style={{ color: "#c20f33" }} />
                     Blood Bank Locator
                   </Link>
                 </li>
@@ -240,7 +232,7 @@ function Navbar() {
                     className="dropdown-item d-flex align-items-center gap-2"
                     to="/emergency"
                   >
-                    <FaHospital style={{ color: "#c20f33" }} />
+                    <FaTint style={{ color: "#c20f33" }} />
                     Emergency Request
                   </Link>
                 </li>

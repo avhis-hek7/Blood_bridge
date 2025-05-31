@@ -41,46 +41,158 @@ router.get("/", fetchParticipations, (req, res) => {
 
 // console.log('📦 Participation routes file loaded');
 
-router.post("/check-participants", fetchParticipations, async (req, res) => {
-  // console.log('📬 POST /check route hit');
+// router.post("/check-participants", fetchParticipations, async (req, res) => {
+//   // console.log('📬 POST /check route hit');
 
+//   try {
+//     const { email } = req.body;
+
+//     if (!email) {
+//       // console.log('⚠️ Email missing in request body');
+//       return res.status(400).json({ error: "Email is required" });
+//     }
+
+//     const emailToCheck = email.trim().toLowerCase();
+//     // console.log('🔍 Checking participation for:', emailToCheck);
+
+//     // console.log('📦 All participations:', req.participations);
+
+//     const participant = req.participations.find((p) => {
+//       const participantEmail = p.user?.email?.trim().toLowerCase();
+//       // console.log('👤 Checking participant:', participantEmail);
+//       return participantEmail === emailToCheck;
+//     });
+
+//     if (participant) {
+//       // console.log('✅ Participation match found:', participant);
+
+//       res.json({
+//         hasParticipated: true,
+//         event: participant.event,
+//         participatedAt: participant.participatedAt, // optional if you want
+//         user: participant.user, // sending user details too
+//       });
+//     } else {
+//       res.json({ hasParticipated: false });
+//     }
+//   } catch (err) {
+//     console.error("❌ Error in participation check:", err.message);
+//     res.status(500).send("Server Error");
+//   }
+// });
+//Option1
+// router.post("/check-participants", fetchParticipations, async (req, res) => {
+//   try {
+//     const { email } = req.body;
+
+//     if (!email) {
+//       return res.status(400).json({ error: "Email is required" });
+//     }
+
+//     const emailToCheck = email.trim().toLowerCase();
+//     const now = new Date();
+
+//     // First, filter out any expired event participations
+//     const validParticipations = req.participations.filter(participation => {
+//       if (!participation.event) return false;
+      
+//       const eventDate = new Date(participation.event.date);
+//       const durationMs = 
+//         (participation.event.duration?.hours || 0) * 60 * 60 * 1000 +
+//         (participation.event.duration?.minutes || 0) * 60 * 1000;
+//       const endTime = new Date(eventDate.getTime() + durationMs);
+      
+//       return now <= endTime;
+//     });
+
+//     // Delete expired participations from database
+//     const expiredParticipations = req.participations.filter(p => !validParticipations.includes(p));
+//     if (expiredParticipations.length > 0) {
+//       await Participation.deleteMany({
+//         _id: { $in: expiredParticipations.map(p => p._id) }
+//       });
+//     }
+
+//     // Now check for active participations
+//     const participant = validParticipations.find((p) => {
+//       const participantEmail = p.user?.email?.trim().toLowerCase();
+//       return participantEmail === emailToCheck;
+//     });
+
+//     if (participant) {
+//       res.json({
+//         hasParticipated: true,
+//         event: participant.event,
+//         participatedAt: participant.participatedAt,
+//         user: participant.user,
+//       });
+//     } else {
+//       res.json({ hasParticipated: false });
+//     }
+//   } catch (err) {
+//     console.error("❌ Error in participation check:", err.message);
+//     res.status(500).send("Server Error");
+//   }
+// });
+router.post("/check-participants", fetchParticipations, async (req, res) => {
   try {
     const { email } = req.body;
 
     if (!email) {
-      // console.log('⚠️ Email missing in request body');
       return res.status(400).json({ error: "Email is required" });
     }
 
     const emailToCheck = email.trim().toLowerCase();
-    // console.log('🔍 Checking participation for:', emailToCheck);
+    const now = new Date();
 
-    // console.log('📦 All participations:', req.participations);
-
-    const participant = req.participations.find((p) => {
+    // Find all participations for this user
+    const userParticipations = req.participations.filter((p) => {
       const participantEmail = p.user?.email?.trim().toLowerCase();
-      // console.log('👤 Checking participant:', participantEmail);
       return participantEmail === emailToCheck;
     });
 
-    if (participant) {
-      // console.log('✅ Participation match found:', participant);
+    // Check if user has any active participations
+    const activeParticipation = userParticipations.find(participation => {
+      if (!participation.event) return false;
+      
+      const eventDate = new Date(participation.event.date);
+      const durationMs = 
+        (participation.event.duration?.hours || 0) * 60 * 60 * 1000 +
+        (participation.event.duration?.minutes || 0) * 60 * 1000;
+      const endTime = new Date(eventDate.getTime() + durationMs);
+      
+      return now <= endTime;
+    });
 
+    if (activeParticipation) {
       res.json({
         hasParticipated: true,
-        event: participant.event,
-        participatedAt: participant.participatedAt, // optional if you want
-        user: participant.user, // sending user details too
+        event: activeParticipation.event,
+        participatedAt: activeParticipation.participatedAt,
+        user: activeParticipation.user,
+        isActive: true
+      });
+    } else if (userParticipations.length > 0) {
+      // User has past participations but no current ones
+      res.json({
+        hasParticipated: false,
+        pastParticipations: userParticipations.map(p => ({
+          event: p.event,
+          participatedAt: p.participatedAt
+        })),
+        message: "You have past participations but no current ones"
       });
     } else {
-      res.json({ hasParticipated: false });
+      // No participations at all
+      res.json({ 
+        hasParticipated: false 
+      });
     }
   } catch (err) {
     console.error("❌ Error in participation check:", err.message);
     res.status(500).send("Server Error");
   }
 });
-
 router.post("/get-all-participations", async (req, res) => {
   try {
     const { email } = req.body;
@@ -183,7 +295,6 @@ router.get("/event-counts", async (req, res) => {
 //   }
 // });
 
-
 router.post("/issue-certificate", async (req, res) => {
   try {
     const { email, eventTitle } = req.body;
@@ -243,6 +354,91 @@ router.post("/issue-certificate", async (req, res) => {
   }
 });
 
-module.exports = router;
+// PUT /api/participation/confirm/:id
+router.put("/confirm/:id", async (req, res) => {
+  try {
+    const participation = await Participation.findById(req.params.id);
+
+    if (!participation) {
+      return res.status(404).json({ error: "Participation not found" });
+    }
+
+    // Confirm the participation
+    participation.confirmed = true;
+
+    // If certificate not already issued, generate and send
+    if (!participation.certificateIssued) {
+      const { user, event } = participation;
+
+      // Ensure user and event info exists
+      if (
+        user?.email &&
+        user?.name &&
+        event?.title &&
+        event?.date &&
+        event?.location
+      ) {
+        try {
+          const filePath = await generateCertificate(
+            user.name,
+            user.email,
+            event.title,
+            event.date,
+            event.location
+          );
+
+          await sendCertificateEmail(user.email, user.name, filePath, event);
+
+          participation.certificateIssued = true;
+        } catch (emailError) {
+          console.error(
+            "Certificate generation/email failed:",
+            emailError.message
+          );
+          return res
+            .status(500)
+            .json({ error: "Failed to issue certificate after confirmation." });
+        }
+      } else {
+        return res
+          .status(400)
+          .json({ error: "Incomplete user or event details for certificate." });
+      }
+    }
+
+    await participation.save();
+
+    res.json({ success: true, data: participation });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error during confirmation" });
+  }
+});
+// DELETE route for participation
+router.delete('/:id', async (req, res) => {
+  try {
+    const participation = await Participation.findByIdAndDelete(req.params.id);
+    
+    if (!participation) {
+      return res.status(404).json({
+        success: false,
+        message: 'Participation not found'
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Participation deleted successfully',
+      data: participation
+    });
+  } catch (error) {
+    console.error('Error deleting participation:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: error.message
+    });
+  }
+});
 
 module.exports = router;

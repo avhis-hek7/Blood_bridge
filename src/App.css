@@ -636,3 +636,26 @@ table tbody tr {
 table tbody tr:hover {
   background-color: #f8f9fa; /* Light grey background on hover */
 }
+/* Updated Footer */
+  .foot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    padding: 20px;
+    position: relative;
+    width: 100%;
+  }
+  
+  .footercontent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .footer-logo {
+    height: 80px; 
+    margin-top: 10px; 
+  }

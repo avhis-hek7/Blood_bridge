@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+
+// Latest Solution
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "./Events.css";
@@ -15,31 +17,67 @@ const Events = () => {
   const [participatedEvent, setParticipatedEvent] = useState(null);
   const [authToken, setAuthToken] = useState(localStorage.getItem("authToken"));
   const [selectedEvent, setSelectedEvent] = useState(null);
-
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
   const [lastDonationDate, setLastDonationDate] = useState("");
   const [healthStatus, setHealthStatus] = useState("");
+  const [countdowns, setCountdowns] = useState({});
 
   useEffect(() => {
     fetchEvents();
+    const interval = setInterval(fetchEvents, 60000);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
     checkLoginStatus();
   }, [authToken]);
 
-  useEffect(() => {
-    if (participatedEvent) {
-      const eventDate = new Date(participatedEvent.date);
-      const now = new Date();
-      if (eventDate.getTime() + 10* 60 * 1000 < now.getTime()) {
-        // Event expired, reset participation
-        setHasParticipated(false);
-        setParticipatedEvent(null);
-      }
+
+useEffect(() => {
+  if (participatedEvent) {
+    const { status, endTime } = getEventStatus(participatedEvent);
+    const now = new Date();
+    if (status === "Expired" && now > endTime) {
+      setHasParticipated(false);
+      setParticipatedEvent(null);
     }
-  }, [participatedEvent]);
+  }
+}, [participatedEvent, events]); // Add events to dependencies
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const updatedCountdowns = {};
+      events.forEach((event) => {
+        const now = new Date();
+        const startTime = new Date(event.date);
+        const durationMs =
+          (event.duration?.hours || 0) * 60 * 60 * 1000 +
+          (event.duration?.minutes || 0) * 60 * 1000;
+        const endTime = new Date(startTime.getTime() + durationMs);
+        let timeLeft = null;
+
+        if (now < startTime) {
+          timeLeft = startTime - now;
+        } else if (now >= startTime && now <= endTime) {
+          timeLeft = endTime - now;
+        }
+
+        if (timeLeft !== null) {
+          const hours = Math.floor(timeLeft / (1000 * 60 * 60));
+          const minutes = Math.floor(
+            (timeLeft % (1000 * 60 * 60)) / (1000 * 60)
+          );
+          const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+          updatedCountdowns[event._id] = `${hours}h ${minutes}m ${seconds}s`;
+        } else {
+          updatedCountdowns[event._id] = "";
+        }
+      });
+      setCountdowns(updatedCountdowns);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [events]);
 
   const fetchEvents = async () => {
     try {
@@ -68,37 +106,40 @@ const Events = () => {
     setParticipatedEvent(null);
   };
 
-  const fetchUserAndParticipation = async (token) => {
-    try {
-      const userResponse = await axios.post(
-        "http://localhost:5000/api/auth/getuser",
-        {},
-        { headers: { "auth-token": token } }
-      );
-      const userData = userResponse.data;
-      setUser(userData);
-      localStorage.setItem("user", JSON.stringify(userData));
+const fetchUserAndParticipation = async (token) => {
+  try {
+    const userResponse = await axios.post(
+      "http://localhost:5000/api/auth/getuser",
+      {},
+      { headers: { "auth-token": token } }
+    );
+    const userData = userResponse.data;
+    setUser(userData);
 
-      const participationResponse = await axios.post(
-        "http://localhost:5000/api/participation/check-participants",
-        { email: userData.email }
-      );
+    const participationResponse = await axios.post(
+      "http://localhost:5000/api/participation/check-participants",
+      { email: userData.email }
+    );
 
-      const { hasParticipated, event } = participationResponse.data;
-      setHasParticipated(hasParticipated);
-      if (event) {
-        setParticipatedEvent(event);
-        setStatusMessage(
-          `Welcome back, ${userData.name}! You have already participated in an event.`
-        );
-        setTimeout(() => setStatusMessage(""), 5000);
-      }
-    } catch (err) {
-      console.error("Error fetching user or participation info:", err);
-      resetUserData();
+    const { hasParticipated, event, isActive } = participationResponse.data;
+    
+    setHasParticipated(hasParticipated && isActive);
+    if (hasParticipated && isActive) {
+      setParticipatedEvent(event);
+      setStatusMessage(
+        `Welcome back, ${userData.name}! You have an active event participation.`
+      );
+    } else if (participationResponse.data.pastParticipations) {
+      setStatusMessage(
+        `Welcome back, ${userData.name}! You have ${participationResponse.data.pastParticipations.length} past donations.`
+      );
     }
-  };
-
+    setTimeout(() => setStatusMessage(""), 5000);
+  } catch (err) {
+    console.error("Error fetching user or participation info:", err);
+    resetUserData();
+  }
+};
   const handleParticipateClick = (eventData) => {
     if (!authToken) {
       setStatusMessage("❌ Please log in to participate.");
@@ -140,8 +181,9 @@ const Events = () => {
 
     const lastDate = new Date(lastDonationDate);
     const today = new Date();
-    const diffTime = Math.abs(today - lastDate);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const diffDays = Math.ceil(
+      Math.abs(today - lastDate) / (1000 * 60 * 60 * 24)
+    );
 
     if (diffDays < 90) {
       setEligibilityMessage(
@@ -155,15 +197,8 @@ const Events = () => {
       return;
     }
 
-    // ✅ Save eligibility data to localStorage
-    const eligibilityData = {
-      age,
-      weight,
-      lastDonationDate,
-      healthStatus,
-    };
+    const eligibilityData = { age, weight, lastDonationDate, healthStatus };
     localStorage.setItem("eligibility", JSON.stringify(eligibilityData));
-    console.log("✅ Eligibility data saved to localStorage:", eligibilityData);
 
     try {
       await axios.post("http://localhost:5000/api/participation", {
@@ -203,7 +238,40 @@ const Events = () => {
       window.location.href = "/";
     }
   };
+const getEventStatus = (event) => {
+  const now = new Date();
+  const startTime = new Date(event.date);
+  const durationMs =
+    (event.duration?.hours || 0) * 60 * 60 * 1000 +
+    (event.duration?.minutes || 0) * 60 * 1000;
+  const endTime = new Date(startTime.getTime() + durationMs);
 
+  if (now < startTime) {
+    return { status: "Upcoming", endTime };
+  } else if (now >= startTime && now <= endTime) {
+    return { status: "Ongoing", endTime };
+  } else {
+    return { status: "Expired", endTime };
+  }
+};
+const shouldShowEvent = (event) => {
+  const { status, endTime } = getEventStatus(event);
+  const isParticipatedEvent = participatedEvent && participatedEvent._id === event._id;
+  
+  // If it's the participated event but expired, reset participation
+  if (isParticipatedEvent && status === "Expired") {
+    const now = new Date();
+    if (now > endTime) {
+      setHasParticipated(false);
+      setParticipatedEvent(null);
+    }
+  }
+
+  return (
+    status !== "Expired" ||
+    (participatedEvent && participatedEvent._id === event._id)
+  );
+};
   return (
     <div className="container mt-4">
       <UserTimeout />
@@ -237,98 +305,122 @@ const Events = () => {
           {events.length === 0 ? (
             <p className="fade-in">No events found.</p>
           ) : (
-            events
-              .filter((event) => {
-                const eventDate = new Date(event.date);
-                const now = new Date();
-                return (
-                  eventDate.getTime() + 10 * 60 * 1000 > now.getTime()
-                );
-              })
-              .map((event, index) => {
-                const isParticipatedEvent =
-                  participatedEvent && participatedEvent._id === event._id;
+            events.filter(shouldShowEvent).map((event, index) => {
+              const { status } = getEventStatus(event);
+              const isParticipatedEvent =
+                participatedEvent && participatedEvent._id === event._id;
+              const countdown = countdowns[event._id] || "";
 
-                return (
+              return (
+                <div
+                  key={event._id}
+                  className="col-md-6 col-lg-4 mb-4"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
                   <div
-                    key={event._id}
-                    className="col-md-6 col-lg-4 mb-4"
-                    style={{ animationDelay: `${index * 0.1}s` }}
+                    className={`card shadow-sm h-100 event-card ${
+                      isParticipatedEvent
+                        ? "border-primary border-3 bg-light"
+                        : ""
+                    }`}
                   >
-                    <div
-                      className={`card shadow-sm h-100 event-card ${
-                        isParticipatedEvent
-                          ? "border-primary border-3 bg-light"
-                          : ""
-                      }`}
-                    >
-                      <div className="card-body d-flex flex-column">
-                        <div className="d-flex justify-content-between align-items-start mb-2">
-                          <h5 className="card-title mb-0">
-                            {event.title}
-                            {isParticipatedEvent && (
-                              <span className="badge bg-primary ms-2 badge-pulse">
-                                <i className="bi bi-star-fill me-1"></i>
-                                Your Event
-                              </span>
-                            )}
-                          </h5>
-                        </div>
-                        <h6 className="card-subtitle mb-2 text-muted">
-                          <i className="bi bi-calendar-event me-1"></i>
-                          {new Date(event.date).toLocaleString()}
-                        </h6>
-                        <p className="card-text flex-grow-1">
-                          {event.description}
-                        </p>
-                        <div className="text-muted mb-3">
-                          <p className="mb-1">
-                            <i className="bi bi-geo-alt me-1"></i>
-                            <strong>Location:</strong> {event.location}
-                          </p>
-                          <p className="mb-0">
-                            <i className="bi bi-person me-1"></i>
-                            <strong>Organizer:</strong> {event.organizer}
-                          </p>
-                        </div>
+                    <div className="card-body d-flex flex-column">
+                      <div className="d-flex justify-content-between align-items-start mb-2">
+                        <h5 className="card-title mb-0">
+                          {event.title}
+                          {isParticipatedEvent && (
+                            <span className="badge bg-primary ms-2 badge-pulse">
+                              <i className="bi bi-star-fill me-1"></i>Your Event
+                            </span>
+                          )}
+                        </h5>
+                        <span
+                          className={`badge ${
+                            status === "Ongoing"
+                              ? "bg-warning text-dark"
+                              : status === "Upcoming"
+                              ? "bg-info text-dark"
+                              : "bg-secondary"
+                          }`}
+                        >
+                          {status}
+                          {status === "Expired" &&
+                            isParticipatedEvent &&
+                            " (Completed)"}
+                        </span>
+                      </div>
 
-                        {hasParticipated ? (
-                          isParticipatedEvent ? (
-                            <button
-                              className="btn btn-success mt-auto"
-                              disabled
-                            >
-                              <i className="bi bi-check-circle me-1"></i>
-                              You Participated
-                            </button>
-                          ) : (
-                            <button
-                              className="btn btn-secondary mt-auto"
-                              disabled
-                            >
-                              <i className="bi bi-lock me-1"></i>
-                              Already Participated
-                            </button>
-                          )
+                      {countdown && status !== "Expired" && (
+                        <div className="mb-2 text-muted small">
+                          ⏳ {status === "Ongoing" ? "Ends in" : "Starts in"}:{" "}
+                          {countdown}
+                        </div>
+                      )}
+
+                      <h6 className="card-subtitle mb-2 text-muted">
+                        <i className="bi bi-calendar-event me-1"></i>
+                        {new Date(event.date).toLocaleString()}
+                        {(status === "Ongoing" || status === "Expired") && (
+                          <span className="ms-2">
+                            (Duration: {event.duration?.hours || 0}h{" "}
+                            {event.duration?.minutes || 0}m)
+                          </span>
+                        )}
+                      </h6>
+                      <p className="card-text flex-grow-1">
+                        {event.description}
+                      </p>
+                      <div className="text-muted mb-3">
+                        <p className="mb-1">
+                          <i className="bi bi-geo-alt me-1"></i>
+                          <strong>Location:</strong> {event.location}
+                        </p>
+                        <p className="mb-0">
+                          <i className="bi bi-person me-1"></i>
+                          <strong>Organizer:</strong> {event.organizer}
+                        </p>
+                      </div>
+
+                      {hasParticipated ? (
+                        isParticipatedEvent ? (
+                          <button className="btn btn-success mt-auto" disabled>
+                            <i className="bi bi-check-circle me-1"></i>
+                            You Participated
+                          </button>
                         ) : (
                           <button
-                            className="btn btn-primary mt-auto hover-grow"
-                            onClick={() => handleParticipateClick(event)}
+                            className="btn btn-secondary mt-auto"
+                            disabled
                           >
-                            <i className="bi bi-plus-circle me-1"></i>
-                            Participate
+                            <i className="bi bi-lock me-1"></i>
+                            Already Participated
                           </button>
-                        )}
-                      </div>
+                        )
+                      ) : status !== "Expired" ? (
+                        <button
+                          className="btn btn-primary mt-auto hover-grow"
+                          onClick={() => handleParticipateClick(event)}
+                        >
+                          <i className="bi bi-plus-circle me-1"></i>
+                          Participate
+                        </button>
+                      ) : (
+                        <button
+                          className="btn btn-outline-secondary mt-auto"
+                          disabled
+                        >
+                          Event Ended
+                        </button>
+                      )}
                     </div>
                   </div>
-                );
-              })
+                </div>
+              );
+            })
           )}
         </div>
       )}
 
-      {/* Modal */}
       {selectedEvent && (
         <div
           className="modal fade show d-block"
@@ -442,3 +534,5 @@ const Events = () => {
 };
 
 export default Events;
+
+
