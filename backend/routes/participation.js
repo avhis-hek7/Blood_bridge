@@ -193,6 +193,45 @@ router.post("/check-participants", fetchParticipations, async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+// POST /api/participation/cancel
+router.post("/cancel", async (req, res) => {
+  try {
+    const { email, eventTitle } = req.body;
+
+    if (!email || !eventTitle) {
+      return res.status(400).json({
+        success: false,
+        error: "Email and Event Title are required to cancel participation.",
+      });
+    }
+
+    const userEmail = email.trim().toLowerCase();
+    const participation = await Participation.findOneAndDelete({
+      "user.email": userEmail,
+      "event.title": eventTitle,
+    });
+
+    if (!participation) {
+      return res.status(404).json({
+        success: false,
+        message: "Participation not found for the given email and event.",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Participation cancelled successfully.",
+      data: participation,
+    });
+  } catch (err) {
+    console.error("Error cancelling participation:", err.message);
+    res.status(500).json({
+      success: false,
+      error: "Server error while cancelling participation.",
+    });
+  }
+});
+
 router.post("/get-all-participations", async (req, res) => {
   try {
     const { email } = req.body;

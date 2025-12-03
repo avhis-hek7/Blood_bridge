@@ -157,7 +157,7 @@ const AdminSettings = () => {
         
         {/* Admin Form */}
         <div className="card mb-4">
-          <div className="card-header bg-primary text-white">
+          <div className="card-header bg-danger text-white">
             {isEditing ? 'Edit Admin' : 'Create New Admin'}
           </div>
           <div className="card-body">
@@ -220,7 +220,7 @@ const AdminSettings = () => {
 
         {/* Admin List */}
         <div className="card">
-          <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <div className="card-header bg-danger text-white d-flex justify-content-between align-items-center">
             <span>Admin List</span>
             <div className="input-group" style={{ width: '300px' }}>
               <span className="input-group-text">

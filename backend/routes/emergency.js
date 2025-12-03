@@ -313,7 +313,7 @@ router.put("/:id/mark-collected", fetchAdmin, async (req, res) => {
 // Route to notify matching donors via email
 const EMAIL_LINK_BASE_URL =
   process.env.EMAIL_LINK_BASE_URL ||
-  "https://0712-202-166-211-247.ngrok-free.app";
+  "https://a3b3-2405-acc0-1304-1662-25f1-a257-1216-d8ed.ngrok-free.app";
 
 // Route to notify matching donors via email
 router.post("/notify-donors/:requestId", async (req, res) => {

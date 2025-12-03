@@ -2,6 +2,7 @@
 // import axios from "axios";
 // import AdminSidebar from "./AdminSidebar";
 // import AdminTimeout from "./AdminTimeout";
+// import styles from "./AdminParticipation.module.css"; // Import the CSS module
 
 // const AdminParticipation = () => {
 //   const [participations, setParticipations] = useState([]);
@@ -15,7 +16,8 @@
 //       const res = await axios.get("http://localhost:5000/api/participation");
 //       setParticipations(res.data.data);
 
-//       const savedStates = JSON.parse(localStorage.getItem("checkboxStates")) || {};
+//       const savedStates =
+//         JSON.parse(localStorage.getItem("checkboxStates")) || {};
 //       const defaultStates = res.data.data.reduce((acc, p) => {
 //         acc[p._id] = savedStates[p._id] || false;
 //         return acc;
@@ -79,14 +81,20 @@
 //       <AdminSidebar />
 //       <div className="d-flex">
 //         <AdminTimeout />
-//         <div className="flex-grow-1 background2 p-4" style={{ marginLeft: "250px" }}>
+//         <div
+//           className={`flex-grow-1 background2 p-4 ${styles.container}`}
+//           style={{ marginLeft: "250px" }}
+//         >
 //           <div className="mb-4">
-//             <h2>Participant Information</h2>
+//             <h2 className={styles.sectionHeader}>Participant Information</h2>
 //           </div>
 
 //           {loading ? (
 //             <div className="text-center py-5">
-//               <div className="spinner-border text-primary" role="status">
+//               <div
+//                 className={`spinner-border text-primary ${styles.loadingSpinner}`}
+//                 role="status"
+//               >
 //                 <span className="visually-hidden">Loading...</span>
 //               </div>
 //             </div>
@@ -95,96 +103,121 @@
 //               <p className="text-muted">No participations yet.</p>
 //             </div>
 //           ) : (
-//             Object.entries(groupedByTitle).map(([title, { event, participants }]) => (
-//               <div key={event._id || title} className="mb-5">
-//                 <h5 className="mb-3 text-danger">
-//                   {title} — {new Date(event.date).toLocaleString()} @ {event.location}
-//                 </h5>
+//             Object.entries(groupedByTitle).map(
+//               ([title, { event, participants }]) => (
+//                 <div key={event._id || title} className="mb-5">
+//                   <h5
+//                     className={`mb-3 ${styles.eventTitle} ${styles.sectionHeader}`}
+//                   >
+//                     {title} — {new Date(event.date).toLocaleString()} @{" "}
+//                     {event.location}
+//                   </h5>
 
-//                 <div className="table-responsive">
-//                   <table className="table table-hover align-middle table-bordered">
-//                     <thead className="table-dark">
-//                       <tr>
-//                         <th>#</th>
-//                         <th>User Name</th>
-//                         <th>Email</th>
-//                         <th>Participated</th>
-//                         <th>Actions</th>
-//                       </tr>
-//                     </thead>
-//                     <tbody>
-//                       {participants.map((p, index) => (
-//                         <tr key={p._id}>
-//                           <td>{index + 1}</td>
-//                           <td>{p.user.name}</td>
-//                           <td>{p.user.email}</td>
-//                           <td>
-//                             {p.confirmed ? (
-//                               <span className="text-success fw-bold">Participation Confirmed</span>
-//                             ) : (
-//                               <div className="form-check">
-//                                 <input
-//                                   className="form-check-input"
-//                                   type="checkbox"
-//                                   id={`checkbox-${p._id}`}
-//                                   checked={checkboxStates[p._id] || false}
-//                                   onChange={(e) => {
-//                                     const updated = {
-//                                       ...checkboxStates,
-//                                       [p._id]: e.target.checked,
-//                                     };
-//                                     setCheckboxStates(updated);
-//                                     localStorage.setItem("checkboxStates", JSON.stringify(updated));
-//                                   }}
-//                                 />
-//                                 <label
-//                                   className="form-check-label"
-//                                   htmlFor={`checkbox-${p._id}`}
-//                                 >
-//                                   Participated
-//                                 </label>
-//                               </div>
-//                             )}
-//                           </td>
-//                           <td>
-//                             <div className="d-flex gap-2">
-//                               {p.confirmed ? (
-//                                 <>
-//                                   <span className="badge bg-success">Confirmed</span>
-//                                   <button
-//                                     className="btn btn-sm btn-outline-danger"
-//                                     onClick={() => deleteParticipation(p._id)}
-//                                     disabled={deletingId === p._id}
-//                                   >
-//                                     {deletingId === p._id ? (
-//                                       <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-//                                     ) : (
-//                                       "Delete"
-//                                     )}
-//                                   </button>
-//                                 </>
-//                               ) : (
-//                                 <button
-//                                   className="btn btn-sm btn-outline-success"
-//                                   onClick={() => confirmParticipation(p._id)}
-//                                   disabled={
-//                                     !checkboxStates[p._id] || confirmingId === p._id
-//                                   }
-//                                 >
-//                                   {confirmingId === p._id
-//                                     ? "Confirming..."
-//                                     : "Confirm"}
-//                                 </button>
-//                               )}
-//                             </div>
-//                           </td>
+//                   <div className={`table-responsive ${styles.tableContainer}`}>
+//                     <table
+//                       className={`table table-hover align-middle table-bordered ${styles.table}`}
+//                     >
+//                       <thead className="table-dark">
+//                         <tr>
+//                           <th>#</th>
+//                           <th>User Name</th>
+//                           <th>Email</th>
+//                           <th>Participated</th>
+//                           <th>Actions</th>
 //                         </tr>
-//                       ))}
-//                     </tbody>
-//                   </table>
+//                       </thead>
+//                       <tbody>
+//                         {participants.map((p, index) => (
+//                           <tr key={p._id}>
+//                             <td data-label="#">{index + 1}</td>
+//                             <td data-label="User Name">{p.user.name}</td>
+//                             <td data-label="Email">{p.user.email}</td>
+//                             <td data-label="Participated">
+//                               {p.confirmed ? (
+//                                 <span
+//                                   className={`text-success fw-bold ${styles.confirmedText}`}
+//                                 >
+//                                   Participation Confirmed
+//                                 </span>
+//                               ) : (
+//                                 <div
+//                                   className={`form-check ${styles.checkboxContainer}`}
+//                                 >
+//                                   <input
+//                                     className={`form-check-input ${styles.checkboxInput}`}
+//                                     type="checkbox"
+//                                     id={`checkbox-${p._id}`}
+//                                     checked={checkboxStates[p._id] || false}
+//                                     onChange={(e) => {
+//                                       const updated = {
+//                                         ...checkboxStates,
+//                                         [p._id]: e.target.checked,
+//                                       };
+//                                       setCheckboxStates(updated);
+//                                       localStorage.setItem(
+//                                         "checkboxStates",
+//                                         JSON.stringify(updated)
+//                                       );
+//                                     }}
+//                                   />
+//                                   <label
+//                                     className={`form-check-label ${styles.checkboxLabel}`}
+//                                     htmlFor={`checkbox-${p._id}`}
+//                                   >
+//                                     Participated
+//                                   </label>
+//                                 </div>
+//                               )}
+//                             </td>
+//                             <td data-label="Actions">
+//                               <div className="d-flex gap-2">
+//                                 {p.confirmed ? (
+//                                   <>
+//                                     <span
+//                                       className={`badge bg-success ${styles.badge}`}
+//                                     >
+//                                       Confirmed
+//                                     </span>
+//                                     <button
+//                                       className={`btn btn-sm btn-outline-danger ${styles.actionButton}`}
+//                                       onClick={() => deleteParticipation(p._id)}
+//                                       disabled={deletingId === p._id}
+//                                     >
+//                                       {deletingId === p._id ? (
+//                                         <span
+//                                           className={`spinner-border spinner-border-sm ${styles.loadingSpinner}`}
+//                                           role="status"
+//                                           aria-hidden="true"
+//                                         ></span>
+//                                       ) : (
+//                                         "Delete"
+//                                       )}
+//                                     </button>
+//                                   </>
+//                                 ) : (
+//                                   <button
+//                                     className={`btn btn-sm btn-outline-success ${styles.actionButton}`}
+//                                     onClick={() => confirmParticipation(p._id)}
+//                                     disabled={
+//                                       !checkboxStates[p._id] ||
+//                                       confirmingId === p._id
+//                                     }
+//                                   >
+//                                     {confirmingId === p._id
+//                                       ? "Confirming..."
+//                                       : "Issue Certificate"}
+//                                   </button>
+//                                 )}
+//                               </div>
+//                             </td>
+//                           </tr>
+//                         ))}
+//                       </tbody>
+//                     </table>
+//                   </div>
 //                 </div>
-//               </div>
-//             ))
+//               )
+//             )
 //           )}
 //         </div>
 //       </div>
@@ -198,7 +231,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import AdminSidebar from "./AdminSidebar";
 import AdminTimeout from "./AdminTimeout";
-import styles from "./AdminParticipation.module.css"; // Import the CSS module
+import * as XLSX from "xlsx";
+import styles from "./AdminParticipation.module.css";
 
 const AdminParticipation = () => {
   const [participations, setParticipations] = useState([]);
@@ -257,6 +291,30 @@ const AdminParticipation = () => {
     }
   };
 
+  const exportToExcel = () => {
+    const exportData = participations.map((p, index) => ({
+      "#": index + 1,
+      "Event Title": p.event.title,
+      "Event Date": new Date(p.event.date).toLocaleString(),
+      "Event Location": p.event.location,
+      "User Name": p.user.name,
+      "User Email": p.user.email,
+      "Participation Status": p.confirmed
+        ? "Confirmed"
+        : checkboxStates[p._id]
+        ? "Marked (Not Confirmed)"
+        : "Not Participated",
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Participations");
+    XLSX.writeFile(
+      workbook,
+      `participations_${new Date().toISOString().split("T")[0]}.xlsx`
+    );
+  };
+
   useEffect(() => {
     fetchParticipations();
   }, []);
@@ -281,8 +339,16 @@ const AdminParticipation = () => {
           className={`flex-grow-1 background2 p-4 ${styles.container}`}
           style={{ marginLeft: "250px" }}
         >
-          <div className="mb-4">
+          <div className="mb-4 d-flex justify-content-between align-items-center">
             <h2 className={styles.sectionHeader}>Participant Information</h2>
+            {!loading && participations.length > 0 && (
+              <button
+                onClick={exportToExcel}
+                className={`btn btn-success ${styles.exportButton}`}
+              >
+                Export to Excel
+              </button>
+            )}
           </div>
 
           {loading ? (

@@ -8,7 +8,7 @@ const AdminBloodBank = () => {
   const [banks, setBanks] = useState([]);
   const [form, setForm] = useState({
     name: "", address: "", landmark: "", city: "",
-    email: "", mobile: "", image: "", website: ""
+    email: "", mobile: "", website: ""
   });
 
   const BASE_URL = "http://localhost:5000/api/bloodbank";
@@ -32,7 +32,7 @@ const AdminBloodBank = () => {
       await axios.post(BASE_URL, form);
       setForm({
         name: "", address: "", landmark: "", city: "",
-        email: "", mobile: "", image: "", website: ""
+        email: "", mobile: "", website: ""
       });
       fetchBanks();
     } catch (err) {

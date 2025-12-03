@@ -33,7 +33,8 @@
     "recharts": "^2.15.3",
     "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
-    "use-location-state": "^3.1.2"
+    "use-location-state": "^3.1.2",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",
